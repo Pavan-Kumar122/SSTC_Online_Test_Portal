@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title></title>
+</head>
+
+<body>
+	<div class="signup-form text-center">
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <input value = "0" type="hidden" name="id">
+		<div class="form-group ">
+			<div><input type="text" class="form-control user rounded-pill" name="Fname" placeholder="Enter Your Name" required></div>
+		</div>
+		<div class="form-group">
+
+			<div><input type="text" class="form-control user rounded-pill" name="Fid" placeholder="User ID" required></div>
+		</div>
+
+		<div class="form-group">
+
+			<div><input type="email" class="form-control user rounded-pill" name="Femail" placeholder="Email" required></div>
+		</div>
+
+		<div class="form-group">
+			<select class="form-control branch rounded-pill" name="Fbranch" required>
+				<option>Select Branch</option>
+				<option>Computer Science Engineering</option>
+				<option>Electronics and Tele-Communicatiom</option>
+				<option>Information Technology</option>
+				<option>Electrical and Electronics Engineering</option>
+				<option>Electrical engineering</option>
+				<option>Civil Engineering</option>
+				<option>Mechanical Engineering</option>
+			</select>
+		</div>
+            <div class="form-group ">
+			<select class="form-control sem rounded-pill" name="Fcollege">
+				<option>Select College</option>
+				<option>SSGI (S1)</option>
+				<option>SSEC (S2)</option>
+
+			</select>
+		</div>
+		<div class="form-group">
+
+			<div><input type="password" class="form-control pw rounded-pill" name="Fpassword" placeholder="Password" required></div>
+		</div>
+		<div><input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
+			<input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Submit" name=""></div>
+
+		<div>
+        </div>
+            </form>
+	</div>
+</body>
+</html>
