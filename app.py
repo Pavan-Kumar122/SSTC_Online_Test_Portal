@@ -7,16 +7,18 @@ from flask_wtf.csrf import CSRFProtect
 from flask_bcrypt import Bcrypt
 import re
 import os
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask_mail import Mail,Message
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
 
-app.secret_key = b"\x07\x92\xde\xa5%YP\xf6\xd2\xb4\xad\x13," \
-                 b"\x7f\x949\x89?'A\xb0\x9ep\x0f\x8b=\xfe\xef\x93\xf7:i\xe6\xba<_Y(" \
-                 b"\xebe\xf6o\x90'\xc3?\x9f\x0c\x93\xad[" \
-                 b"\xf3\xb9\xc4\x95\xce\xc18\x87*m\xd3\x805\xcf\xf7\xf0\xcf\x91\xf9]\xc7\xc5$<\xe0O\x8cx\x84\x99\xd8" \
-                 b"\x8eqF*G\xa6i[H\xb3Yp\xa0\xa6QB\xeebt\xc7\xd7\xb1\xbe{" \
-                 b"D\xb1%\xa6e!\xd56\xd7\x8aZ2\x8aPD\xa1\xf3\x12\\\x16\xa2\x85 "
+app.config['SECRET_KEY'] = b"\x07\x92\xde\xa5%YP\xf6\xd2\xb4\xad\x13," \
+                           b"\x7f\x949\x89?'A\xb0\x9ep\x0f\x8b=\xfe\xef\x93\xf7:i\xe6\xba<_Y(" \
+                           b"\xebe\xf6o\x90'\xc3?\x9f\x0c\x93\xad[" \
+                           b"\xf3\xb9\xc4\x95\xce\xc18\x87*m\xd3\x805\xcf\xf7\xf0\xcf\x91\xf9]\xc7\xc5$<\xe0O\x8cx\x84\x99\xd8" \
+                           b"\x8eqF*G\xa6i[H\xb3Yp\xa0\xa6QB\xeebt\xc7\xd7\xb1\xbe{" \
+                           b"D\xb1%\xa6e!\xd56\xd7\x8aZ2\x8aPD\xa1\xf3\x12\\\x16\xa2\x85 "
 
 app.config["MYSQL_HOST"] = os.environ.get('MYSQL_HOST')
 app.config["MYSQL_USER"] = os.environ.get('MYSQL_USER')
@@ -24,8 +26,14 @@ app.config["MYSQL_PASSWORD"] = os.environ.get('MYSQL_PASSWORD')
 app.config["MYSQL_DB"] = os.environ.get('MYSQL_DB')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('Email_ADD')
+app.config['MAIL_PASSWORD'] = 'equiqhpzpegsdnzl'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+mail = Mail(app)
 login_manager = LoginManager(app)
 
 
@@ -48,6 +56,19 @@ class Users(db.Model, UserMixin):
     role = db.Column(db.String(50))
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
 
+    def get_reset_token(self, expires_sec=300):
+        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return Users.query.get(user_id)
+
     def __repr__(self):
         return f"Users('{self.role}','{self.username}', '{self.userid}', '{self.rollno}', '{self.email}'," \
                f" '{self.branch}', '{self.semester}', '{self.college}', '{self.image_file}') "
@@ -61,6 +82,12 @@ def validate_username(username):
 def validate_email(email):
     vemail = Users.query.filter_by(email=email).first()
     return vemail
+
+
+def validate_reset_email(email):
+    VRemail = Users.query.filter_by(email=email).first()
+    return VRemail
+    # if it is none raise email is not registered.
 
 
 def validate_user_id(user_id):
@@ -131,7 +158,7 @@ def registerData():
                                          rollno=request.form['Srollno'],
                                          email=request.form['Semail'], branch=request.form['Sbranch'],
                                          semester=request.form['Ssemester'], college=request.form['Scollege'],
-                                        section=request.form['Ssection'], password=hashed_password, role='Student')
+                                         section=request.form['Ssection'], password=hashed_password, role='Student')
                             db.session.add(user)
                             db.session.commit()
                             flash("Account Created! Please Log In", 'success')
@@ -178,7 +205,7 @@ def student_login():
 
 @app.route('/faculty/main')
 def faculty_login():
-    return "Hello Sir"
+    return "Hii Sir"
 
 
 @app.route('/register')
@@ -194,6 +221,47 @@ def student():
 @app.route('/faculty')
 def faculty():
     return render_template('faculty_register.html')
+
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request', sender=app.config['MAIL_USERNAME'], recipients=[user.email])
+    msg.body = f'''To reset your password, please visit the following link:
+{url_for('newpassword', token=token, _external=True)}
+
+If you did not make this request then simply ignore this Email.
+Thank You.
+'''
+    mail.send(msg)
+
+
+@app.route('/resetpassword', methods=['GET', 'POST'])
+def resetpassword():
+    if request.method == 'POST':
+        user = Users.query.filter_by(email = request.form['Remail']).first()
+        if user is None:
+            flash('This Email is not registered yet! Please use a valid email!!', 'danger')
+            return redirect(url_for('index'))
+        else:
+            send_reset_email(user)
+            flash('An email has been sent to your registered Email Id !', 'info')
+            return redirect(url_for('index'))
+    return render_template('forget_password.html')
+
+
+@app.route('/newpassword/<token>', methods=['GET', 'POST'])
+def newpassword(token):
+    user = Users.verify_reset_token(token)
+    if user is None:
+        flash("That is an invalid or expired token", 'warning')
+        return redirect(url_for('resetpassword'))
+    if request.method == 'POST':
+        hashed_pwd = bcrypt.generate_password_hash(request.form['New_Password'])
+        user.password = hashed_pwd
+        db.session.commit()
+        flash('The Password has been Successfully Change! Please Log In')
+        return redirect(url_for('index'))
+    return render_template('new_password.html')
 
 
 if __name__ == '__main__':
