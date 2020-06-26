@@ -8,7 +8,7 @@ from flask_bcrypt import Bcrypt
 import re
 import os
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask_mail import Mail,Message
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
@@ -16,7 +16,8 @@ csrf = CSRFProtect(app)
 app.config['SECRET_KEY'] = b"\x07\x92\xde\xa5%YP\xf6\xd2\xb4\xad\x13," \
                            b"\x7f\x949\x89?'A\xb0\x9ep\x0f\x8b=\xfe\xef\x93\xf7:i\xe6\xba<_Y(" \
                            b"\xebe\xf6o\x90'\xc3?\x9f\x0c\x93\xad[" \
-                           b"\xf3\xb9\xc4\x95\xce\xc18\x87*m\xd3\x805\xcf\xf7\xf0\xcf\x91\xf9]\xc7\xc5$<\xe0O\x8cx\x84\x99\xd8" \
+                           b"\xf3\xb9\xc4\x95\xce\xc18\x87*m\xd3\x805\xcf\xf7\xf0\xcf\x91\xf9]\xc7\xc5$<\xe0O\x8cx" \
+                           b"\x84\x99\xd8" \
                            b"\x8eqF*G\xa6i[H\xb3Yp\xa0\xa6QB\xeebt\xc7\xd7\xb1\xbe{" \
                            b"D\xb1%\xa6e!\xd56\xd7\x8aZ2\x8aPD\xa1\xf3\x12\\\x16\xa2\x85 "
 
@@ -96,8 +97,7 @@ def validate_user_id(user_id):
 
 
 def findid(user_id):
-    for id in user_id:
-        if id == '3035' or id == '3014' or id == '3036':
+        if user_id[0] == '3035' or user_id[0] == '3014' or user_id[0] == '3036':
             return 1
         else:
             return 0
@@ -238,7 +238,7 @@ Thank You.
 @app.route('/resetpassword', methods=['GET', 'POST'])
 def resetpassword():
     if request.method == 'POST':
-        user = Users.query.filter_by(email = request.form['Remail']).first()
+        user = Users.query.filter_by(email=request.form['Remail']).first()
         if user is None:
             flash('This Email is not registered yet! Please use a valid email!!', 'danger')
             return redirect(url_for('index'))
