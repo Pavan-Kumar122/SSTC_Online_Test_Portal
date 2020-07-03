@@ -1,6 +1,7 @@
-from flask import Flask, render_template, redirect, request, url_for, session, flash
+from flask import Flask, render_template, redirect, request, url_for, session, flash, jsonify
 from werkzeug.utils import secure_filename
-from datetime import timedelta
+import array as arr
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, current_user, logout_user, login_required
 from flask_wtf.csrf import CSRFProtect
@@ -9,9 +10,14 @@ import re
 import os
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask_mail import Mail, Message
+from flask_assets import Bundle,Environment
+
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
+assets = Environment(app)
+css = Bundle('css/Fstyle.css', output='ques/main.css')
+assets.register('main_css', css)
 
 app.config['SECRET_KEY'] = b"\x07\x92\xde\xa5%YP\xf6\xd2\xb4\xad\x13," \
                            b"\x7f\x949\x89?'A\xb0\x9ep\x0f\x8b=\xfe\xef\x93\xf7:i\xe6\xba<_Y(" \
@@ -32,15 +38,36 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('Email_ADD')
 app.config['MAIL_PASSWORD'] = 'equiqhpzpegsdnzl'
+app.static_folder = 'static'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 mail = Mail(app)
 login_manager = LoginManager(app)
+login_manager.login_view = 'index'
+login_manager.login_message_category = 'danger'
+
+name = ""
+description = ""
+college = ""
+branch = ""
+semester = ""
+section = ""
+subject = ""
+total_ques = ""
+test_type = ""
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(int(user_id))
+
+
+#
+# Questions = db.Table('Questions',
+#                      db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+#                      db.Column('paper_id', db.Integer, db.ForeignKey('paperdetails.test_id')),
+#                      db.Column('question', db.String(100), nullable=False)
+#                      )
 
 
 class Users(db.Model, UserMixin):
@@ -56,6 +83,8 @@ class Users(db.Model, UserMixin):
     section = db.Column(db.String(50))
     role = db.Column(db.String(50))
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+
+    # papers = db.relationship('Paperdetails', backref='author', lazy=True)
 
     def get_reset_token(self, expires_sec=300):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
@@ -73,6 +102,42 @@ class Users(db.Model, UserMixin):
     def __repr__(self):
         return f"Users('{self.role}','{self.username}', '{self.userid}', '{self.rollno}', '{self.email}'," \
                f" '{self.branch}', '{self.semester}', '{self.college}', '{self.image_file}') "
+
+
+class Paperdetails(db.Model, UserMixin):
+    test_id = db.Column(db.Integer, primary_key=True)
+    testname = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(100), nullable=False)
+    college = db.Column(db.String(50), nullable=False)
+    branch = db.Column(db.String(50), nullable=False)
+    semester = db.Column(db.String(10), nullable=False)
+    section = db.Column(db.String(50), nullable=False)
+    subject = db.Column(db.String(80), nullable=False)
+    totalques = db.Column(db.String(50), nullable=False)
+    totaltime = db.Column(db.String(50), nullable=False)
+    testtype = db.Column(db.String(50), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f"Paperdetails('{self.testname}','{self.description}'," \
+               f" {self.date_posted}) "
+
+
+class Questions(db.Model, UserMixin):
+    ques_id = db.Column(db.Integer, primary_key=True)
+    test_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
+    question = db.Column(db.String(900), nullable=False)
+    op1 = db.Column(db.String(100))
+    op2 = db.Column(db.String(100))
+    op3 = db.Column(db.String(100))
+    op4 = db.Column(db.String(100))
+    obj_ans = db.Column(db.String(50))
+
+    def __repr__(self):
+        return f"Questions('{self.question}','{self.op1}', '{self.op2}', '{self.op3}', '{self.op4}'," \
+               f" '{self.obj_ans}') "
 
 
 def validate_username(username):
@@ -97,15 +162,20 @@ def validate_user_id(user_id):
 
 
 def findid(user_id):
-        if user_id[0] == '3035' or user_id[0] == '3014' or user_id[0] == '3036':
-            return 1
-        else:
-            return 0
+    if user_id[0] == '3035' or user_id[0] == '3014' or user_id[0] == '3036':
+        return 1
+    else:
+        return 0
 
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def index():
+    if current_user.is_authenticated:
+        if current_user.role == 'Student':
+            return redirect(url_for('student_login'))
+        else:
+            return redirect(url_for('faculty_login'))
     if request.method == 'POST':
         user = Users.query.filter_by(userid=request.form['Lid']).first()
         if user is None:
@@ -140,6 +210,11 @@ def index():
 
 @app.route('/registerData', methods=['GET', 'POST'])
 def registerData():
+    if current_user.is_authenticated:
+        if current_user.role == 'Student':
+            return redirect(url_for('student_login'))
+        else:
+            return redirect(url_for('faculty_login'))
     if request.method == 'POST':
         error = ""
         if request.form.get("id", "") == "1":
@@ -154,15 +229,18 @@ def registerData():
                         match = re.findall(r'(\d{4})', str(user_id))
                         Vid = findid(match)
                         if Vid == 1:
-                            user = Users(username=request.form['Sname'], userid=request.form['Sid'],
-                                         rollno=request.form['Srollno'],
-                                         email=request.form['Semail'], branch=request.form['Sbranch'],
-                                         semester=request.form['Ssemester'], college=request.form['Scollege'],
-                                         section=request.form['Ssection'], password=hashed_password, role='Student')
-                            db.session.add(user)
-                            db.session.commit()
-                            flash("Account Created! Please Log In", 'success')
-                            return redirect(url_for('index'))
+                            if len(str(user_id)) == 12:
+                                user = Users(username=request.form['Sname'], userid=request.form['Sid'],
+                                             rollno=request.form['Srollno'],
+                                             email=request.form['Semail'], branch=request.form['Sbranch'],
+                                             semester=request.form['Ssemester'], college=request.form['Scollege'],
+                                             section=request.form['Ssection'], password=hashed_password, role='Student')
+                                db.session.add(user)
+                                db.session.commit()
+                                flash("Account Created! Please Log In", 'success')
+                                return redirect(url_for('index'))
+                            else:
+                                error = 'User Id must be of 12 Digits!!'
                         else:
                             error = 'Please Enter a Valid User Id !!'
                     else:
@@ -198,18 +276,93 @@ def registerData():
     return redirect(url_for('register'))
 
 
-@app.route('/student/main')
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+
+@app.route('/student/main', methods=['GET', 'POST'])
+@login_required
 def student_login():
-    return "Hii Buddy"
+    return render_template('logout_try.html')
 
 
-@app.route('/faculty/main')
+@app.route('/faculty/main', methods=['GET', 'POST'])
+@login_required
 def faculty_login():
-    return "Hii Sir"
+    return render_template('faculty/faculty_home.html')
+
+
+@app.route('/paper_data', methods=['GET', 'POST'])
+def paper_data():
+    global name, description, college, section, semester, subject, branch, total_ques, test_type
+    if request.method == 'POST':
+        name = request.form['testname']
+        description = request.form['description']
+        college = request.form['college']
+        semester = request.form['semester']
+        subject = request.form['subject']
+        branch = request.form['branch']
+        section = request.form['section']
+        total_ques = request.form['total_ques']
+        test_type = request.form['test_type']
+        print(test_type)
+        if test_type == 'objective':
+            print(int(total_ques))
+            return render_template('faculty/add_ques.html', ques=int(total_ques), branch=branch, semester=semester,
+                                   section=section, subject=subject, testname=name, description=description
+                                   , test_type=test_type, college=college)
+        else:
+            return render_template('faculty/add_ques_subjective.html', ques=int(total_ques), branch=branch,
+                                   semester=semester,
+                                   section=section, subject=subject, testname=name, description=description
+                                   , test_type=test_type, college=college)
+    return redirect(url_for('faculty_login'))
+
+
+@app.route('/add_ques', methods=['GET', 'POST'])
+def add_ques():
+    global name, description, semester, total_ques, test_type, college, branch, section, subject
+    if request.method == 'POST':
+        if request.form.get("obj", "") == "1":
+            test_details = Paperdetails(testname=name, description=description, college=college,branch=branch,semester=semester,
+                                        section=section, subject=subject, totalques=total_ques,totaltime="20 mins",testtype=test_type, user_id=current_user.id)
+            db.session.add(test_details)
+            db.session.commit()
+            # current_test_id = Paperdetails.query.filter_by(test_id=current_user.id).first()
+            max = db.session.query(db.func.max(Paperdetails.test_id)).first()
+            total_ques = int(total_ques)
+            for i in range(1, total_ques + 1):
+                ques = Questions(test_id=max[-1], user_id=current_user.id, question=request.form['ques_'+str(i)],op1=request.form['op1_'+str(i)], op2=request.form['op2_'+str(i)],
+                                  op3=request.form['op3_'+str(i)], op4=request.form['op4_'+str(i)], obj_ans=request.form['obj_ans_'+str(i)])
+                db.session.add(ques)
+                db.session.commit()
+        else:
+            test_details = Paperdetails(testname=name, description=description, college=college, branch=branch,
+                                        semester=semester,
+                                        section=section, subject=subject, totalques=total_ques, totaltime="20 mins",
+                                        testtype=test_type, user_id=current_user.id)
+            db.session.add(test_details)
+            db.session.commit()
+            # current_test_id = Paperdetails.query.filter_by(test_id=current_user.id).first()
+            max = db.session.query(db.func.max(Paperdetails.test_id)).first()
+            total_ques = int(total_ques)
+            for i in range(1, total_ques + 1):
+                ques = Questions(test_id=max[-1], user_id=current_user.id,
+                                 question=request.form['ques_' + str(i)])
+                db.session.add(ques)
+                db.session.commit()
+    return redirect(url_for('paper_data'))
 
 
 @app.route('/register')
 def register():
+    if current_user.is_authenticated:
+        if current_user.role == 'Student':
+            return redirect(url_for('student_login'))
+        else:
+            return redirect(url_for('faculty_login'))
     return render_template('register.html')
 
 
