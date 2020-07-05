@@ -318,6 +318,56 @@ body {
   }
 }
 
+/* ========================Dashboard table================== */
+.dashboard-details{
+  margin: auto;
+  margin-top: 20px;
+  width: 80%;
+  font-family: 'Poppins', sans-serif;
+
+}
+#show{
+  font-size: 15px;
+  font-weight: 600;
+  margin-left: 90%;
+}
+.btn-show{
+  background-color: green;
+  width: 100px;
+  border: none;
+  height: 35px;
+  color: #fff;
+  border-radius: 20px;
+  outline: none;
+
+}
+.btn-show:hover{
+  outline: none;
+}
+
+#read-more{
+  margin-top: 0;
+  margin-left:5px;
+  width: 22px;
+  color: #3958E4;
+}
+
+.dashboard-details table, th, td{
+  border: 2px solid black;
+}
+
+.dashboard-details th,td{
+  padding-left: 10px;
+  font-size: 17px;
+
+}
+
+.dashboard-details ol li{
+  list-style: upper-alpha;
+  margin:3px 0px 0px 22px;
+}
+
+
 /* ========================================= */
 
 

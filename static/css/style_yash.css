@@ -1,0 +1,574 @@
+/*body {
+    height: 100%;
+    width: 100%;
+}*/
+
+.width {
+    height: 100px;
+}
+
+.c {
+    height: auto;
+    width: 100%;
+    background-image: url(assets/img/back1.jpg);
+    background-repeat: no-repeat;
+}
+
+.q {
+    float: left;
+    margin-top: -25px;
+    margin-left: -20px;
+}
+
+.q1 {
+    font-size: 1.4rem;
+    margin-left: -33px;
+    margin-top: 5px;
+}
+
+.t {
+    font-weight: all;
+    float: left;
+}
+
+.nav {
+    background-color: #1a252f;
+}
+.login1 {
+
+    width: 320px;
+    height: 487px;
+    background-color: rgb(255,255,255,.2);
+    margin-top: -60px;
+    margin-left: 0px;
+    color: white;
+}
+
+.link {
+    color: black;
+}
+
+.login {
+    height: 210px;
+    margin-top: 10px;
+}
+
+.userId {
+    width: 245px;
+    margin-left: 35px;
+}
+
+.Userid {
+    width: 300px;
+    height: 45px;
+    border-color: black;
+    font-size: 25px;
+}
+
+.person {
+    margin-top: 19px;
+    width: 245px;
+    margin-left: 35px;
+}
+
+.Person {
+    width: 300px;
+    height: 45px;
+    border-color: #2c3e60;
+    font-size: 20px;
+}
+
+.password {
+    margin-top: 19px;
+    width: 245px;
+    margin-left: 35px;
+}
+
+.Password {
+    width: 300px;
+    height: 45px;
+    border-color: #2c3e60;
+    font-size: 25px;
+}
+
+.define {
+    float: left;
+    font-size: 20px;
+}
+
+.login-button {
+    margin-top: 15px;
+    margin-left: 105px;
+}
+
+.submit {
+    background-color: #2c3e60;
+    border-color: white;
+}
+
+.rem-me {
+    padding-top: 5px;
+    margin-bottom: -15px;
+    font-size: 19px;
+    margin-left: -15px;
+}
+
+.Register {
+    margin-top: 110px;
+    font-size: 18px;
+}
+
+.yet {
+    margin-top: 0px;
+    float: left;
+    margin-left: 15px;
+}
+
+.register {
+    color: white;
+}
+
+.REGISTER {
+    width: 320px;
+    height: 487px;
+    background-color: rgb(255,255,255,0.2);
+    margin-top: -60px;
+    margin-left: 0px;
+
+}
+
+.student {
+    width: 140px;
+    border-color: white;
+    margin-top: 2px;
+    background-color: grey;
+    margin-left: 5px;
+}
+
+.student:focus {
+    background-color: rgb(255,255,255,.2);
+    border-color: #203A43;
+}
+
+.faculty {
+    width: 140px;
+    margin-top: 2px;
+    margin-left: 25px;
+    border-color: white;
+    background-color: grey;
+}
+
+.faculty:focus {
+    background-color: rgb(255,255,255,.2);
+    border-color: #203A43;
+}
+
+.reset {
+    float: left;
+    margin-left: 60px;
+    margin-top: 20px;
+    width: 90px;
+    background-color: #2c3e50;
+    border-color: #1abc9c;
+}
+
+.submit {
+    margin-top: 20px;
+    margin-left: 10px;
+    float: left;
+    width: 90px;
+    background-color: #2c3e50;
+    border-color: #1abc9c;
+}
+
+.user {
+    border-color: #2c3e50;
+    width: ;
+    margin-left: 30px;
+}
+
+.branch {
+    border-color: #2c3e50;
+    width: 245px;
+    margin-left: 30px;
+}
+
+.sem {
+    border-color: #2c3e50;
+    width: 245px;
+    margin-left: 30px;
+}
+
+.pw {
+    border-color: #2c3e50;
+    width: 245px;
+    margin-left: 30px;
+}
+
+.u {
+    margin-top: 10px;
+    margin-left: 55px;
+}
+
+.x {
+
+    width: 265px;
+    margin-left: -5px;
+}
+.reg1 {
+
+}
+
+.footer {
+    margin-top: -45px;
+}
+
+.toggle {
+    margin-top: 555px;
+    height: auto;
+}
+
+.details {
+    background-color: #1a252f;
+    width: 300px;
+    height: 100px;
+}
+
+.bi.bi-pen {
+    margin-bottom: -3px;
+}
+
+.bi.bi-folder {
+    margin-bottom: -3px;
+}
+
+.bi.bi-person-circle {
+    margin-bottom: -3px;
+}
+
+.bi.bi-box-arrow-in-right {
+    margin-bottom: -3px;
+}
+
+.profile {
+    border-radius: 100px;
+    width: 100px;
+    margin-top: 0px;
+}
+
+.text {
+    color: white;
+    text-align: center;
+    float: left;
+    margin-left: -75px;
+    margin-top: 7px; 
+}
+
+.menu {
+    margin-top: 0px;
+    border-color: white;
+}
+
+.button {
+    float: left;
+}
+
+.box {
+    box-shadow: 5px 5px 40px black;
+    height: 390px;
+    color: white;
+}
+
+.left {
+    color: white;
+    text-align: center;
+    font-size: 20px;
+}
+
+.image {
+    border-radius: 100px;
+    margin-top: 10px;
+}
+
+.seperator {
+    margin-top: 20px;
+}
+
+.EditButton {
+    margin-top: 15px;
+    margin-bottom: 10px;
+} 
+
+.right {
+    float: left;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.generalDetails {
+    float: left;
+}
+
+.underline {
+     text-decoration-line: underline;
+     text-decoration-style: double;
+}
+
+.space1 {
+    margin-top: 10px;
+}
+
+#csvtuRollNo, #branch, #section, #email, #clg, #sem, #clsRollNo {
+        width: 100%;
+        margin-right: 0px;
+        margin-bottom: 10px;
+        border-color: grey;
+    }
+
+#img {
+    color: transparent;
+    font-size: 20px;
+    width: 100px;
+    margin-left: 1%;
+}
+
+#saveEdit {
+    margin-top: 25px;
+}
+
+#name {
+    width: 210px;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 10px;
+    border-color: grey;
+}
+
+.head {
+    color: white;
+}
+
+.pw_change_section {
+    font-size: 20px;
+    color: black;
+    margin-left: 40px;
+    float: left;
+    margin-top: 60px;
+}
+
+.header {
+    width: 100%;
+    height: 65px;
+    padding-top: 10px;
+    background-color: #EFEFEF;
+}
+
+.exam_start {
+    margin-bottom: 0%;
+    margin-top: 0%;
+    margin-right: 10px;
+    float: right;
+}
+
+.ques_section {
+    background-color: black;
+    float: left;
+    width: 38%;
+}
+
+.ans_section {
+    background-color: black;
+    float: left;
+    width: 38%;
+    margin-left: 1%;
+}
+
+.list_section {
+    background-color: black;
+    float: left;
+    width: 22%;
+    margin-left: 1%;
+}
+
+.read_question {
+    background-color: white;
+    width: 98%;
+    height: 300px;
+    margin-left: 1%;
+    margin-bottom: 1%;
+    background-color: #EFEFEF;
+    color: black;
+    padding-left: 5px;
+}
+
+.write_answer.form-control {
+    resize: none;
+    width: 98%;
+    height: 300px;
+    margin-left: 1%;
+    margin-bottom: 1%;
+    background-color: #EFEFEF;
+}
+
+.write_answer.form-control :active {
+    background-color: #EFEFEF;  
+}
+
+h3 {
+    margin-left: 10px;
+}
+
+.btn.btn-dark.ques_no {
+    width: 48px;
+}
+
+.container {
+  padding: 20px;
+}
+
+.profile-card {
+    background-color: #f6f6f6;
+  margin-bottom: 0px;
+  width: 255px;
+  margin-top: 15px;
+            
+        }
+        
+.profile-pic {
+  border-radius: 50%;
+  position: absolute;
+  top: -65px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 1;
+  max-width: 100px;
+  -webkit-transition: all 0.4s;
+          transition: all 0.4s;
+                }
+
+                
+.profile-info {
+        color: black;
+        padding: 25px;
+        position: relative;
+        margin-top: 15px;
+          height: 600px;
+          margin-top: -215px;
+                }
+        
+.profile-info h2 {
+    color: #E8E8E8;
+    letter-spacing: 4px;
+      padding-bottom: 12px;
+                }
+                
+.profile-info span {
+    display: block;
+    font-size: 12px;
+    color: #4CB493;
+    letter-spacing: 2px;
+            }
+
+.profile-info a {
+     color: #4CB493;
+        }
+.profile-info i {
+        padding: 15px 35px 0px 35px;
+        }
+        
+
+.profile-card:hover .profile-pic {
+    transform: scale(1.1);
+        }
+
+.profile-card:hover .profile-info hr  {
+    opacity: 1;
+        }
+        
+        
+        
+        
+/* Underline From Center */
+.hvr-underline-from-center {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow: hidden;
+}
+.hvr-underline-from-center:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 52%;
+  right: 52%;
+  bottom: 0;
+  background: #FFFFFF;
+  border-radius: 50%;
+  height: 3px;
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.profile-card:hover .hvr-underline-from-center:before, .profile-card:focus .hvr-underline-from-center:before, .profile-card:active .hvr-underline-from-center:before {
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #CECECE;
+  border-radius: 0;
+}
+
+img {
+    max-width: 100%; 
+}
+
+
+/*==========================
+  for profile.html (starts)
+============================*/
+
+ /* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .profile-card {
+        margin-left: 15%;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .col-md-4 {
+        float: inherit;
+        margin-left: 25%;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    .col-md-4 {
+        float: left;
+        margin-left: 0%;
+    }  
+} 
+
+/*==========================
+  for profile.html (ends)
+============================*/

@@ -1,17 +1,14 @@
-from flask import Flask, render_template, redirect, request, url_for, session, flash, jsonify
-from werkzeug.utils import secure_filename
-import array as arr
+from flask import Flask, render_template, redirect, request, url_for, flash
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, current_user, logout_user, login_required
+from flask_login import LoginManager, login_user, current_user, logout_user, login_required,UserMixin
 from flask_wtf.csrf import CSRFProtect
 from flask_bcrypt import Bcrypt
 import re
 import os
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask_mail import Mail, Message
 from flask_assets import Bundle,Environment
-
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
@@ -62,14 +59,6 @@ def load_user(user_id):
     return Users.query.get(int(user_id))
 
 
-#
-# Questions = db.Table('Questions',
-#                      db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-#                      db.Column('paper_id', db.Integer, db.ForeignKey('paperdetails.test_id')),
-#                      db.Column('question', db.String(100), nullable=False)
-#                      )
-
-
 class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -110,17 +99,17 @@ class Paperdetails(db.Model, UserMixin):
     description = db.Column(db.String(100), nullable=False)
     college = db.Column(db.String(50), nullable=False)
     branch = db.Column(db.String(50), nullable=False)
-    semester = db.Column(db.String(10), nullable=False)
+    semester = db.Column(db.Integer, nullable=False)
     section = db.Column(db.String(50), nullable=False)
     subject = db.Column(db.String(80), nullable=False)
-    totalques = db.Column(db.String(50), nullable=False)
+    totalques = db.Column(db.Integer, nullable=False)
     totaltime = db.Column(db.String(50), nullable=False)
     testtype = db.Column(db.String(50), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now())
     user_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
-        return f"Paperdetails('{self.testname}','{self.description}'," \
+        return f"Paperdetails('{self.testname}','{self.test_id}',,'{self.description}'," \
                f" {self.date_posted}) "
 
 
@@ -134,9 +123,10 @@ class Questions(db.Model, UserMixin):
     op3 = db.Column(db.String(100))
     op4 = db.Column(db.String(100))
     obj_ans = db.Column(db.String(50))
+    ques_no = db.Column(db.Integer,nullable=False, default=0)
 
     def __repr__(self):
-        return f"Questions('{self.question}','{self.op1}', '{self.op2}', '{self.op3}', '{self.op4}'," \
+        return f"Questions('{self.question}','{self.ques_id}','{self.ques_no}','{self.op1}', '{self.op2}', '{self.op3}', '{self.op4}'," \
                f" '{self.obj_ans}') "
 
 
@@ -285,13 +275,26 @@ def logout():
 @app.route('/student/main', methods=['GET', 'POST'])
 @login_required
 def student_login():
-    return render_template('logout_try.html')
+    if request.method == 'POST':
+        return "Hii"
+    return render_template('student/student_login.html')
+
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    return render_template('student/profile.html')
 
 
 @app.route('/faculty/main', methods=['GET', 'POST'])
 @login_required
 def faculty_login():
-    return render_template('faculty/faculty_home.html')
+    global post
+    # get_paper = db.session.query(db.func.max(Paperdetails.test_id)).first()
+    post = Paperdetails.query.all()
+    ques = Questions.query.filter_by(user_id=current_user.id).all()
+    for i in ques:
+        print(i)
+    return render_template('faculty/faculty_home.html',post = post, ques=ques)
 
 
 @app.route('/paper_data', methods=['GET', 'POST'])
@@ -327,7 +330,7 @@ def add_ques():
     if request.method == 'POST':
         if request.form.get("obj", "") == "1":
             test_details = Paperdetails(testname=name, description=description, college=college,branch=branch,semester=semester,
-                                        section=section, subject=subject, totalques=total_ques,totaltime="20 mins",testtype=test_type, user_id=current_user.id)
+                                        section=section, subject=subject, totalques=total_ques,totaltime="20 mins",testtype=test_type, user_id=current_user.id, date_posted=datetime.now())
             db.session.add(test_details)
             db.session.commit()
             # current_test_id = Paperdetails.query.filter_by(test_id=current_user.id).first()
@@ -335,7 +338,7 @@ def add_ques():
             total_ques = int(total_ques)
             for i in range(1, total_ques + 1):
                 ques = Questions(test_id=max[-1], user_id=current_user.id, question=request.form['ques_'+str(i)],op1=request.form['op1_'+str(i)], op2=request.form['op2_'+str(i)],
-                                  op3=request.form['op3_'+str(i)], op4=request.form['op4_'+str(i)], obj_ans=request.form['obj_ans_'+str(i)])
+                                  op3=request.form['op3_'+str(i)], op4=request.form['op4_'+str(i)], obj_ans=request.form['obj_ans_'+str(i)], ques_no=i)
                 db.session.add(ques)
                 db.session.commit()
         else:
@@ -350,7 +353,7 @@ def add_ques():
             total_ques = int(total_ques)
             for i in range(1, total_ques + 1):
                 ques = Questions(test_id=max[-1], user_id=current_user.id,
-                                 question=request.form['ques_' + str(i)])
+                                 question=request.form['ques_' + str(i)], ques_no=i)
                 db.session.add(ques)
                 db.session.commit()
     return redirect(url_for('paper_data'))

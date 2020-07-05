@@ -17,7 +17,7 @@
 <body>
   <!-- partial:index.partial.html -->
   <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
-
+{% if current_user.is_authenticated %}
   <div class="wrapper">
     <div class="sidebar">
       <div class="bg_shadow"></div>
@@ -27,7 +27,7 @@
         </div>
         <div class="profile_info">
           <div class="profile_img">
-            <img src="/static/assets/img/avatar.png" alt="profile_img" />
+            <img class="rounded-circle article-img" src="{{ url_for('static', filename='Profile_pics/'+ current_user.image_file) }}" alt="profile_img" />
           </div>
           <div class="profile_data">
             <p class="name">Your Name</p>
@@ -73,12 +73,12 @@
         <ul>
           <li>
             <h2 id="logo">
-              SSTC Online Portal..
+              SSTC Online Portal
             </h2>
           </li>
         </ul>
         <ul class="right_bar">
-          <li><i class="fas fa-sign-out-alt"></i></li>
+          <li><input type="button" value="Logout" class="btn btn-dark" onclick="window.location.href='{{ url_for('logout') }}'"></li>
         </ul>
       </div>
 
@@ -87,63 +87,62 @@
          DATA WILL BE LOADED HERE.
          ========================================== -->
         <div id="dashboard">
+            {% for posts in post %}
           <div class="item">
-            <h3>Java Sem-5</h3>
-            <h5>Date 10-5-20 <span>Time: 3:35 PM</span></h5>
-            <hr id="item_ruler">
+                      <h3>{{ posts.testname }}</h3>
+                    <h5>{{ posts.date_posted.strftime('%a-%Y-%m-%d') }} Time- {{ posts.date_posted.strftime('%I:%M %p') }}</h5>
+                        <hr id="item_ruler">
+                    {{ posts.description }}
+          <div id="show"><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow.svg" alt=""
+                                                                                                         id="read-more"></button> </div>
+          <div class="dashboard-details" id="ques_content_{{ posts.test_id }}">
+              <hr>
+              <h4 class="text-center text" style="font-weight: 700;">Question Paper</h4>
+              <table style="width:100%">
+                <tr>
+                  <th>College-{{ posts.college }}</th>
+                  <th>Branch-{{ posts.branch }}</th>
+                  <th>Semester-{{ posts.semester }}</th>
+                  <th>Section-{{ posts.section }}</th>
+                </tr>
+                <tr>
+                  <th>Subject-{{ posts.subject }}</th>
+                  <th>Total Question-{{ posts.totalques }}</th>
+                  <th>Test type-{{ posts.testtype }}</th>
+                  <th>Duration-{{ posts.totaltime }}</th>
+                </tr>
+                  {% for question in ques %}
+                      {% if question.test_id == posts.test_id %}
+                <tr>
+                  <td colspan="4">
+                    <div class="dash-questions">
+                      <p>
+                        {% if posts.testtype == 'objective' %}
+                        <h4>Question-{{ question.ques_no }}</h4>
+                       {{ question.question }}
+                        <ol>
+                          <li>{{ question.op1 }}</li>
+                          <li>{{ question.op2 }}</li>
+                          <li>{{ question.op3 }}</li>
+                          <li>{{ question.op4 }}</li>
+                        </ol>
+                            {% else %}
+                            <h4>Question-{{ question.ques_no }}</h4>
+                            {{ question.question }}
+                            {% endif %}
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+                      {% endif %}
+                  {% endfor %}
+              </table>
 
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque nemo quaerat vel iure quam repudiandae tempora velit
-            sed ducimus obcaecati eum hic dignissimos porro, accusantium at
-            corrupti dolor aut non suscipit eveniet cumque quo culpa?Lorem, ipsum dolor sit amet consectetur adipisicing
-            elit.
-            Doloremque nemo quaerat vel iure quam repudiandae tempora velit
-            sed ducimus obcaecati eum hic dignissimos porro, accusantium at
-            corrupti dolor aut.
+            </div>
           </div>
-          <div class="item">
-            <h3>ADA Sem-5</h3>
-            <h5>Date 10-5-20 <span>Time: 3:35 PM</span></h5>
-            <hr id="item_ruler">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque nemo quaerat vel iure quam repudiandae tempora velit
-            sed ducimus obcaecati eum hic dignissimos porro, accusantium at
-            corrupti dolor aut non suscipit eveniet cumque quo culpa?
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque nemo quaerat vel iure quam repudiandae tempora velit
-            sed ducimus obcaecati eum hic dignissimos porro, accusantium at
-            corrupti dolor aut.
-          </div>
+            {% endfor %}
 
-          <div class="item">
-            <h3>DBMS Sem-5</h3>
-            <h5>Date 10-5-20 <span>Time: 3:35 PM</span></h5>
-            <hr id="item_ruler">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque nemo quaerat vel iure quam repudiandae tempora velit
-            sed ducimus obcaecati eum hic dignissimos porro, accusantium at
-            corrupti dolor aut non suscipit eveniet cumque quo culpa?
-          </div>
 
-          <div class="item">
-            <h3>Webdev Sem-5</h3>
-            <h5>Date 10-5-20 <span>Time: 3:35 PM</span></h5>
-            <hr id="item_ruler">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque nemo quaerat vel iure quam repudiandae tempora velit
-            sed ducimus obcaecati eum hic dignissimos porro, accusantium at
-            corrupti dolor aut non suscipit eveniet cumque quo culpa?
-          </div>
-
-          <div class="item">
-            <h3>Java-5 Sem-5</h3>
-            <h5>Date 10-5-20 <span>Time: 3:35 PM</span></h5>
-            <hr id="item_ruler">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque nemo quaerat vel iure quam repudiandae tempora velit
-            sed ducimus obcaecati eum hic dignissimos porro, accusantium at
-            corrupti dolor aut non suscipit eveniet cumque quo culpa?
-          </div>
         </div>
 
         <div id="new_test">
@@ -280,13 +279,13 @@
 
   <!-- partial -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-
-
+{% endif %}
 </body>
 
 <script>
   $(document).ready(function () {
+
+      $('.dashboard-details').hide();
 
     $("#dashboard").show();
     $("#new_test").hide();
@@ -360,8 +359,18 @@
 
     });
 
-
   }
+</script>
+<script type="text/javascript">
+    function toggle_ques111() {
+          var i = 0;
+          var x = document.getElementById("ques_content_"+arguments[i]);
+          if (x.style.display === "none") {
+            x.style.display = "block";
+          } else {
+            x.style.display = "none";
+          }
+        }
 </script>
 
 </html>
