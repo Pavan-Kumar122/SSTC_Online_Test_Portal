@@ -8,13 +8,16 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="/static/css/style_faculty.css" />
+    <link rel="stylesheet" href="/static/css/style_result.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
   <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc-logo.png" />
+    <script src="/static/js/result.js"></script>
 </head>
 
 <body>
+{% if current_user.is_authenticated and current_user.role == 'Faculty' %}
   <!-- partial:index.partial.html -->
   <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 {% if current_user.is_authenticated %}
@@ -179,22 +182,39 @@
                 </div>
 
                 <div class="form-group ">
-                  <select class="form-control2" name="semester" required>
-                    <option>Semester</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                  </select>
+{#                  <select class="form-control2" name="semester" required>#}
+{#                    <option>Semester</option>#}
+{#                    <option>1</option>#}
+{#                    <option>2</option>#}
+{#                    <option>3</option>#}
+{#                    <option>4</option>#}
+{#                    <option>5</option>#}
+{#                    <option>6</option>#}
+{#                    <option>7</option>#}
+{#                    <option>8</option>#}
+{#                  </select>#}
+                    Semester:
+                    <input type="checkbox" name="semester" id="option1" value="1"> 1</input<br>
+                    <input type="checkbox" name="semester" id="option2" value="2"> 2</input<br>
+                    <input type="checkbox" name="semester" id="option3" value="3"> 3</input<br>
+                     <input type="checkbox" name="semester" id="option1" value="4">4 </input<br>
+                    <input type="checkbox" name="semester" id="option2" value="5"> 5</input<br>
+                    <input type="checkbox" name="semester" id="option3" value="6"> 6</input<br>
+                     <input type="checkbox" name="semester" id="option1" value="7">7 </input<br>
+                    <input type="checkbox" name="semester" id="option2" value="8"> 8</input<br>
                 </div>
 
                 <div class="form-group">
                   <input type="text" class="form-control2 " name="subject" placeholder="Subject" required>
                 </div>
+
+                 <div class="form-group ">
+                <select class="form-control1" name="test_type" required>
+                  <option>Test type</option>
+                  <option value="objective">Objective</option>
+                  <option value="subjective">Subjective</option>
+                </select>
+              </div>
               </div>
 
               <div id="right">
@@ -212,13 +232,17 @@
                 </div>
 
                 <div class="form-group ">
-                  <select class="form-control2 sem " name="section" required>
-                    <option>Section</option>
-                    <option>A</option>
-                    <option>B</option>
-                    <option>C</option>
-
-                  </select>
+{#                  <select class="form-control2 sem " name="section" required>#}
+{#                    <option>Section</option>#}
+{#                    <option>A</option>#}
+{#                    <option>B</option>#}
+{#                    <option>C</option>#}
+{##}
+{#                  </select>#}
+                    Section:
+                    <input type="checkbox" name="sections" id="option1" value="A"> A </input<br>
+                    <input type="checkbox" name="sections" id="option2" value="B"> B </input<br>
+                    <input type="checkbox" name="sections" id="option3" value="C"> C </input<br>
                 </div>
 
                 <div class="form-group ">
@@ -226,22 +250,25 @@
 
                 </div>
 
+                  <div class="form-group">Scheduled Date:
+                  <input type="date" class="form-control2 " name="date" placeholder="DD-MM-YYYY" >
+                </div>
+
 
               </div>
               <hr id="clrFloat">
 
               <div class="form-group">
-                <input type="time" class=" form-control2 " name="duration" placeholder="Duration" required>
+
+                  <span>Test Duration:</span><br>
+                  <span class="durationbox">Hour: <input type="text" class=" form-control3 " name="hours" placeholder="Hour" required></span>
+                  <span class="durationbox">Minute: <input type="text" class=" form-control3 " name="minutes" placeholder="Minute" required></span>
+
+
               </div>
 
 
-              <div class="form-group ">
-                <select class="form-control1" name="test_type" required>
-                  <option>Test type</option>
-                  <option value="objective">Objective</option>
-                  <option value="subjective">Subjective</option>
-                </select>
-              </div>
+
 
               <div>
                 <br>
@@ -253,17 +280,124 @@
 
         </div>
 
-        <div id="results">
-          <div class="item">
-            <h3>Results</h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque nemo quaerat vel iure quam repudiandae tempora velit
-            sed ducimus obcaecati eum hic dignissimos porro, accusantium at
-            corrupti dolor aut non suscipit eveniet cumque quo culpa?
+        <div id="results_div">
+            <div class="main_result">
+
+            <div class="left">
+              <form class="form-result text-center" role="form">
+                <h4>Search by Student Details</h4>
+                <br>
+                <div class="left-result">
+                    <div class="form-group ">
+                <select class="form-control" name="Rtest_type" required>
+                  <option>Test type</option>
+                  <option value="objective">Objective</option>
+                  <option value="subjective">Subjective</option>
+                </select>
+              </div>
+                  <div class="form-group ">
+                    <select class="form-control" name="Rcollege">
+                      <option>College</option>
+                      <option>S-1</option>
+                      <option>S-2</option>
+                      <option>S-3</option>
+                    </select>
+                  </div>
+                  <div class="form-group ">
+                    <select class="form-control" name="Rsemester">
+                      <option>Semester</option>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                      <option>6</option>
+                      <option>7</option>
+                      <option>8</option>
+
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control2 " name="Rsubject" placeholder="Subject">
+                  </div>
+                </div>
+
+                <div class="right-result">
+                  <div class="form-group ">
+                    <select class="form-control" name="Rbranch">
+                      <option>Select Branch</option>
+                      <option>Computer Science Engineering</option>
+                      <option>Electronics and Tele-Communicatiom</option>
+                      <option>Information Technology</option>
+                      <option>Electrical and Electronics Engineering</option>
+                      <option>Electrical engineering</option>
+                      <option>Civil Engineering</option>
+                      <option>Mechanical Engineering</option>
+
+                    </select>
+                  </div>
+                  <div class="form-group ">
+                    <select class="form-control" name="Rsection">
+                      <option>Section</option>
+                      <option>A</option>
+                      <option>B</option>
+                      <option>C</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control2 " name="Rrollno" placeholder="Roll Number">
+                  </div>
+                </div>
+                <hr id="clrfloat">
+
+                <div>
+                  <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
+                  <button class="btn btn-success submit btn3 rounded-pill" type="button" id="result_btn">Submit</button>
+                </div>
+              </form>
+
+            </div>
+
+            <div class="right form-group text-center">
+
+              <form class="form-result text-center" action="" role="form">
+                <h4> Search by Student ID</h4><br>
+                <div class="form-group">
+                  <input type='text' placeholder='Enter Id' class="form-control" name="student_id">
+                </div>
+
+                <div>
+                  <input type="button" class="btn btn-success submit btn3 rounded-pill" value="Search" name="" id="search_btn">
+                </div>
+              </form>
+            </div>
+            <hr id="clrfloat">
+            <hr>
+            <br>
           </div>
+            <div >
+               <table id="display_result">
+				<tr>
+					<th>Sr No</th>
+					<th>Name</th>
+					<th>Roll No</th>
+					<th>Semester</th>
+					<th>Section</th>
+					<th>Marks</th>
+				</tr>
+				<tr>
+					<td></td>
+					<td id="stu_name"></td>
+					<td id="stu_roll_no"></td>
+					<td id="stu_semester"></td>
+					<td id="stu_section"></td>
+					<td id="stu_marks"></td>
+				</tr>
+			</table>
+            </div>
         </div>
 
-        <div id="feedback">
+       <div id="feedback">
           <div class="item">
             <h3>Aman Verma</h3>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit.
@@ -272,24 +406,27 @@
             corrupti dolor aut non suscipit eveniet cumque quo culpa?
           </div>
         </div>
+        </div>
 
-      </div>
+
     </div>
   </div>
 
   <!-- partial -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 {% endif %}
+
+ {% else %}
+    <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
+{% endif %}
 </body>
 
 <script>
   $(document).ready(function () {
-
       $('.dashboard-details').hide();
-
     $("#dashboard").show();
     $("#new_test").hide();
-    $("#results").hide();
+    $("#results_div").hide();
     $("#feedback").hide();
 
     //To show and hide menu button
@@ -321,7 +458,7 @@
       $(".wrapper").removeClass("active");
       $("#dashboard").show();
       $("#new_test").hide();
-      $("#results").hide();
+      $("#results_div").hide();
       $("#feedback").hide();
     });
   }
@@ -332,20 +469,18 @@
       $(".wrapper").removeClass("active");
       $("#dashboard").hide();
       $("#new_test").show();
-      $("#results").hide();
+      $("#results_div").hide();
       $("#feedback").hide();
     });
   }
 
   //for Results
   function results() {
-    $("#resultsbtn").click(function () {
-      $(".wrapper").removeClass("active");
-      $("#dashboard").hide();
+    $(".wrapper").removeClass("active");
+     $("#results_div").show();
+     $("#dashboard").hide();
       $("#new_test").hide();
-      $("#results").show();
       $("#feedback").hide();
-    });
   }
 
   //for Feedback
@@ -354,7 +489,7 @@
       $(".wrapper").removeClass("active");
       $("#dashboard").hide();
       $("#new_test").hide();
-      $("#results").hide();
+      $("#results_div").hide();
       $("#feedback").show();
 
     });
@@ -372,5 +507,6 @@
           }
         }
 </script>
+
 
 </html>

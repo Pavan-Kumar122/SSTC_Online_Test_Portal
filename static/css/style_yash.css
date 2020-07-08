@@ -1,7 +1,3 @@
-/*body {
-    height: 100%;
-    width: 100%;
-}*/
 
 .width {
     height: 100px;
@@ -351,7 +347,6 @@
 .pw_change_section {
     font-size: 20px;
     color: black;
-    margin-left: 40px;
     float: left;
     margin-top: 60px;
 }
@@ -364,63 +359,12 @@
 }
 
 .exam_start {
-    margin-bottom: 0%;
-    margin-top: 0%;
+    margin-bottom: 5px;
+    margin-top: 10px;
     margin-right: 10px;
     float: right;
 }
 
-.ques_section {
-    background-color: black;
-    float: left;
-    width: 38%;
-}
-
-.ans_section {
-    background-color: black;
-    float: left;
-    width: 38%;
-    margin-left: 1%;
-}
-
-.list_section {
-    background-color: black;
-    float: left;
-    width: 22%;
-    margin-left: 1%;
-}
-
-.read_question {
-    background-color: white;
-    width: 98%;
-    height: 300px;
-    margin-left: 1%;
-    margin-bottom: 1%;
-    background-color: #EFEFEF;
-    color: black;
-    padding-left: 5px;
-}
-
-.write_answer.form-control {
-    resize: none;
-    width: 98%;
-    height: 300px;
-    margin-left: 1%;
-    margin-bottom: 1%;
-    background-color: #EFEFEF;
-}
-
-.write_answer.form-control :active {
-    background-color: #EFEFEF;  
-}
-
-h3 {
-    margin-left: 10px;
-}
-
-.btn.btn-dark.ques_no {
-    width: 48px;
-}
 
 .container {
   padding: 20px;
@@ -430,7 +374,7 @@ h3 {
     background-color: #f6f6f6;
   margin-bottom: 0px;
   width: 255px;
-  margin-top: 15px;
+  margin-top: 85px;
             
         }
         
@@ -536,9 +480,15 @@ img {
   for profile.html (starts)
 ============================*/
 
+@media only screen and (max-width: 320px) {
+    .profile-card.text-center {
+    margin-left: -30px;
+}
+}
+
  /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-    
+
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -558,7 +508,7 @@ img {
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-
+        
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
@@ -572,3 +522,114 @@ img {
 /*==========================
   for profile.html (ends)
 ============================*/
+
+.card{
+ 
+    transition: 0.3s;
+    width: 100%;
+    padding:10px;
+    
+    margin:20px;
+}
+
+#start\/submit {
+    margin-bottom: 10%;
+    float: right;
+}
+
+.questions {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 100%;
+    padding:20px;
+    background-color: white;        
+    margin-bottom:20px;
+}
+
+.ques {
+list-style-type:none;
+}
+
+.questions:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+input[type="radio"]{
+  margin: 10px ;
+}
+
+span 
+{
+  margin:auto;
+}
+
+.write_answer.form-control {
+
+  height:200px; 
+  min-height:200px;  
+  max-height:200px;
+  resize: none;
+  border-color: black;
+}
+
+
+/*==========================
+  for exam.html (starts)
+============================*/
+
+ /* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .questions {
+        width: 100%;
+        margin-left: 0%;
+    font-size: x-small;
+    }
+
+    .write_answer.form-control {
+        font-size: x-small;
+    }
+
+    #timer_section {
+        font-size: x-small;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .questions {
+    width: 100%;
+    margin-left: 0%;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .questions {
+        width: 100%;
+        margin-left: 0%;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .questions {
+        width: 100%;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+      
+} 
+
+/*==========================
+  for exam.html (ends)
+============================*/
+
+.unselectable {
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        color: #cc0000;
+    }

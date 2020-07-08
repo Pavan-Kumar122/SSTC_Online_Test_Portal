@@ -1,13 +1,13 @@
-from flask import Flask, render_template, redirect, request, url_for, flash
-from datetime import datetime
+from flask import Flask, render_template, redirect, request, url_for, flash, json
+from datetime import datetime, date
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user, current_user, logout_user, login_required,UserMixin
+from flask_login import LoginManager, login_user, current_user, logout_user, login_required, UserMixin
 from flask_wtf.csrf import CSRFProtect
 from flask_bcrypt import Bcrypt
 import re
 import os
 from flask_mail import Mail, Message
-from flask_assets import Bundle,Environment
+from flask_assets import Bundle, Environment
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 app = Flask(__name__)
@@ -123,11 +123,26 @@ class Questions(db.Model, UserMixin):
     op3 = db.Column(db.String(100))
     op4 = db.Column(db.String(100))
     obj_ans = db.Column(db.String(50))
-    ques_no = db.Column(db.Integer,nullable=False, default=0)
+    ques_no = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self):
         return f"Questions('{self.question}','{self.ques_id}','{self.ques_no}','{self.op1}', '{self.op2}', '{self.op3}', '{self.op4}'," \
                f" '{self.obj_ans}') "
+
+
+class Result(db.Model, UserMixin):
+    result_id = db.Column(db.Integer, primary_key=True)
+    test_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
+    testtype = db.Column(db.String(900), nullable=False)
+    attempted = db.Column(db.String(100))
+    correct = db.Column(db.String(100))
+    total_marks = db.Column(db.String(100))
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now())
+
+    def __repr__(self):
+        return f"Result('{self.result_id}','{self.test_id}','{self.user_id}','{self.testtype}', '{self.attempted}', '{self.correct}', '{self.total_marks}'," \
+               f" '{self.date_posted}') "
 
 
 def validate_username(username):
@@ -275,12 +290,32 @@ def logout():
 @app.route('/student/main', methods=['GET', 'POST'])
 @login_required
 def student_login():
-    if request.method == 'POST':
-        return "Hii"
-    return render_template('student/student_login.html')
+    get_paper = Paperdetails.query.filter_by(college=current_user.college,semester=current_user.semester,section=current_user.section, branch=current_user.branch)
+    paper_id = ""
+    paper_type = ""
+    paper_name = ""
+    paper_descp = ""
+    paper_date = ""
+    for paper in get_paper:
+        paper_id = paper.test_id
+        paper_type = paper.testtype
+        paper_name = paper.testname
+        paper_descp = paper.description
+        paper_date = paper.date_posted
+    present_date = date.today()
+    paper_date = paper_date.date()
+    get_ques = Questions.query.filter_by(test_id=paper_id)
+    return render_template('student/student_login_new.htm', get_ques=get_ques, paper_type=paper_type, paper_descp=paper_descp, paper_name=paper_name,paper_date=paper_date, present_date=present_date)
+
+
+@app.route('/exam', methods=['GET', 'POST'])
+@login_required
+def exam():
+    return render_template('student/exam.html')
 
 
 @app.route('/profile', methods=['GET', 'POST'])
+@login_required
 def profile():
     return render_template('student/profile.html')
 
@@ -289,15 +324,13 @@ def profile():
 @login_required
 def faculty_login():
     global post
-    # get_paper = db.session.query(db.func.max(Paperdetails.test_id)).first()
     post = Paperdetails.query.all()
     ques = Questions.query.filter_by(user_id=current_user.id).all()
-    for i in ques:
-        print(i)
-    return render_template('faculty/faculty_home.html',post = post, ques=ques)
+    return render_template('faculty/faculty_home.html', post=post, ques=ques)
 
 
 @app.route('/paper_data', methods=['GET', 'POST'])
+@login_required
 def paper_data():
     global name, description, college, section, semester, subject, branch, total_ques, test_type
     if request.method == 'POST':
@@ -325,20 +358,25 @@ def paper_data():
 
 
 @app.route('/add_ques', methods=['GET', 'POST'])
+@login_required
 def add_ques():
     global name, description, semester, total_ques, test_type, college, branch, section, subject
     if request.method == 'POST':
         if request.form.get("obj", "") == "1":
-            test_details = Paperdetails(testname=name, description=description, college=college,branch=branch,semester=semester,
-                                        section=section, subject=subject, totalques=total_ques,totaltime="20 mins",testtype=test_type, user_id=current_user.id, date_posted=datetime.now())
+            test_details = Paperdetails(testname=name, description=description, college=college, branch=branch,
+                                        semester=semester,
+                                        section=section, subject=subject, totalques=total_ques, totaltime="20 mins",
+                                        testtype=test_type, user_id=current_user.id, date_posted=datetime.now())
             db.session.add(test_details)
             db.session.commit()
             # current_test_id = Paperdetails.query.filter_by(test_id=current_user.id).first()
             max = db.session.query(db.func.max(Paperdetails.test_id)).first()
             total_ques = int(total_ques)
             for i in range(1, total_ques + 1):
-                ques = Questions(test_id=max[-1], user_id=current_user.id, question=request.form['ques_'+str(i)],op1=request.form['op1_'+str(i)], op2=request.form['op2_'+str(i)],
-                                  op3=request.form['op3_'+str(i)], op4=request.form['op4_'+str(i)], obj_ans=request.form['obj_ans_'+str(i)], ques_no=i)
+                ques = Questions(test_id=max[-1], user_id=current_user.id, question=request.form['ques_' + str(i)],
+                                 op1=request.form['op1_' + str(i)], op2=request.form['op2_' + str(i)],
+                                 op3=request.form['op3_' + str(i)], op4=request.form['op4_' + str(i)],
+                                 obj_ans=request.form['obj_ans_' + str(i)], ques_no=i)
                 db.session.add(ques)
                 db.session.commit()
         else:
@@ -359,6 +397,27 @@ def add_ques():
     return redirect(url_for('paper_data'))
 
 
+@app.route('/show_result', methods=['POST'])
+def show_result():
+    global stu_id, stu_marks, stu_section, stu_semester, stu_name
+    stu_marks = []
+    student_id = request.form['student_id']
+    get_user = Users.query.filter_by(userid=student_id)
+    for id in get_user:
+        stu_id = id.id
+        stu_name = id.username
+        stu_semester = id.semester
+        stu_section = id.section
+    result = Result.query.filter_by(user_id=stu_id)
+    count = 0
+    for res in result:
+        count = count + 1
+        stu_marks.append(res.total_marks)
+    stu_roll_no = student_id
+    print(stu_marks)
+    return json.dumps({'status': 'OK', 'name': stu_name, 'rollno': stu_roll_no, 'semester': stu_semester, 'sec': stu_section, 'marks': stu_marks, 'count': count})
+
+
 @app.route('/register')
 def register():
     if current_user.is_authenticated:
@@ -370,11 +429,13 @@ def register():
 
 
 @app.route('/student')
+@login_required
 def student():
     return render_template('student_register.html')
 
 
 @app.route('/faculty')
+@login_required
 def faculty():
     return render_template('faculty_register.html')
 

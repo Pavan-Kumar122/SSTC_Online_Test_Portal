@@ -19,7 +19,7 @@
  	</style>
 </head>
 <body>
-{% if current_user.is_authenticated %}
+{% if current_user.is_authenticated and current_user.role == 'Student' %}
 	<div class="container" style="margin-top: -90px;">
   <div class="row ">
     <div class="col-lg-12">
@@ -44,7 +44,7 @@
 				<div style="margin-top: 30px;">
                     <form method="POST">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-					<input onclick="enable_disable()" type="submit" class="btn btn-primary" value="Save" id="myButton1">
+					<input onclick="enable_disable()" type="button" class="btn btn-primary" value="Save" id="myButton1">
 					<input onclick="disable_enable()" type="button" class="btn btn-primary" value="Edit" id="myButton2">
                         </form>
 				</div>
@@ -113,6 +113,8 @@
     </div>
   </div>
 </div>
+    {% else %}
+    <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
 {% endif %}
 </body>
 </html>

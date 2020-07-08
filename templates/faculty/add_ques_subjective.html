@@ -15,6 +15,7 @@
 </head>
 
 <body>
+{% if current_user.is_authenticated and current_user.role == 'Faculty' %}
 	<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 	<div class="main">
 		<div class="header">
@@ -67,6 +68,9 @@
 
 		</form>
 	</div>
+{% else %}
+    <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
+{% endif %}
 </body>
 
 </html>

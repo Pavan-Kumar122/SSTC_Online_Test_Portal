@@ -404,6 +404,9 @@ body {
   width: 100%;
   border-radius: 10px;
 }
+.durationbox{
+  width: 20%;
+}
 
 .form-group{
   
