@@ -324,7 +324,7 @@ body {
   margin-top: 20px;
   width: 80%;
   font-family: 'Poppins', sans-serif;
-
+  text-align: left;
 }
 #show{
   font-size: 15px;
@@ -354,6 +354,8 @@ body {
 
 .dashboard-details table, th, td{
   border: 2px solid black;
+  text-align: left;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .dashboard-details th,td{
@@ -366,87 +368,146 @@ body {
   list-style: upper-alpha;
   margin:3px 0px 0px 22px;
 }
-
+.dash-questions{
+  font-size: 15px;
+  font-weight: 500;
+}
 
 /* ========================================= */
-
-
-.new-form-test{
+.new-form-test {
   margin: auto;
   margin-top: 10px;
-  width: 60%;
+  width: 80%;
   height: auto;
   padding: 15px;
   padding-top: 0px;
   max-width: 100%;
   /* background: #e8dbff; */
-  background-image: linear-gradient(#748eff,#764ba2);
+  background-image: linear-gradient(#748eff, #764ba2);
   border-radius: 5px;
 }
-.new-form-test .form-control1{
+.new-form-test .form-control1 {
   font-size: 15px;
   width: 100%;
   min-height: 45px;
   padding-left: 12px;
   font-weight: 500;
-  border:rgb(66, 66, 66) 2px solid;
+  border: rgb(66, 66, 66) 2px solid;
   border-radius: 10px;
   outline: none;
 }
 
-.new-form-test .form-control2{
+.new-form-test .form-control2 {
   font-size: 15px;
   padding-left: 12px;
   min-height: 45px;
   font-weight: 500;
-  border:rgb(66, 66, 66) 2px solid;
+  border: rgb(66, 66, 66) 2px solid;
   outline: none;
   width: 100%;
   border-radius: 10px;
 }
-.durationbox{
-  width: 20%;
-}
 
-.form-group{
-  
-}
-#left{
+
+
+#left {
   float: left;
   width: 48%;
   padding: 0px;
   margin: 0px;
 }
 
-#right{
+#right {
   float: right;
   width: 48%;
   padding: 0px;
   margin: 0px;
 }
 
-#clrFloat{
+#clrFloat {
   clear: both;
   visibility: hidden;
   padding: 0px;
   margin: 0px;
 }
 
-.new-form-test h2{
+.new-form-test h2 {
   margin-top: 15px;
   color: black;
 }
 
-
-.form-control1:focus{
-  border-color:#2c1a44;
+.form-control1:focus {
+  border-color: #2c1a44;
   box-shadow: 0 0 0 0.2rem rgba(19, 15, 24, 0.25);
 }
 
-.form-control2:focus{
-  border-color:#2c1a44;
+.form-control2:focus {
+  border-color: #2c1a44;
   box-shadow: 0 0 0 0.2rem rgba(19, 15, 24, 0.25);
 }
+
+
+.checkbox-container{
+
+  width: 100%;
+  min-height: 60px;
+  font-weight: 500;
+  border: rgb(66, 66, 66) 2px solid;
+   border-radius: 10px;
+   background-color: white;
+   outline: none;
+}
+.checktable{
+  text-align: center;
+  width: 70%;
+  font-size: 17px;
+  margin: auto;
+  margin-left: 10%;
+  margin-top: 2px;
+}
+.checktable td, tr{
+  border:none;
+  text-align: center;
+}
+
+#sectionrow td{
+padding-top: 12px;
+}
+
+.duration-container{
+   width: 100%;
+  height:70px;
+  font-weight: 500;
+  border: rgb(66, 66, 66) 2px solid;
+   border-radius: 10px;
+   background-color: white;
+   outline: none;
+}
+.durationtable{
+  width: 90%;
+  padding: 0;
+  margin: 10px 0 30px 0;
+}
+.durationtable tr,td{
+  padding-top: 10px;
+}
+.durationtable td, tr{
+  border:none;
+  text-align: center;
+}
+.durationtable td{
+  width: 20%;
+}
+
+.durationtable input[type=text]{
+  margin-left: -5px;
+  width: 70%;
+}
+.input-label{
+  font-weight: 600;
+  margin-left: 10px;
+}
+
 
 
 /* ========================================== */

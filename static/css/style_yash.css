@@ -532,7 +532,7 @@ img {
     margin:20px;
 }
 
-#start\/submit {
+#start {
     margin-bottom: 10%;
     float: right;
 }
@@ -573,6 +573,88 @@ span
 }
 
 
+
+#timer_section {
+    margin-top: 10px;
+    display: block;
+    margin-bottom: 10px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: #ccc;
+}
+
+.unselectable {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #cc0000;
+}
+
+.pre_exam_details {
+    width: 100%;
+}
+
+
+.base-timer {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.base-timer__svg {
+  transform: scaleX(-1);
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+.base-timer__path-elapsed {
+  stroke-width: 7px;
+  stroke: grey;
+}
+
+.base-timer__path-remaining {
+  stroke-width: 7px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  stroke: currentColor;
+}
+
+.base-timer__path-remaining.green {
+  color: rgb(65, 184, 131);
+}
+
+.base-timer__path-remaining.orange {
+  color: orange;
+}
+
+.base-timer__path-remaining.red {
+  color: red;
+}
+
+.base-timer__label {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+#header {
+    background-color: grey;
+}
+
 /*==========================
   for exam.html (starts)
 ============================*/
@@ -582,16 +664,68 @@ span
     .questions {
         width: 100%;
         margin-left: 0%;
-    font-size: x-small;
+        font-size: x-small;
     }
 
     .write_answer.form-control {
         font-size: x-small;
     }
 
-    #timer_section {
-        font-size: x-small;
+    .base-timer {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-left: 37%;
+    margin-top: 10px;
     }
+
+    .base-timer__svg {
+      transform: scaleX(-1);
+    }
+
+    .base-timer__circle {
+      fill: none;
+      stroke: none;
+    }
+
+    .base-timer__path-elapsed {
+      stroke-width: 7px;
+      stroke: grey;
+    }
+
+    .base-timer__path-remaining {
+      stroke-width: 7px;
+      stroke-linecap: round;
+      transform: rotate(90deg);
+      transform-origin: center;
+      transition: 1s linear all;
+      fill-rule: nonzero;
+      stroke: currentColor;
+    }
+
+    .base-timer__path-remaining.green {
+      color: rgb(65, 184, 131);
+    }
+
+    .base-timer__path-remaining.orange {
+      color: orange;
+    }
+
+    .base-timer__path-remaining.red {
+      color: red;
+    }
+
+    .base-timer__label {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+    }
+
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -599,7 +733,13 @@ span
     .questions {
     width: 100%;
     margin-left: 0%;
-}
+    }
+    .base-timer {
+        margin-left: 42%;
+    }
+    #timer_section {
+        background-color: #cccccc;
+    }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
@@ -607,29 +747,44 @@ span
         width: 100%;
         margin-left: 0%;
     }
+    .base-timer {
+        margin-left: 42%
+    }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
     .questions {
-        width: 100%;
+        width: 83%;
+    }
+
+    #timer_section {
+        float: right;
+        background-color: #ddd;
+    }
+
+    .base-timer {
+        margin-left: 0%;
+        background-color: #ddd;
+        border-radius: 100%;
     }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-      
+      .questions {
+        width: 84%;
+      }
+      #timer_section {
+        float: right;
+      }
+
+    .base-timer {
+        margin-left: 0%;
+        background-color: #ddd;
+    }
 } 
 
 /*==========================
   for exam.html (ends)
 ============================*/
-
-.unselectable {
-        -webkit-user-select: none;
-        -webkit-touch-callout: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        color: #cc0000;
-    }

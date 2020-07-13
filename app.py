@@ -1,14 +1,16 @@
-from flask import Flask, render_template, redirect, request, url_for, flash, json
-from datetime import datetime, date
+from flask import Flask, render_template, redirect, request, url_for, flash, json, session
+from datetime import datetime, date, timedelta
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required, UserMixin
 from flask_wtf.csrf import CSRFProtect
 from flask_bcrypt import Bcrypt
-import re
+import re, math
 import os
 from flask_mail import Mail, Message
 from flask_assets import Bundle, Environment
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from dateutil import parser
+from flask_marshmallow import Marshmallow
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
@@ -24,6 +26,7 @@ app.config['SECRET_KEY'] = b"\x07\x92\xde\xa5%YP\xf6\xd2\xb4\xad\x13," \
                            b"\x8eqF*G\xa6i[H\xb3Yp\xa0\xa6QB\xeebt\xc7\xd7\xb1\xbe{" \
                            b"D\xb1%\xa6e!\xd56\xd7\x8aZ2\x8aPD\xa1\xf3\x12\\\x16\xa2\x85 "
 
+app.permanent_session_lifetime = timedelta(hours=5)
 app.config["MYSQL_HOST"] = os.environ.get('MYSQL_HOST')
 app.config["MYSQL_USER"] = os.environ.get('MYSQL_USER')
 app.config["MYSQL_PASSWORD"] = os.environ.get('MYSQL_PASSWORD')
@@ -37,6 +40,7 @@ app.config['MAIL_USERNAME'] = os.environ.get('Email_ADD')
 app.config['MAIL_PASSWORD'] = 'equiqhpzpegsdnzl'
 app.static_folder = 'static'
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
 bcrypt = Bcrypt(app)
 mail = Mail(app)
 login_manager = LoginManager(app)
@@ -52,6 +56,20 @@ section = ""
 subject = ""
 total_ques = ""
 test_type = ""
+duration = 0
+scheduled_date = ""
+hour = ""
+minute = ""
+sem = ""
+sec = ""
+st_time = ""
+en_time = ""
+correct = 0
+wrong = 0
+attempt = 0
+sub_ans = []
+time = ""
+check = False
 
 
 @login_manager.user_loader
@@ -99,7 +117,7 @@ class Paperdetails(db.Model, UserMixin):
     description = db.Column(db.String(100), nullable=False)
     college = db.Column(db.String(50), nullable=False)
     branch = db.Column(db.String(50), nullable=False)
-    semester = db.Column(db.Integer, nullable=False)
+    semester = db.Column(db.String(50))
     section = db.Column(db.String(50), nullable=False)
     subject = db.Column(db.String(80), nullable=False)
     totalques = db.Column(db.Integer, nullable=False)
@@ -107,9 +125,12 @@ class Paperdetails(db.Model, UserMixin):
     testtype = db.Column(db.String(50), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now())
     user_id = db.Column(db.Integer, nullable=False)
+    scheduled_date = db.Column(db.String(60))
+    start_time = db.Column(db.String(60), nullable=False)
+    end_time = db.Column(db.String(60), nullable=False)
 
     def __repr__(self):
-        return f"Paperdetails('{self.testname}','{self.test_id}',,'{self.description}'," \
+        return f"Paperdetails('{self.testname}','{self.start_time}','{self.end_time}','{self.test_id}','{self.scheduled_date}','{self.semester}','{self.totaltime}','{self.description}'," \
                f" {self.date_posted}) "
 
 
@@ -126,7 +147,7 @@ class Questions(db.Model, UserMixin):
     ques_no = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self):
-        return f"Questions('{self.question}','{self.ques_id}','{self.ques_no}','{self.op1}', '{self.op2}', '{self.op3}', '{self.op4}'," \
+        return f"Questions('{self.question}','{self.ques_id}','{self.test_id}','{self.ques_no}','{self.user_id}','{self.op1}', '{self.op2}', '{self.op3}', '{self.op4}'," \
                f" '{self.obj_ans}') "
 
 
@@ -139,10 +160,27 @@ class Result(db.Model, UserMixin):
     correct = db.Column(db.String(100))
     total_marks = db.Column(db.String(100))
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    test_given = db.Column(db.String(20))
 
     def __repr__(self):
-        return f"Result('{self.result_id}','{self.test_id}','{self.user_id}','{self.testtype}', '{self.attempted}', '{self.correct}', '{self.total_marks}'," \
+        return f"Result('{self.result_id}','{self.test_id}','{self.test_given}','{self.user_id}','{self.testtype}', '{self.attempted}', '{self.correct}', '{self.total_marks}'," \
                f" '{self.date_posted}') "
+
+
+class QuestionSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Questions
+
+    ques_id = ma.auto_field()
+    test_id = ma.auto_field()
+    user_id = ma.auto_field()
+    question = ma.auto_field()
+    op1 = ma.auto_field()
+    op2 = ma.auto_field()
+    op3 = ma.auto_field()
+    op4 = ma.auto_field()
+    obj_ans = ma.auto_field()
+    ques_no = ma.auto_field()
 
 
 def validate_username(username):
@@ -282,6 +320,7 @@ def registerData():
 
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
@@ -290,22 +329,95 @@ def logout():
 @app.route('/student/main', methods=['GET', 'POST'])
 @login_required
 def student_login():
-    get_paper = Paperdetails.query.filter_by(college=current_user.college,semester=current_user.semester,section=current_user.section, branch=current_user.branch)
-    paper_id = ""
-    paper_type = ""
-    paper_name = ""
-    paper_descp = ""
-    paper_date = ""
-    for paper in get_paper:
-        paper_id = paper.test_id
-        paper_type = paper.testtype
-        paper_name = paper.testname
-        paper_descp = paper.description
-        paper_date = paper.date_posted
-    present_date = date.today()
-    paper_date = paper_date.date()
-    get_ques = Questions.query.filter_by(test_id=paper_id)
-    return render_template('student/student_login_new.htm', get_ques=get_ques, paper_type=paper_type, paper_descp=paper_descp, paper_name=paper_name,paper_date=paper_date, present_date=present_date)
+    global time_limit, get_ques, paper, e, set_test_id, time, check
+    get_ques = ""
+    time_limit = ""
+    paper1 = ""
+    get_paper = Paperdetails.query.filter(Paperdetails.semester.contains(current_user.semester),
+                                          Paperdetails.section.contains(current_user.section),
+                                          Paperdetails.scheduled_date.like(date.today()),
+                                          Paperdetails.college.like(current_user.college),
+                                          Paperdetails.branch.like(current_user.branch)).all()
+    # print(get_paper)
+    sub_ans = []
+    correct = 0
+    wrong = 0
+    attempt = 0
+    set_test_id = ""
+    if get_paper:
+        for i in get_paper:
+            if i.start_time <= str(datetime.now().time()) < i.end_time:
+                res = Result.query.filter(Result.test_id.contains(i.test_id),
+                                          Result.user_id.contains(current_user.id)).all()
+                if res:
+                    check = False
+                    flash('You have already Given the test Thank You!!', 'primary')
+                    return render_template('student/student_login.html', check=check)
+                else:
+                    time = i.totaltime
+                    time_limit = i.totaltime
+                    if int(time) > 3600:
+                        time = "{0}Hour:{1}minute".format(int(int(time) / 3600), int((int(int(time) % 3600)) / 60))
+                    else:
+                        time = "{0}Hour:{1}minute".format(0, int(int(time) / 60))
+                    get_ques = Questions.query.filter(Questions.test_id.like(i.test_id))
+                    set_test_id = i.test_id
+                    paper1 = Paperdetails.query.filter(Paperdetails.test_id.like(i.test_id))
+                    check = True
+        session['test_id'] = set_test_id
+        print(set_test_id)
+        if not paper1:
+            flash("No New Paper Uploaded!!", 'info')
+            return render_template('student/student_login.html', check=False)
+        else:
+
+            return render_template('student/student_login.html', get_ques=get_ques,
+                                   time_limit=time_limit, time=time, check=check, paper1=paper1)
+    else:
+        flash("No New Paper Uploaded!!", 'info')
+        return render_template('student/student_login.html', check=False)
+
+
+@app.route('/showresult', methods=['GET', 'POST'])
+def showresult():
+    global time_limit, get_ques, paper, e, set_test_id, correct, wrong, time, check, sub_ans
+    if 'test_id' in session:
+        test_id = session['test_id']
+        session.permanent = True
+        get_ques = Questions.query.filter(Questions.test_id.like(test_id))
+        print(get_ques)
+    if request.method == 'POST':
+        sub_ans = []
+        for ques in get_ques:
+            if request.form.get('objective') == 'objective':
+                obj_ans = Questions.query.filter_by(ques_id=request.form.get('id_' + str(ques.ques_id)))
+                user_ans = request.form.get('Obj_option_' + str(ques.ques_no))
+                get_test_id = ques.test_id
+                for result in obj_ans:
+                    if result.obj_ans == user_ans:
+                        correct += 1
+                    else:
+                        wrong += 1
+            else:
+                get_test_id = ques.test_id
+                sub_ans.append(request.form.get('subj_' + str(ques.ques_no)))
+        if request.form.get('objective') == 'objective':
+            obj_result = Result(test_id=get_test_id, user_id=current_user.id, testtype='objective',
+                                attempted=str(correct + wrong), correct=correct, total_marks=correct,
+                                date_posted=datetime.now(), test_given='Yes')
+            db.session.add(obj_result)
+            db.session.commit()
+        else:
+            for i in range(0, len(sub_ans)):
+                if sub_ans[i] == "":
+                    sub_ans[i] = 'Not Attempted'
+                subj_result = Result(test_id=get_test_id, user_id=current_user.id, testtype='subjective',
+                                     attempted=sub_ans[i], date_posted=datetime.now(), test_given='Yes')
+                db.session.add(subj_result)
+                db.session.commit()
+    print(sub_ans)
+    flash('Thank You!!', 'primary')
+    return render_template('student/student_login.html', check=False)
 
 
 @app.route('/exam', methods=['GET', 'POST'])
@@ -324,49 +436,100 @@ def profile():
 @login_required
 def faculty_login():
     global post
-    post = Paperdetails.query.all()
+    time = ""
     ques = Questions.query.filter_by(user_id=current_user.id).all()
-    return render_template('faculty/faculty_home.html', post=post, ques=ques)
+    faculty_post = Paperdetails.query.filter_by(user_id=current_user.id)
+    for f in faculty_post:
+        time = f.totaltime
+        if int(time) > 3600:
+            f.totaltime = "{0}Hour:{1}minute".format(int(int(time) / 3600), int((int(int(time) % 3600)) / 60))
+        else:
+            f.totaltime = "{0}Hour:{1}minute".format(0, int(int(time) / 60))
+    check = False
+    for i in faculty_post:
+        check = True
+    if not check:
+        flash("You Haven't Uploaded Any Paper!!", 'danger')
+        return render_template('faculty/faculty_home.html', check=check)
+    else:
+        return render_template('faculty/faculty_home.html', post=faculty_post, ques=ques)
 
 
 @app.route('/paper_data', methods=['GET', 'POST'])
 @login_required
 def paper_data():
-    global name, description, college, section, semester, subject, branch, total_ques, test_type
+    global name, description, college, section, semester, subject, branch, total_ques, test_type, scheduled_date, hour, minute, sem, sec, duration, st_time, en_time
+    sem = []
+    sec = []
+    duration = 0
     if request.method == 'POST':
         name = request.form['testname']
         description = request.form['description']
         college = request.form['college']
-        semester = request.form['semester']
+        semester = request.form.getlist('ques_semester')
         subject = request.form['subject']
         branch = request.form['branch']
-        section = request.form['section']
+        section = request.form.getlist('ques_section')
         total_ques = request.form['total_ques']
         test_type = request.form['test_type']
-        print(test_type)
+        scheduled_date = request.form.get('date')
+        hour = request.form['hour']
+        minute = request.form['minute']
+        start_time = request.form.get('start_time')
+        end_time = request.form.get('end_time')
+        st_time = parser.parse(start_time)
+        en_time = parser.parse(end_time)
+        st_time = str(st_time.time())
+        en_time = str(en_time.time())
+        # print("{0}Hour:{1}minute".format(hour, minute))
+        # i = "{0}Hour:{1}minute".format(hour, minute)
+        # print(i)
+        duration = int(((int(hour) * 60) + int(minute)) * 60)
+        # print(duration)
+        # print(name, description, college, semester, subject, branch,
+        #       section, total_ques, test_type, date, hour, minute)
+        for sem1 in semester:
+            sem.append(sem1)
+        for sec1 in section:
+            sec.append(sec1)
+        semester = str(sem)[1:-1].replace("'",
+                                          "").replace(",", "")
+        # print(semester)
+        section = str(sec)[1:-1].replace("'",
+                                         "").replace(",", "")
+        if not section:
+            section = str('A B C D')
+        print(section)
+        # semester = str(sem)[1:-1].replace("'",
+        #                                   "").replace(",", "").replace(" ", "")
+        # section = str(sec)[1:-1].replace("'",
+        #                                  "").replace(",", "").replace(" ", "")
+        # for element in range(0, len(section)):
+        #     print(section[element])
         if test_type == 'objective':
-            print(int(total_ques))
+            # print(int(total_ques))
             return render_template('faculty/add_ques.html', ques=int(total_ques), branch=branch, semester=semester,
-                                   section=section, subject=subject, testname=name, description=description
-                                   , test_type=test_type, college=college)
+                                   section=section, subject=subject, testname=name, description=description,
+                                   test_type=test_type, college=college)
         else:
             return render_template('faculty/add_ques_subjective.html', ques=int(total_ques), branch=branch,
                                    semester=semester,
-                                   section=section, subject=subject, testname=name, description=description
-                                   , test_type=test_type, college=college)
+                                   section=section, subject=subject, testname=name, description=description,
+                                   test_type=test_type, college=college)
     return redirect(url_for('faculty_login'))
 
 
 @app.route('/add_ques', methods=['GET', 'POST'])
 @login_required
 def add_ques():
-    global name, description, semester, total_ques, test_type, college, branch, section, subject
+    global name, description, semester, total_ques, test_type, college, branch, section, subject, duration, scheduled_date, st_time, en_time
     if request.method == 'POST':
         if request.form.get("obj", "") == "1":
             test_details = Paperdetails(testname=name, description=description, college=college, branch=branch,
                                         semester=semester,
-                                        section=section, subject=subject, totalques=total_ques, totaltime="20 mins",
-                                        testtype=test_type, user_id=current_user.id, date_posted=datetime.now())
+                                        section=section, subject=subject, totalques=total_ques, totaltime=duration,
+                                        testtype=test_type, user_id=current_user.id, scheduled_date=scheduled_date,
+                                        start_time=st_time, end_time=en_time)
             db.session.add(test_details)
             db.session.commit()
             # current_test_id = Paperdetails.query.filter_by(test_id=current_user.id).first()
@@ -382,8 +545,9 @@ def add_ques():
         else:
             test_details = Paperdetails(testname=name, description=description, college=college, branch=branch,
                                         semester=semester,
-                                        section=section, subject=subject, totalques=total_ques, totaltime="20 mins",
-                                        testtype=test_type, user_id=current_user.id)
+                                        section=section, subject=subject, totalques=total_ques, totaltime=duration,
+                                        testtype=test_type, user_id=current_user.id, scheduled_date=scheduled_date,
+                                        start_time=st_time, end_time=en_time)
             db.session.add(test_details)
             db.session.commit()
             # current_test_id = Paperdetails.query.filter_by(test_id=current_user.id).first()
@@ -415,7 +579,9 @@ def show_result():
         stu_marks.append(res.total_marks)
     stu_roll_no = student_id
     print(stu_marks)
-    return json.dumps({'status': 'OK', 'name': stu_name, 'rollno': stu_roll_no, 'semester': stu_semester, 'sec': stu_section, 'marks': stu_marks, 'count': count})
+    return json.dumps(
+        {'status': 'OK', 'name': stu_name, 'rollno': stu_roll_no, 'semester': stu_semester, 'sec': stu_section,
+         'marks': stu_marks, 'count': count})
 
 
 @app.route('/register')
@@ -429,13 +595,11 @@ def register():
 
 
 @app.route('/student')
-@login_required
 def student():
     return render_template('student_register.html')
 
 
 @app.route('/faculty')
-@login_required
 def faculty():
     return render_template('faculty_register.html')
 

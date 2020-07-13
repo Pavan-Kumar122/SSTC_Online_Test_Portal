@@ -90,6 +90,17 @@
          DATA WILL BE LOADED HERE.
          ========================================== -->
         <div id="dashboard">
+        {% if check == false %}
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                          {% for category, message in messages %}
+                            <div class="col-lg-12 alert alert-{{ category }}">
+                              {{ message }}
+                            </div>
+                          {% endfor %}
+                        {% endif %}
+                      {% endwith %}
+                        {% else %}
             {% for posts in post %}
           <div class="item">
                       <h3>{{ posts.testname }}</h3>
@@ -144,82 +155,54 @@
             </div>
           </div>
             {% endfor %}
-
-
+            {% endif %}
         </div>
 
         <div id="new_test">
           <div class="login-container">
 
-            <form class="new-form-test text-center" action="/paper_data" method="POST">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <form class="new-form-test " action="/paper_data" method="POST">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
               <br>
-              <i class=" fa fa-plus fa-3x text-center" style="color:darkslategrey;"></i>
+              <div class="text-center"> <i class=" fa fa-plus fa-3x text-center" style="color:darkslategrey;"></i></div>
+
               <h2 class="mb-3 mt-2 font-weight-light text-uppercase text-center "
                 style=" font-family: 'Poppins', sans-serif;">Upload New</h2>
 
               <div class="form-group ">
 
-                <div><input type="text" class="form-control1 " name="testname" placeholder="Enter Test Name" required></div>
+                <div><input type="text" class="form-control1 " name="testname" placeholder="Enter Test Name"></div>
               </div>
 
               <div class="form-group">
                 <div>
                   <textarea rows="4" name="description" id="" class="form-control1" placeholder="Description"
-                    style="padding-top: 5px; margin-bottom: 0px;" required></textarea>
+                    style="padding-top: 5px; margin-bottom: 0px;"></textarea>
                 </div>
               </div>
+{##}
+{#              <div class="form-group ">#}
+{#                <select class="form-control2 sem " name="college">#}
+{#                  <option>College</option>#}
+{#                  <option>SSGI (S1)</option>#}
+{#                  <option>SSEC (S2)</option>#}
+{##}
+{#                </select>#}
+{#              </div>#}
 
               <div id="left">
-                <div class="form-group ">
-                  <select class="form-control2 sem" name="college" required>
-                    <option>College</option>
-                    <option>S-1</option>
-                    <option>S-2</option>
-                    <option>S-3</option>
 
-                  </select>
-                </div>
+                  <div class="form-group ">
+                <select class="form-control2 sem " name="college">
+                  <option>College</option>
+                  <option>SSGI (S1)</option>
+                  <option>SSEC (S2)</option>
 
-                <div class="form-group ">
-{#                  <select class="form-control2" name="semester" required>#}
-{#                    <option>Semester</option>#}
-{#                    <option>1</option>#}
-{#                    <option>2</option>#}
-{#                    <option>3</option>#}
-{#                    <option>4</option>#}
-{#                    <option>5</option>#}
-{#                    <option>6</option>#}
-{#                    <option>7</option>#}
-{#                    <option>8</option>#}
-{#                  </select>#}
-                    Semester:
-                    <input type="checkbox" name="semester" id="option1" value="1"> 1</input<br>
-                    <input type="checkbox" name="semester" id="option2" value="2"> 2</input<br>
-                    <input type="checkbox" name="semester" id="option3" value="3"> 3</input<br>
-                     <input type="checkbox" name="semester" id="option1" value="4">4 </input<br>
-                    <input type="checkbox" name="semester" id="option2" value="5"> 5</input<br>
-                    <input type="checkbox" name="semester" id="option3" value="6"> 6</input<br>
-                     <input type="checkbox" name="semester" id="option1" value="7">7 </input<br>
-                    <input type="checkbox" name="semester" id="option2" value="8"> 8</input<br>
-                </div>
-
-                <div class="form-group">
-                  <input type="text" class="form-control2 " name="subject" placeholder="Subject" required>
-                </div>
-
-                 <div class="form-group ">
-                <select class="form-control1" name="test_type" required>
-                  <option>Test type</option>
-                  <option value="objective">Objective</option>
-                  <option value="subjective">Subjective</option>
                 </select>
               </div>
-              </div>
 
-              <div id="right">
                 <div class="form-group ">
-                  <select class="form-control2 sem" name="branch" required>
+                  <select class="form-control2 sem" name="branch">
                     <option>Select Branch</option>
                     <option>Computer Science Engineering</option>
                     <option>Electronics and Tele-Communicatiom</option>
@@ -230,56 +213,141 @@
                     <option>Mechanical Engineering</option>
                   </select>
                 </div>
-
-                <div class="form-group ">
-{#                  <select class="form-control2 sem " name="section" required>#}
-{#                    <option>Section</option>#}
-{#                    <option>A</option>#}
-{#                    <option>B</option>#}
-{#                    <option>C</option>#}
 {##}
-{#                  </select>#}
-                    Section:
-                    <input type="checkbox" name="sections" id="option1" value="A"> A </input<br>
-                    <input type="checkbox" name="sections" id="option2" value="B"> B </input<br>
-                    <input type="checkbox" name="sections" id="option3" value="C"> C </input<br>
+{#                <div class="form-group">#}
+{#                  <input type="text" class="form-control2 " name="subject" placeholder="Subject">#}
+{#                </div>#}
+                  <div>
+                  <span class="input-label">Subject</span><br>
+                <div class="form-group">
+                  <input type="text" class="form-control2 " name="subject" placeholder="Subject">
+                </div>
+              </div>
+
+                <div>
+
+                  <span class="input-label">Semester</span><br>
+                  <div class="form-group checkbox-container">
+                    <table class="checktable">
+                      <tr>
+                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="1">&nbsp;1</span></td>
+                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="2">&nbsp;2</span></td>
+                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="3">&nbsp;3</span></td>
+                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="4">&nbsp;4</span></td>
+                      </tr>
+                      <tr>
+                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="5">&nbsp;5</span></td>
+                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="6">&nbsp;6</span></td>
+                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="7">&nbsp;7</span></td>
+                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="8">&nbsp;8</span></td>
+                      </tr>
+                      <tr>
+
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+
+                <div>
+                  <span class="input-label">Section</span><br>
+                  <div class="form-group checkbox-container ">
+                    <table class="checktable">
+                      <tr id="sectionrow">
+                        <td><span class="checkspan"><input type="checkbox" name="ques_section" value="A">&nbsp;A</span></td>
+                        <td><span class="checkspan"><input type="checkbox" name="ques_section" value="B">&nbsp;B</span></td>
+                        <td><span class="checkspan"><input type="checkbox" name="ques_section" value="C">&nbsp;C</span></td>
+                        <td><span class="checkspan"><input type="checkbox" name="ques_section" value="D">&nbsp;D</span></td>
+                      </tr>
+
+                    </table>
+
+                  </div>
+
+                </div>
+
+
+              </div>
+
+              <div id="right">
+
+
+                <div class="form-group ">
+                  <select class="form-control1" name="test_type">
+                    <option>Test type</option>
+                    <option value="objective">Objective</option>
+                    <option value="subjective">Subjective</option>
+                  </select>
                 </div>
 
                 <div class="form-group ">
-                  <input type="text" class=" form-control2" name="total_ques" placeholder="Total Questions" required>
+                  <input type="text" class=" form-control2" name="total_ques" placeholder="Total Questions">
 
                 </div>
 
-                  <div class="form-group">Scheduled Date:
-                  <input type="date" class="form-control2 " name="date" placeholder="DD-MM-YYYY" >
+                <div>
+                  <span class="input-label">Exam Date</span><br>
+                  <div class="form-group">
+                    <input type="date" id="examdate" class="form-control1" name="date">
+                  </div>
+                </div>
+                  <div>
+                  <span class="input-label">Start Time:</span><br>
+                  <div class="form-group">
+                    <input type="datetime-local" id="" class="form-control1" name="start_time">
+                  </div>
+                </div>
+                <div><br>
+                  <span class="input-label">End Time</span><br>
+                  <div class="form-group">
+                    <input type="datetime-local" id="" class="form-control1" name="end_time">
+                  </div>
+                </div>
+{#                <div style="padding: 0;"><br>#}
+{#                  <span class="input-label">Duration:</span><br>#}
+{#                  <table class="durationtable">#}
+{#                    <tr>#}
+{#                      <td>#}
+{#                        <div class="form-group">#}
+{#                          <input type="text" class=" form-control2 " name="hour" placeholder="Hour" required>#}
+{#                        </div>#}
+{#                      </td>#}
+{#                      <td>#}
+{#                        <div class="form-group">#}
+{#                          <input type="text" class=" form-control2 " name="minute" placeholder="Minutes" value="0">#}
+{#                        </div>#}
+{#                      </td>#}
+{#                    </tr>#}
+{#                  </table>#}
+{#                </div>#}
+
+                   <div>
+                <span class="input-label">Duration</span><br>
+                <div class="form-group duration-container ">
+                  <table class="durationtable">
+                    <tr>
+                        <td style="text-align: right;">Hour</td>
+                      <td><input type="text" name="hour" id="" required></td>
+                        <td style="text-align: right;">Minutes</td>
+                      <td><input type="text" name="minute" id="" value="0"></td>
+
+                    </tr>
+
+                  </table>
+
                 </div>
 
-
+              </div>
               </div>
               <hr id="clrFloat">
 
-              <div class="form-group">
 
-                  <span>Test Duration:</span><br>
-                  <span class="durationbox">Hour: <input type="text" class=" form-control3 " name="hours" placeholder="Hour" required></span>
-                  <span class="durationbox">Minute: <input type="text" class=" form-control3 " name="minutes" placeholder="Minute" required></span>
-
-
-              </div>
-
-
-
-
-              <div>
+              <div class="text-center">
                 <br>
                 <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
-                <input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Submit" name="">
-              </div>
+                <input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Submit" name=""></div>
             </form>
           </div>
-
         </div>
-
         <div id="results_div">
             <div class="main_result">
 
