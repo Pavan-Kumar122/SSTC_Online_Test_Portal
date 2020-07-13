@@ -367,27 +367,44 @@ canvas {
                 <div class="exam_page">
                     <div class="row">
                         <div id="top_end"></div>
-                    {% if paper_date == present_date %}
-                            <div class="col-lg-12" id="header" style="background-color: grey;color: white; margin-top: 10px; position: sticky; top: 0px;z-index: 996" >
-                                <div style="float: left; margin-left: 10px; margin-top: 10px;"><h3><span>Exam-{{ paper_name }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Time Limit:{{ time_limit }}</span></h3><div>Description-{{ paper_descp }} Test Type-{{ paper_type }}</div></div><!-- for Exam Name -->
-                                    <div style="float: right; margin-right: 1px; margin-top:10px; display: none" id="timer_section">
-                                        <h5>Time Remaining</h5><h5 id="timer"></h5>
-                                    </div>
+                    {% if check == false %}
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                          {% for category, message in messages %}
+                            <div class="col-lg-12 alert alert-{{ category }}">
+                              {{ message }}
+                            </div>
+                          {% endfor %}
+                        {% endif %}
+                      {% endwith %}
+                        {% else %}
+                            <div class="col-lg-12" id="header">
+                            {% for paper in paper1 %}
+                                <div style="float: left; margin-left: 10px; margin-top: 10px;"><h3><span>Exam-{{ paper.testname }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Time Limit:{{ time }}</span></h3><div>Description-{{ paper.description }} Test Type-{{ paper.testtype }}</div></div><!-- for Exam Name -->
+                                    <input type="hidden" value="{{ time_limit }}" id="time_limit">
                                     <div class="exam_start">
                                         <input type="button" class="btn btn-info" value="Start" name="" id="start/submit" onclick="examFunction()">
                                     </div><!-- Button for Showing the Exam Paper -->
                             </div>
                         <div class="col-lg-12 unselectable" style="margin-top: 20px; width: 100%; color: black; display: none;" id="ExamDiv">
-                        {% for ques in get_ques %}
-                            {% if paper_type == 'objective' %}
+                            
+                            <div id="timer_section" class="align-items-center">
+                                        <div id="app"></div>
+                                    </div>
+                                <form method="POST" action="/showresult">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                {% for ques in get_ques %}
+                                {% if paper.testtype == 'objective' %}
+                                    <input value = "objective" type="hidden" name="objective">
                                 <div class="questions">
                                     <div><li class="ques"><span>{{ ques.ques_no }}-{{ ques.question }}</span></li></div>
-                                    <div><input type="radio" name="question1"  >{{ ques.op1 }}</div>
-                                    <div><input type="radio" name="question1" >{{ ques.op2 }}</div>
-                                    <div><input type="radio" name="question1" >{{ ques.op3 }}</div>
-                                    <div><input type="radio" name="question1" >{{ ques.op4 }}</div>
+                                    <input value = "{{ ques.ques_id }}" type="hidden" name="id_{{ ques.ques_id }}">
+                                    <div><input type="radio" name="Obj_option_{{ ques.ques_no }}" value="A">{{ ques.op1 }}</div>
+                                    <div><input type="radio" name="Obj_option_{{ ques.ques_no }}" value="B">{{ ques.op2 }}</div>
+                                    <div><input type="radio" name="Obj_option_{{ ques.ques_no }}" value="C">{{ ques.op3 }}</div>
+                                    <div><input type="radio" name="Obj_option_{{ ques.ques_no }}" value="D">{{ ques.op4 }}</div>
                                 </div>
-                               {% else %}
+                                {% else %}
                                 <div class="questions">
                                     <div><li class="ques"><span>{{ ques.ques_no }}-{{ ques.question }}</span></li></div>
                                     <div>
@@ -397,18 +414,16 @@ canvas {
                                           </button>
                                         </p>
                                         <div class="collapse" id="collapseExample_{{ ques.ques_no }}">
-                                            <textarea class="write_answer form-control" id="answer" placeholder="Write Your Answer Here..."></textarea>
+                                            <textarea class="write_answer form-control" id="answer" placeholder="Write Your Answer Here..." name="subj_{{ ques.ques_no }}"></textarea>
                                         </div>
                                     </div>  
                                 </div>
-                                {% endif %}
+                            {% endif %}
                         {% endfor %}
-                                <div><input type="submit" class="btn btn-success" value="Submit" name=""></div>
+                            {% endfor %}
+                                <div><input type="submit" class="btn btn-success" value="Submit" name="" onclick="return confirm('Are you sure?')"></div>
+                            </form>
                         </div>
-                        {% else %}
-                        <div class="col-lg-12" id="header" style="background-color: grey;color: white; margin-top: 10px; position: sticky; top: 0px;z-index: 996" >
-                                <div style="float: left; margin-left: 10px; margin-top: 10px;"><h3>No New Exam Uploaded!!</h3></div>
-                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -520,30 +535,123 @@ canvas {
                 T2.style.display = "block"; 
                         
                 /*timer*/
-                var timeoutHandle;
-                function countdown(minutes, seconds) {
-                    function tick() {
-                        var counter = document.getElementById("timer");
-                        counter.innerHTML =
-                            minutes.toString() + ":" + (seconds < 10 ? "0" : "") + String(seconds);
-                        seconds--;
-                        if (seconds >= 0) {
-                            timeoutHandle = setTimeout(tick, 1000);
-                        } else {
-                            if (minutes >= 1) {
-                                // countdown(mins-1);   never reach “00″ issue solved:Contributed by Victor Streithorst
-                                setTimeout(function () {
-                                    countdown(minutes - 1, 59);
-                                }, 1000);
-                            }
-                        }
-                        if (minutes == 0 && seconds == -1)
-                            alert("Time is up.....Exam has ended.");
-                    }
-                    tick();
+                // Credit: Mateusz Rybczonec
+
+                const FULL_DASH_ARRAY = 283;
+                const WARNING_THRESHOLD = 10;
+                const ALERT_THRESHOLD = 5;
+
+                const COLOR_CODES = {
+                  info: {
+                    color: "green"
+                  },
+                  warning: {
+                    color: "orange",
+                    threshold: WARNING_THRESHOLD
+                  },
+                  alert: {
+                    color: "red",
+                    threshold: ALERT_THRESHOLD
+                  }
+                };
+
+                const TIME_LIMIT = document.getElementById('time_limit').value;
+                let timePassed = 0;
+                let timeLeft = TIME_LIMIT;
+                let timerInterval = null;
+                let remainingPathColor = COLOR_CODES.info.color;
+
+                document.getElementById("app").innerHTML = `
+                <div class="base-timer">
+                  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <g class="base-timer__circle">
+                      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+                      <path
+                        id="base-timer-path-remaining"
+                        stroke-dasharray="283"
+                        class="base-timer__path-remaining ${remainingPathColor}"
+                        d="
+                          M 50, 50
+                          m -45, 0
+                          a 45,45 0 1,0 90,0
+                          a 45,45 0 1,0 -90,0
+                        "
+                      ></path>
+                    </g>
+                  </svg>
+                  <span id="base-timer-label" class="base-timer__label">${formatTime(
+                    timeLeft
+                  )}</span>
+                </div>
+                `;
+
+                startTimer();
+
+                function onTimesUp() {
+                  clearInterval(timerInterval);
+                  alert("Times up....Exam has ended..");
                 }
 
-                countdown(0, 10);
+                function startTimer() {
+                  timerInterval = setInterval(() => {
+                    timePassed = timePassed += 1;
+                    timeLeft = TIME_LIMIT - timePassed;
+                    document.getElementById("base-timer-label").innerHTML = formatTime(
+                      timeLeft
+                    );
+                    setCircleDasharray();
+                    setRemainingPathColor(timeLeft);
+
+                    if (timeLeft === 0) {
+                      onTimesUp();
+                    }
+                  }, 1000);
+                }
+
+                function formatTime(time) {
+                  const minutes = Math.floor(time / 60);
+                  let seconds = time % 60;
+
+                  if (seconds < 10) {
+                    seconds = `0${seconds}`;
+                  }
+
+                  return `${minutes}:${seconds}`;
+                }
+
+                function setRemainingPathColor(timeLeft) {
+                  const { alert, warning, info } = COLOR_CODES;
+                  if (timeLeft <= alert.threshold) {
+                    document
+                      .getElementById("base-timer-path-remaining")
+                      .classList.remove(warning.color);
+                    document
+                      .getElementById("base-timer-path-remaining")
+                      .classList.add(alert.color);
+                  } else if (timeLeft <= warning.threshold) {
+                    document
+                      .getElementById("base-timer-path-remaining")
+                      .classList.remove(info.color);
+                    document
+                      .getElementById("base-timer-path-remaining")
+                      .classList.add(warning.color);
+                  }
+                }
+
+                function calculateTimeFraction() {
+                  const rawTimeFraction = timeLeft / TIME_LIMIT;
+                  return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+                }
+
+                function setCircleDasharray() {
+                  const circleDasharray = `${(
+                    calculateTimeFraction() * FULL_DASH_ARRAY
+                  ).toFixed(0)} 283`;
+                  document
+                    .getElementById("base-timer-path-remaining")
+                    .setAttribute("stroke-dasharray", circleDasharray);
+                }
+
 
 
                 document.getElementById("start/submit").style.display = "none";
@@ -583,7 +691,7 @@ canvas {
           e.preventDefault();
       });
     </script>
-    <script type="text/javascript">
+<script type="text/javascript">
     function toggle_ques111() {
           var i = 0;
           var x = document.getElementById("collapseExample_"+arguments[i]);
