@@ -457,7 +457,7 @@ canvas {
                     document.getElementById("pre_exam_details").innerHTML = xhttp.responseText;
                 }
             };
-            xhttp.open("GET", "pre-exam.html", true);
+            xhttp.open("GET", "{{ url_for('pre_exam') }}", true);
             xhttp.send();
         }
 

@@ -1,16 +1,17 @@
-from flask import Flask, render_template, redirect, request, url_for, flash, json, session
-from datetime import datetime, date, timedelta
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user, current_user, logout_user, login_required, UserMixin
-from flask_wtf.csrf import CSRFProtect
-from flask_bcrypt import Bcrypt
-import re, math
 import os
-from flask_mail import Mail, Message
-from flask_assets import Bundle, Environment
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+import re
+from datetime import datetime, date, timedelta
+
 from dateutil import parser
+from flask import Flask, render_template, redirect, request, url_for, flash, json, session
+from flask_assets import Bundle, Environment
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, login_user, current_user, logout_user, login_required, UserMixin
+from flask_mail import Mail, Message
 from flask_marshmallow import Marshmallow
+from flask_sqlalchemy import SQLAlchemy
+from flask_wtf.csrf import CSRFProtect
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
@@ -130,7 +131,7 @@ class Paperdetails(db.Model, UserMixin):
     end_time = db.Column(db.String(60), nullable=False)
 
     def __repr__(self):
-        return f"Paperdetails('{self.testname}','{self.start_time}','{self.end_time}','{self.test_id}','{self.scheduled_date}','{self.semester}','{self.totaltime}','{self.description}'," \
+        return f"Paperdetails('{self.testname}','{self.college}','{self.branch}','{self.testtype}','{self.section}','{self.subject}','{self.start_time}','{self.end_time}','{self.test_id}','{self.scheduled_date}','{self.semester}','{self.totaltime}','{self.description}'," \
                f" {self.date_posted}) "
 
 
@@ -181,6 +182,43 @@ class QuestionSchema(ma.SQLAlchemySchema):
     op4 = ma.auto_field()
     obj_ans = ma.auto_field()
     ques_no = ma.auto_field()
+
+
+class ResultSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Result
+
+    result_id = ma.auto_field()
+    test_id = ma.auto_field()
+    user_id = ma.auto_field()
+    testtype = ma.auto_field()
+    attempted = ma.auto_field()
+    correct = ma.auto_field()
+    total_marks = ma.auto_field()
+    date_posted = ma.auto_field()
+    test_given = ma.auto_field()
+
+
+class PaperSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Paperdetails
+
+    test_id = ma.auto_field()
+    testname = ma.auto_field()
+    description = ma.auto_field()
+    college = ma.auto_field()
+    branch = ma.auto_field()
+    semester = ma.auto_field()
+    section = ma.auto_field()
+    subject = ma.auto_field()
+    totalques = ma.auto_field()
+    totaltime = ma.auto_field()
+    testtype = ma.auto_field()
+    date_posted = ma.auto_field()
+    user_id = ma.auto_field()
+    scheduled_date = ma.auto_field()
+    start_time = ma.auto_field()
+    end_time = ma.auto_field()
 
 
 def validate_username(username):
@@ -351,7 +389,7 @@ def student_login():
                                           Result.user_id.contains(current_user.id)).all()
                 if res:
                     check = False
-                    flash('You have already Given the test Thank You!!', 'primary')
+                    flash('You have Given the test Thank You!!', 'primary')
                     return render_template('student/student_login.html', check=check)
                 else:
                     time = i.totaltime
@@ -417,7 +455,7 @@ def showresult():
                 db.session.commit()
     print(sub_ans)
     flash('Thank You!!', 'primary')
-    return render_template('student/student_login.html', check=False)
+    return render_template('student/show_result.html')
 
 
 @app.route('/exam', methods=['GET', 'POST'])
@@ -429,7 +467,7 @@ def exam():
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    return render_template('student/profile.html')
+    return render_template('student/profile_new.html')
 
 
 @app.route('/faculty/main', methods=['GET', 'POST'])
@@ -563,25 +601,135 @@ def add_ques():
 
 @app.route('/show_result', methods=['POST'])
 def show_result():
-    global stu_id, stu_marks, stu_section, stu_semester, stu_name
-    stu_marks = []
+    global stu_id, stu_marks, stu_section, stu_semester, stu_name, stu_college, stu_branch,\
+        subj_testname, obj_testname, subj_subject, subj_stu_marks, subj_ques, obj_type, obj_ans,\
+        subj_ans, subj_date_posted, subj_duration, subj_type, obj_duration, obj_date_posted, obj_stu_marks,\
+        obj_subject, subj, obj, total_ques_subj, p, all_papers, obj_result, subj_result, subj_q, duration, subj_paper_date_posted, subj_paper_test_id
+
+    p = []
     student_id = request.form['student_id']
-    get_user = Users.query.filter_by(userid=student_id)
-    for id in get_user:
-        stu_id = id.id
-        stu_name = id.username
-        stu_semester = id.semester
-        stu_section = id.section
-    result = Result.query.filter_by(user_id=stu_id)
-    count = 0
-    for res in result:
-        count = count + 1
-        stu_marks.append(res.total_marks)
+    get_user = Users.query.filter(Users.userid.contains(student_id)).all()
+    if not get_user:
+        return json.dumps({'Please enter a valid User Id !'})
+    else:
+        for id in get_user:
+            stu_id = id.id
+            stu_name = id.username
+            stu_semester = id.semester
+            stu_section = id.section
+            stu_college = id.college
+            stu_branch = id.branch
+        result = Result.query.filter(Result.user_id.contains(stu_id)).all()
+        if not result:
+            # flash('This User did not given any test', 'danger')
+            return
+        else:
+            all_papers = []
+            obj_ans = []
+            total_ques_obj = ''
+            obj_subject = []
+            obj_testname = []
+            obj_ques = []
+            total_ques_subj = []
+            subj_subject = []
+            subj_testname = []
+            subj_ques = []
+            test_id = []
+            subj_stu_marks = []
+            obj_stu_marks = []
+            obj_date_posted = []
+            subj_date_posted = []
+            subj_ans = []
+            obj_result = []
+            subj_result = []
+            subj_q = []
+            duration = []
+            subj_paper_date_posted = []
+            subj_paper_test_id = []
+            for res in result:
+                test_id.append(res.test_id)
+            test_id = list(dict.fromkeys(test_id))
+            obj_type = 0
+            subj_type = 0
+            for r in range(0, len(test_id)):
+                papers = Paperdetails.query.filter(Paperdetails.test_id.contains(test_id[r])).all()
+                for p in papers:
+                    all_papers.append(p)
+                    if p.testtype == 'objective':
+                        obj = 'objective'
+                        obj_type += 1
+                        obj_res = Result.query.filter(Result.test_id.contains(p.test_id)).all()
+                        for r in obj_res:
+                            obj_result.append(r)
+                            obj_ans.append(r.attempted)
+                            obj_stu_marks.append(r.total_marks)
+                            obj_date_posted.append(r.date_posted)
+                        total_ques_obj = p.totalques
+                        obj_duration = p.totaltime
+                        if int(obj_duration) > 3600:
+                            obj_duration = "{0}Hour:{1}minute".format(int(int(obj_duration) / 3600),
+                                                                      int((int(int(obj_duration) % 3600)) / 60))
+                        else:
+                            obj_duration = "{0}Hour:{1}minute".format(0, int(int(obj_duration) / 60))
+                        obj_subject.append(p.subject)
+                        obj_testname.append(p.testname)
+                    else:
+                        subj_paper_test_id.append(p.test_id)
+                        subj_paper_date_posted.append(p.date_posted)
+                        subj = 'subjective'
+                        subj_type += 1
+                        subj_res = Result.query.filter(Result.test_id.contains(p.test_id)).all()
+                        # print(subj_res)
+                        for r in subj_res:
+                            subj_result.append(r)
+                            subj_ans.append(r.attempted)
+                            subj_stu_marks.append(r.total_marks)
+                            subj_date_posted.append(r.date_posted)
+                        total_ques_subj.append(p.totalques)
+                        subj_duration = p.totaltime
+                        if int(subj_duration) > 3600:
+                            subj_duration = "{0}Hour:{1}minute".format(int(int(subj_duration) / 3600),
+                                                                       int((int(int(subj_duration) % 3600)) / 60))
+                        else:
+                            subj_duration = "{0}Hour:{1}minute".format(0, int(int(subj_duration) / 60))
+                        duration.append(subj_duration)
+                        subj_subject.append(p.subject)
+                        subj_testname.append(p.testname)
+                        s_question = Questions.query.filter(Questions.test_id.contains(p.test_id)).all()
+                        for q in s_question:
+                            subj_ques.append(q.question)
+                            subj_q.append(q)
+    print(subj_paper_test_id)
+    # print(subj_result)
+    # print(subj_ques)
+    paper_schema = PaperSchema(many=True)
+    all_paper = paper_schema.dumps(all_papers)
+    all_paper_op = paper_schema.loads(all_paper)
+    # print(all_paper_op)
+    ques_schema = QuestionSchema(many=True)
+    subj_question = ques_schema.dumps(subj_q)
+    subj_question_op = ques_schema.loads(subj_question)
+    result_schema = ResultSchema(many=True)
+    subj_results = result_schema.dumps(subj_result)
+    subj_result_op = result_schema.loads(subj_results)
+    # ques = Questions.query.filter(Questions.test_id.like(1))
+    # schema = QuestionSchema(many=True)
+    # ques_output = schema.dumps(ques)
+    # ques_get = schema.loads(ques_output)
+    # print(p)
+    # print(subj_type)
+    # print(obj_type)
     stu_roll_no = student_id
-    print(stu_marks)
     return json.dumps(
-        {'status': 'OK', 'name': stu_name, 'rollno': stu_roll_no, 'semester': stu_semester, 'sec': stu_section,
-         'marks': stu_marks, 'count': count})
+        {'status': 'OK', 'name': stu_name, 'college': stu_college, 'branch': stu_branch,
+         'semester': stu_semester, 'section': stu_section, 'rollno': stu_roll_no,
+         'obj_testname': obj_testname, 'subj_testname': subj_testname, 'obj_subject': obj_subject,
+         'subj_subject': subj_subject, 'obj_ans': obj_ans, 'subj_ans': subj_ans, 'obj_marks': obj_stu_marks,
+         'subj_marks': subj_stu_marks, 'subj_date_posted': subj_date_posted, 'obj_date_posted': obj_date_posted,
+         'subj_ques': subj_ques, 'subj_duration': duration, 'obj_duration': obj_duration,
+         'obj_count': obj_type, 'subj_count': subj_type, 'subjective': subj, 'objective': obj,
+         'subj_ques_count': total_ques_subj, 'subj_result': subj_result_op, 'subjective_ques': subj_question_op,
+         'all_paper': all_paper_op, "paper_date": subj_paper_date_posted})
 
 
 @app.route('/register')
@@ -597,6 +745,11 @@ def register():
 @app.route('/student')
 def student():
     return render_template('student_register.html')
+
+
+@app.route('/pre_exam')
+def pre_exam():
+    return render_template('student/pre-exam_new.html')
 
 
 @app.route('/faculty')

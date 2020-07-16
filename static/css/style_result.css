@@ -8,8 +8,6 @@ body{
   
 }
 
-
-
 .header{
   margin: 0px;
   padding: 0px;
@@ -24,8 +22,7 @@ body{
   margin-top: 8px;
   padding: 0px;
   font-size: 40px;
-  marto
-   font-weight: 800; 
+   font-weight: 800;
    background: -webkit-linear-gradient(#708aff,#8e4fce);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -40,10 +37,6 @@ body{
 
 .header-content{
   color: #3958E4;
-}
-
-.header-content i{
-  
 }
 
 #backbtn{
@@ -71,17 +64,14 @@ body{
   font-size: 23px;
   color: #3958E4;
   width: 300px;
-  
+
 }
-
-
 .main_result{
   width: 100%;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 30px;
   padding: 0px;
 }
-
 .main_result h4{
   text-decoration: underline;
 }
@@ -89,7 +79,7 @@ body{
   margin: 0px;
   float: left;
   width: 64%;
-  height: 330px;
+  height: 400px;
   padding: 0px;
   background-color:  #e8dbff;
   border-left: 5px solid;
@@ -100,7 +90,7 @@ body{
 .main_result .right{
   float:right;
   width: 35%;
-  height: 330px;
+  height: 400px;
   padding: 0px;
   padding-top: 70px;
   margin: 0px;
@@ -108,7 +98,7 @@ body{
   border-left: 5px solid;
   border-image-source: linear-gradient(to bottom ,#708aff,#8e4fce);
   border-image-slice: 1;
- 
+
 }
 
 .left-result{
@@ -117,7 +107,7 @@ body{
   float: left;
   width: 45%;
   padding: 0;
-  
+
 }
 
 .right-result{
@@ -125,8 +115,6 @@ body{
   float:right;
   width: 45%;
   padding: 0px;
- 
- 
 }
 
 #clrfloat{
@@ -155,7 +143,6 @@ body{
   padding-top: 0px;
   max-width: 100%;
   /* background: #e8dbff; */
-  
   border-radius: 5px;
 }
 .main_result .form-result .form-control{
@@ -168,7 +155,6 @@ body{
   border-radius: 10px;
   outline: none;
 }
-
 .main_result .form-result .form-control2{
   font-size: 15px;
   padding-left: 12px;
@@ -179,13 +165,10 @@ body{
   width: 100%;
   border-radius: 10px;
 }
-
-
 .main_result .form-result h2{
   margin-top: 15px;
   color: black;
 }
-
 
 .main_result .form-control:focus{
   border-color:#2c1a44;
@@ -210,7 +193,7 @@ body{
   border-image-source: linear-gradient(to bottom ,#708aff,#8e4fce);
   border-image-slice: 1; */
 }
-.result-container table{
+/* .result-container table{
   width: 90%;
   margin: auto;
 }
@@ -222,7 +205,7 @@ body{
   padding-left: 10px;
   font-size: 17px;
 
-}
+} */
 
 
 
