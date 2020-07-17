@@ -1,7 +1,6 @@
 import os
 import re
 from datetime import datetime, date, timedelta
-
 from dateutil import parser
 from flask import Flask, render_template, redirect, request, url_for, flash, json, session
 from flask_assets import Bundle, Environment
