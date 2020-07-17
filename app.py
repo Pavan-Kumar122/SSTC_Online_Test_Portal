@@ -453,9 +453,8 @@ def showresult():
                                      attempted=sub_ans[i], date_posted=datetime.now(), test_given='Yes')
                 db.session.add(subj_result)
                 db.session.commit()
-    print(sub_ans)
     flash('Thank You!!', 'primary')
-    return render_template('student/show_result.html')
+    return render_template('student/redirect.html')
 
 
 @app.route('/exam', methods=['GET', 'POST'])
@@ -749,7 +748,7 @@ def student():
 
 @app.route('/pre_exam')
 def pre_exam():
-    return render_template('student/pre-exam_new.html')
+    return render_template('student/pre-exam.html')
 
 
 @app.route('/faculty')
