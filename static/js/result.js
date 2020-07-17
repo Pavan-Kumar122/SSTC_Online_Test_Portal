@@ -198,8 +198,8 @@ $(function(){
 				// setTimeout(function(){
        			//
     			// 	}, 5000);
-				$('#error').empty();
 				$('#show-results').hide();
+				$('#error').empty();
 				$('#error').show();
 				$('#error').append('Please Enter a valid User Id');
 				$('#error').hide(8000);
