@@ -335,24 +335,28 @@ def registerData():
             hashed_password = bcrypt.generate_password_hash(request.form['Fpassword']).decode('utf-8')
             vusername = validate_username(username=request.form['Fname'])
             vemail = validate_email(email=request.form['Femail'])
-            vuserid = validate_user_id(user_id=request.form['Fid'])
-            if vusername is None:
-                if vemail is None:
-                    if vuserid is None:
-                        user = Users(username=request.form['Fname'], userid=request.form['Fid'],
-                                     email=request.form['Femail'], branch=request.form['Fbranch'],
-                                     college=request.form['Fcollege'],
-                                     password=hashed_password, role='Faculty')
-                        db.session.add(user)
-                        db.session.commit()
-                        flash("Account Created! Please Log In", 'success')
-                        return redirect(url_for('index'))
+            Fid = request.form['Fid']
+            if len(str(Fid)) == 6:
+                vuserid = validate_user_id(user_id=request.form['Fid'])
+                if vusername is None:
+                    if vemail is None:
+                        if vuserid is None:
+                            user = Users(username=request.form['Fname'], userid=request.form['Fid'],
+                                         email=request.form['Femail'], branch=request.form['Fbranch'],
+                                         college=request.form['Fcollege'],
+                                         password=hashed_password, role='Faculty')
+                            db.session.add(user)
+                            db.session.commit()
+                            flash("Account Created! Please Log In", 'success')
+                            return redirect(url_for('index'))
+                        else:
+                            error = "User Id is Already Taken!"
                     else:
-                        error = "User Id is Already Taken!"
+                        error = "Email is Already Taken!"
                 else:
-                    error = "Email is Already Taken!"
+                    error = "Username Already Taken!!"
             else:
-                error = "Username Already Taken!!"
+                error = 'Please enter a valid User Id'
             return render_template('register.html', error=error)
     return redirect(url_for('register'))
 

@@ -19,7 +19,7 @@
 
     <div class="d-flex justify-content-center align-items-center login-container">
 
-        <form class="login-form text-center" method="POST">
+        <form class="login-form text-center" method="POST" autocomplete="off">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <img src="/static/assets/img/user.png" alt="userlogo" style="width: 100px;">
             <h2 class="mb-3 font-weight-light text-uppercase">Login</h2>
