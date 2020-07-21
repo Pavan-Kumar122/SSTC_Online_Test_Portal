@@ -26,6 +26,8 @@
           <div class="profile-card text-center">
           	<img class="img-fluid" src="/static/assets/img/profile_area/left.jpeg">
             <div class="profile-info">
+                <form action="" role="form" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 			<div>
 				<canvas id = "can">
 				</canvas>
@@ -33,11 +35,11 @@
 				</script>
 				<p>
 				<label for="files" class="btn" style="border-color: black; color: black;">Select Image</label>
-				      <input id="files" style="visibility:hidden; width: 0px;" multiple = "false" accept = "image/*" type="file" onchange="upload()">
+				      <input id="files" style="visibility:hidden; width: 0px;" multiple = "false" accept = "image/*" type="file" onchange="upload()" name="file">
 				</p>
 			</div>
 			<div style="text-align: center; margin-bottom: 15px;">
-				<div><input type="text" class="form-control" id="name" value="{{ current_user.username }}" name="" onkeyup="manage(this)"></div>
+				<div><input type="text" class="form-control" id="name" value="{{ current_user.username }}" name="stud_profile_name" onkeyup="manage(this)"></div>
 				<div><i>{{ current_user.role }}</i></div>
 				<div class="pw_change_section">
 					<div><b><u>Reset Password</u></b></div>
@@ -95,7 +97,7 @@
 					<div>2</div>
 					<div><b><u>Total Number Of Exam</u></b></div>
 					<div>5</div>
-					
+
 				</div>
 			</div>
             </div>
@@ -108,9 +110,11 @@
     	<div class="col-md-4">
     		<div style="margin-top: 30px;">
     				<div style=" margin-left: 25%;">
-					<input onclick="enable_disable()" type="button" class="btn btn-primary" value="Save" id="myButton1" style="width: 65px;"> 
-					
+
+					<input onclick="enable_disable()" type="button" class="btn btn-primary" value="Save" id="save_btn" style="width: 65px;">
+
 					<input onclick="disable_enable()" type="button" class="btn btn-primary" value="Edit" id="myButton2" style="width: 65px;margin-left: 10px">
+                            </form>
 				</div>
 			</div>
 		</div>

@@ -17,6 +17,7 @@ csrf = CSRFProtect(app)
 assets = Environment(app)
 css = Bundle('css/Fstyle.css', output='ques/main.css')
 assets.register('main_css', css)
+ALLOWED_IMAGE_EXTENSIONS = {'jpeg', 'png', 'jpg'}
 
 app.config['SECRET_KEY'] = b"\x07\x92\xde\xa5%YP\xf6\xd2\xb4\xad\x13," \
                            b"\x7f\x949\x89?'A\xb0\x9ep\x0f\x8b=\xfe\xef\x93\xf7:i\xe6\xba<_Y(" \
@@ -249,6 +250,11 @@ def findid(user_id):
         return 0
 
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
+
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def index():
@@ -457,7 +463,6 @@ def showresult():
                                      attempted=sub_ans[i], date_posted=datetime.now(), test_given='Yes')
                 db.session.add(subj_result)
                 db.session.commit()
-    flash('Thank You!!', 'primary')
     return render_template('student/redirect.html')
 
 
@@ -471,6 +476,23 @@ def exam():
 @login_required
 def profile():
     return render_template('student/profile_new.html')
+
+
+@app.route('/stud_prof_up', methods=['POST'])
+def update_student():
+    image_file = url_for('static', filename='Profile_pics/' + current_user.image_file)
+    stud_image = request.files.get('file')
+    print(stud_image)
+    stud_name = request.form['stud_profile_name']
+    vusername = validate_username(username=stud_name)
+    # vemail = validate_email(email=request.form['Semail'])
+    if allowed_file(image_file):
+        if vusername is None:
+            return json.dumps(dict(status='ok', iamge=image_file, image_file='right image'))
+        else:
+            return json.dumps(dict(status='Something Went Wrong'))
+    else:
+        return json.dumps(dict(image_file='Please upload images of .jpg, .jpeg, and .png !!'))
 
 
 @app.route('/faculty/main', methods=['GET', 'POST'])
@@ -570,7 +592,7 @@ def add_ques():
                                         semester=semester,
                                         section=section, subject=subject, totalques=total_ques, totaltime=duration,
                                         testtype=test_type, user_id=current_user.id, scheduled_date=scheduled_date,
-                                        start_time=st_time, end_time=en_time)
+                                        start_time=st_time, end_time=en_time, date_posted=datetime.now())
             db.session.add(test_details)
             db.session.commit()
             # current_test_id = Paperdetails.query.filter_by(test_id=current_user.id).first()
@@ -588,7 +610,7 @@ def add_ques():
                                         semester=semester,
                                         section=section, subject=subject, totalques=total_ques, totaltime=duration,
                                         testtype=test_type, user_id=current_user.id, scheduled_date=scheduled_date,
-                                        start_time=st_time, end_time=en_time)
+                                        start_time=st_time, end_time=en_time, date_posted=datetime.now())
             db.session.add(test_details)
             db.session.commit()
             # current_test_id = Paperdetails.query.filter_by(test_id=current_user.id).first()
@@ -604,9 +626,9 @@ def add_ques():
 
 @app.route('/show_result', methods=['POST'])
 def show_result():
-    global stu_id, stu_marks, stu_section, stu_semester, stu_name, stu_college, stu_branch,\
-        subj_testname, obj_testname, subj_subject, subj_stu_marks, subj_ques, obj_type, obj_ans,\
-        subj_ans, subj_date_posted, subj_duration, subj_type, obj_duration, obj_date_posted, obj_stu_marks,\
+    global stu_id, stu_marks, stu_section, stu_semester, stu_name, stu_college, stu_branch, \
+        subj_testname, obj_testname, subj_subject, subj_stu_marks, subj_ques, obj_type, obj_ans, \
+        subj_ans, subj_date_posted, subj_duration, subj_type, obj_duration, obj_date_posted, obj_stu_marks, \
         obj_subject, subj, obj, total_ques_subj, p, all_papers, obj_result, subj_result, subj_q, duration, subj_paper_date_posted, subj_paper_test_id
 
     p = []
@@ -624,8 +646,7 @@ def show_result():
             stu_branch = id.branch
         result = Result.query.filter(Result.user_id.contains(stu_id)).all()
         if not result:
-            # flash('This User did not given any test', 'danger')
-            return
+            return json.dumps({'No Results Found'})
         else:
             all_papers = []
             obj_ans = []
@@ -649,6 +670,8 @@ def show_result():
             duration = []
             subj_paper_date_posted = []
             subj_paper_test_id = []
+            obj = ""
+            obj_duration = ''
             for res in result:
                 test_id.append(res.test_id)
             test_id = list(dict.fromkeys(test_id))
@@ -670,10 +693,9 @@ def show_result():
                         total_ques_obj = p.totalques
                         obj_duration = p.totaltime
                         if int(obj_duration) > 3600:
-                            obj_duration = "{0}Hour:{1}minute".format(int(int(obj_duration) / 3600),
-                                                                      int((int(int(obj_duration) % 3600)) / 60))
+                            obj_duration = f"{int(int(obj_duration) / 3600)}Hour:{int((int(int(obj_duration) % 3600)) / 60)}minute"
                         else:
-                            obj_duration = "{0}Hour:{1}minute".format(0, int(int(obj_duration) / 60))
+                            obj_duration = f"{0}Hour:{int(int(obj_duration) / 60)}minute"
                         obj_subject.append(p.subject)
                         obj_testname.append(p.testname)
                     else:
@@ -702,37 +724,18 @@ def show_result():
                         for q in s_question:
                             subj_ques.append(q.question)
                             subj_q.append(q)
-    print(subj_paper_test_id)
-    # print(subj_result)
-    # print(subj_ques)
-    paper_schema = PaperSchema(many=True)
-    all_paper = paper_schema.dumps(all_papers)
-    all_paper_op = paper_schema.loads(all_paper)
-    # print(all_paper_op)
-    ques_schema = QuestionSchema(many=True)
-    subj_question = ques_schema.dumps(subj_q)
-    subj_question_op = ques_schema.loads(subj_question)
-    result_schema = ResultSchema(many=True)
-    subj_results = result_schema.dumps(subj_result)
-    subj_result_op = result_schema.loads(subj_results)
-    # ques = Questions.query.filter(Questions.test_id.like(1))
-    # schema = QuestionSchema(many=True)
-    # ques_output = schema.dumps(ques)
-    # ques_get = schema.loads(ques_output)
-    # print(p)
-    # print(subj_type)
-    # print(obj_type)
+    # paper_schema = PaperSchema(many=True)
+    # all_paper = paper_schema.dumps(all_papers)
+    # all_paper_op = paper_schema.loads(all_paper)
     stu_roll_no = student_id
     return json.dumps(
-        {'status': 'OK', 'name': stu_name, 'college': stu_college, 'branch': stu_branch,
-         'semester': stu_semester, 'section': stu_section, 'rollno': stu_roll_no,
-         'obj_testname': obj_testname, 'subj_testname': subj_testname, 'obj_subject': obj_subject,
-         'subj_subject': subj_subject, 'obj_ans': obj_ans, 'subj_ans': subj_ans, 'obj_marks': obj_stu_marks,
-         'subj_marks': subj_stu_marks, 'subj_date_posted': subj_date_posted, 'obj_date_posted': obj_date_posted,
-         'subj_ques': subj_ques, 'subj_duration': duration, 'obj_duration': obj_duration,
-         'obj_count': obj_type, 'subj_count': subj_type, 'subjective': subj, 'objective': obj,
-         'subj_ques_count': total_ques_subj, 'subj_result': subj_result_op, 'subjective_ques': subj_question_op,
-         'all_paper': all_paper_op, "paper_date": subj_paper_date_posted})
+        dict(status='OK', name=stu_name, college=stu_college, branch=stu_branch, semester=stu_semester,
+             section=stu_section, rollno=stu_roll_no, obj_testname=obj_testname, subj_testname=subj_testname,
+             obj_subject=obj_subject, subj_subject=subj_subject, obj_ans=obj_ans, subj_ans=subj_ans,
+             obj_marks=obj_stu_marks, subj_marks=subj_stu_marks, subj_date_posted=subj_date_posted,
+             obj_date_posted=obj_date_posted, subj_ques=subj_ques, subj_duration=duration, obj_duration=obj_duration,
+             obj_count=obj_type, subj_count=subj_type, subjective=subj, objective=obj, subj_ques_count=total_ques_subj,
+             paper_date=subj_paper_date_posted))
 
 
 @app.route('/register')
@@ -796,7 +799,7 @@ def newpassword(token):
         hashed_pwd = bcrypt.generate_password_hash(request.form['New_Password'])
         user.password = hashed_pwd
         db.session.commit()
-        flash('The Password has been Successfully Change! Please Log In')
+        flash('The Password has been Successfully Changed! Please Log In')
         return redirect(url_for('index'))
     return render_template('new_password.html')
 

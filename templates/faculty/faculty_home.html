@@ -482,38 +482,28 @@ background-color:gray;
 
               <div class="form-group ">
 
-                <div><input type="text" class="form-control1 " name="testname" placeholder="Enter Test Name"></div>
+                <div><input type="text" class="form-control1 " name="testname" placeholder="Enter Test Name" required></div>
               </div>
 
               <div class="form-group">
                 <div>
                   <textarea rows="4" name="description" id="" class="form-control1" placeholder="Description"
-                    style="padding-top: 5px; margin-bottom: 0px;"></textarea>
+                    style="padding-top: 5px; margin-bottom: 0px;" ></textarea>
                 </div>
               </div>
-{##}
-{#              <div class="form-group ">#}
-{#                <select class="form-control2 sem " name="college">#}
-{#                  <option>College</option>#}
-{#                  <option>SSGI (S1)</option>#}
-{#                  <option>SSEC (S2)</option>#}
-{##}
-{#                </select>#}
-{#              </div>#}
 
               <div id="left">
 
                   <div class="form-group ">
-                <select class="form-control2 sem " name="college">
+                <select class="form-control2 sem " name="college" required>
                   <option>College</option>
                   <option>SSGI (S1)</option>
                   <option>SSEC (S2)</option>
-
                 </select>
               </div>
 
                 <div class="form-group ">
-                  <select class="form-control2 sem" name="branch">
+                  <select class="form-control2 sem" name="branch" required>
                     <option>Select Branch</option>
                     <option>Computer Science Engineering</option>
                     <option>Electronics and Tele-Communicatiom</option>
@@ -524,21 +514,17 @@ background-color:gray;
                     <option>Mechanical Engineering</option>
                   </select>
                 </div>
-{##}
-{#                <div class="form-group">#}
-{#                  <input type="text" class="form-control2 " name="subject" placeholder="Subject">#}
-{#                </div>#}
                   <div>
                   <span class="input-label">Subject</span><br>
                 <div class="form-group">
-                  <input type="text" class="form-control2 " name="subject" placeholder="Subject">
+                  <input type="text" class="form-control2 " name="subject" placeholder="Subject" required>
                 </div>
               </div>
 
                 <div>
 
                   <span class="input-label">Semester</span><br>
-                  <div class="form-group checkbox-container">
+                  <div class="form-group checkbox-container"  required>
                     <table class="checktable">
                       <tr>
                         <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="1">&nbsp;1</span></td>
@@ -562,7 +548,7 @@ background-color:gray;
                 <div>
                   <span class="input-label">Section</span><br>
                   <div class="form-group checkbox-container ">
-                    <table class="checktable">
+                    <table class="checktable" required>
                       <tr id="sectionrow">
                         <td><span class="checkspan"><input type="checkbox" name="ques_section" value="A">&nbsp;A</span></td>
                         <td><span class="checkspan"><input type="checkbox" name="ques_section" value="B">&nbsp;B</span></td>
@@ -583,7 +569,7 @@ background-color:gray;
 
 
                 <div class="form-group ">
-                  <select class="form-control1" name="test_type">
+                  <select class="form-control1" name="test_type" required>
                     <option>Test type</option>
                     <option value="objective">Objective</option>
                     <option value="subjective">Subjective</option>
@@ -591,45 +577,28 @@ background-color:gray;
                 </div>
 
                 <div class="form-group ">
-                  <input type="text" class=" form-control2" name="total_ques" placeholder="Total Questions">
+                  <input type="text" class=" form-control2" name="total_ques" placeholder="Total Questions" required>
 
                 </div>
 
                 <div>
                   <span class="input-label">Exam Date</span><br>
                   <div class="form-group">
-                    <input type="date" id="examdate" class="form-control1" name="date">
+                    <input type="date" id="examdate" class="form-control1" name="date" required>
                   </div>
                 </div>
                   <div>
                   <span class="input-label">Start Time:</span><br>
                   <div class="form-group">
-                    <input type="datetime-local" id="" class="form-control1" name="start_time">
+                    <input type="datetime-local" id="" class="form-control1" name="start_time" required>
                   </div>
                 </div>
                 <div><br>
                   <span class="input-label">End Time</span><br>
                   <div class="form-group">
-                    <input type="datetime-local" id="" class="form-control1" name="end_time">
+                    <input type="datetime-local" id="" class="form-control1" name="end_time" required>
                   </div>
                 </div>
-{#                <div style="padding: 0;"><br>#}
-{#                  <span class="input-label">Duration:</span><br>#}
-{#                  <table class="durationtable">#}
-{#                    <tr>#}
-{#                      <td>#}
-{#                        <div class="form-group">#}
-{#                          <input type="text" class=" form-control2 " name="hour" placeholder="Hour" required>#}
-{#                        </div>#}
-{#                      </td>#}
-{#                      <td>#}
-{#                        <div class="form-group">#}
-{#                          <input type="text" class=" form-control2 " name="minute" placeholder="Minutes" value="0">#}
-{#                        </div>#}
-{#                      </td>#}
-{#                    </tr>#}
-{#                  </table>#}
-{#                </div>#}
 
                    <div>
                 <span class="input-label">Duration</span><br>
