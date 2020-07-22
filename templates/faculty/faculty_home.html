@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -8,10 +7,36 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="/static/css/style_faculty.css" />
-    <link rel="stylesheet" href="/static/css/style_result.css" />
+  <link rel="stylesheet" href="/static/css/style_result.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <!-- to prevent reload on enter -->
+  <script>
+    $("#input_sid").bind('keyup', function(event){ 
+  if(event.keyCode == 13){ 
+    event.preventDefault();
+    //$("#buttonSrch").click(); 
+    search(this.value);
+       }
+   });
+  </script>
+  <!-- to change profile picture on selecting a file -->
 
-
+  <!-- <script>
+    function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#update-img')
+                        .attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+  </script> -->
   <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc-logo.png" />
     <script src="/static/js/result.js"></script>
     <script>
@@ -19,18 +44,13 @@
           var i =0;
           var printContents = document.getElementById("printMe_"+arguments[i]).innerHTML;
           var originalContents = document.body.innerHTML;
-
           document.body.innerHTML = printContents;
-
           window.print();
-
           document.body.innerHTML = originalContents;
-
       }
-  </script>
-    <style>
-    @import "https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway:300,400";
-
+    </script>
+<style>
+@import "https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway:300,400";
 .tabs {
   left: 50%;
   font-family: "Raleway";
@@ -44,7 +64,6 @@
   min-width: 120px;
   height: auto;
 }
-
 .tabs input[name="tab-control"] {
   display: none;
 }
@@ -167,7 +186,6 @@
 .tabs input[name="tab-control"]:nth-of-type(1):checked ~ ul > li:nth-child(1) > label svg {
   fill: #428bff;
 }
-
 .tabs .btn-print{
   margin-top: 10px;
   font-size: 15px;
@@ -184,7 +202,6 @@
   border-radius: 15px;
   outline: none;
   background-color:#e4e4e4;
-
 }
 .tabs .btn-result:hover{
   outline: none;
@@ -193,10 +210,8 @@
 .tabs .btn-result:active{
   outline: none;
   font-size: 15px;
-background-color:gray;
-
+  background-color:gray;
 }
-
 .result-list{
   width: 100%;
   padding-top:9px;
@@ -210,26 +225,19 @@ background-color:gray;
 .rl-table{
   width: 100%;
 }
-/* .result-list table{
-
-}
-
-.obj-result{
-  width: 100%;
+.rl-number{
+  width: 30px;
   text-align: center;
-} */
-
+}
 .subj-ans{
   width: 100%;
   margin:0 auto 40px auto;
 }
-
 .subj-ans table{
   margin-top: 40px;
   width: 90%;
   margin: auto;
 }
-
 .subj-ans .obj-details{
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 500;
@@ -303,6 +311,57 @@ background-color:gray;
   .tabs ul li label svg {
     height: 1.5em;
   }
+  #show-results{
+    padding-bottom: 50px;
+  }
+  #show-results section{
+    width: auto;
+    overflow: scroll;
+  }
+  #show-results{
+    width: 100%;
+  }
+.btn-result{
+  margin: 5px auto;
+}
+  .result-list table,.result-list thead,.result-list tbody,.result-list th,.result-list td,.result-list tr { 
+    display: block;
+    text-align: center; 
+  }
+  .result-list .rl-number{
+    border-radius: 500px;
+    width: 30px;
+    padding-top: 2px;
+    height: 30px;
+    margin:1px auto 5px auto;
+    border: 2px solid black;
+  }
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.result-list thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+.tabs{
+  padding: 10px;
+  padding-bottom: 30px;
+}
+  .tabs .content {
+  margin-top: 30px;
+  width: 100%;
+}
+.result-list{
+  width: auto;
+  padding-top:9px;
+  background-color: #f3f3f3;
+  margin: 25px auto;
+  border: 2px solid gray;
+  min-height: 50px;
+  justify-content: center;
+  font-weight: 700;
+  overflow: scroll;
+} 
 }
 @media (max-width: 300px) {
   .tabs ul li label {
@@ -322,9 +381,7 @@ background-color:gray;
     display: block;
   }
 }
-  </style>
-
-
+</style>
 </head>
 
 <body>
@@ -346,7 +403,8 @@ background-color:gray;
           <div class="profile_data">
             <p class="name">{{ current_user.username }}</p>
             <p class="role">{{ current_user.branch }}</p>
-            <div class="btn">Update Profile</div>
+            <div class="btn" data-toggle="modal" data-target=".bd-example-modal-lg">Update Profile</div> 
+            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Update</button> -->         
           </div>
         </div>
         <ul class="siderbar_menu">
@@ -400,6 +458,63 @@ background-color:gray;
         <!-- ==========================================
          DATA WILL BE LOADED HERE.
          ========================================== -->
+         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal" >Close</button>
+                <div class="main-profile">
+                    <h3 class="text-center">Update Profile</h3>
+                    <form action="">
+                    <div class="img-container">
+                      <div class="text-center"><img src="{{ url_for('static', filename='Profile_pics/'+ current_user.image_file) }}" alt="" id="update-img"><br>
+                       
+                        <!-- <label class="custom-file-upload">
+                            <input type="file" onchange="readURL(this);">
+                            Choose New
+                        </label>
+                        -->
+                      <h4 class="text-center">Your Name</h4>
+                      <h5 class="text-center">Branch</h5>
+                      </div>
+                    </div>
+                     
+                    <div class="personal-details">
+                        <div class="form-group text-center">
+                      <label> <span class="label1">Name</span> <input type="text"></label>
+                        </div>
+    
+                        <div class="form-group text-center">
+                            <label><span class="label1">College</span> <input type="text"></label>
+                        </div>
+    
+                        <div class="form-group text-center">
+                            <label><span class="label1">Branch</span> <input type="text"></label>
+                        </div>
+                    </div>
+                
+                    <div class="college-details">
+                        <div class="form-group text-center">
+                            <label><span class="label1">User ID</span> <input type="text"></label>
+                        </div>
+    
+                        <div class="form-group text-center">
+                            <label><span class="label1">Email</span> <input type="text"></label>
+                        </div>
+    
+                        <div class="form-group text-center">
+                            <a href="{{ url_for('resetpassword') }}">Reset Password ?</a>
+                        </div>
+                        <br>
+                        <div class=" text-center">
+                            <input type="submit" class="btn-success" value="Update">
+                        </div>
+                    </div>
+                  </form>
+                </div>
+            </div>
+          </div>
+        </div>
+
         <div id="dashboard">
         {% if check == false %}
                     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -418,11 +533,12 @@ background-color:gray;
                     <h5>{{ posts.date_posted.strftime('%a-%Y-%m-%d') }} Time- {{ posts.date_posted.strftime('%I:%M %p') }}</h5>
                         <hr id="item_ruler">
                     {{ posts.description }}
-          <div id="show"><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow.svg" alt=""
+
+          <div id="show"><button class="btn-show" >Edit</button><button class="btn-show" >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
                                                                                                          id="read-more"></button> </div>
           <div class="dashboard-details" id="ques_content_{{ posts.test_id }}">
               <hr>
-              <h4 class="text-center text" style="font-weight: 700;">Question Paper</h4>
+              <h1 class="text-center text" class="qp" style="font-weight: 600; font-size: 15px;">Question Paper</h1>
               <table style="width:100%">
                 <tr>
                   <th>College-{{ posts.college }}</th>
@@ -443,7 +559,7 @@ background-color:gray;
                     <div class="dash-questions">
                       <p>
                         {% if posts.testtype == 'objective' %}
-                        <h4>Question-{{ question.ques_no }}</h4>
+                        <h4 class="dash-ques">Question-{{ question.ques_no }}</h4>
                        {{ question.question }}
                         <ol>
                           <li>{{ question.op1 }}</li>
@@ -452,7 +568,7 @@ background-color:gray;
                           <li>{{ question.op4 }}</li>
                         </ol>
                             {% else %}
-                            <h4>Question-{{ question.ques_no }}</h4>
+                            <h4 class="dash-ques">Question-{{ question.ques_no }}</h4>
                             {{ question.question }}
                             {% endif %}
                       </p>
@@ -462,7 +578,6 @@ background-color:gray;
                       {% endif %}
                   {% endfor %}
               </table>
-
             </div>
           </div>
             {% endfor %}
@@ -471,7 +586,6 @@ background-color:gray;
 
         <div id="new_test">
           <div class="login-container">
-
             <form class="new-form-test " action="/paper_data" method="POST">
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
               <br>
@@ -482,36 +596,35 @@ background-color:gray;
 
               <div class="form-group ">
 
-                <div><input type="text" class="form-control1 " name="testname" placeholder="Enter Test Name" required></div>
+                <div><input type="text" class="form-control2 " name="testname" placeholder="Enter Test Name" required></div>
               </div>
 
               <div class="form-group">
                 <div>
-                  <textarea rows="4" name="description" id="" class="form-control1" placeholder="Description"
-                    style="padding-top: 5px; margin-bottom: 0px;" ></textarea>
+                  <textarea rows="4" name="description" id="" class="form-control2" placeholder="Description"
+                    style="padding-top: 5px; margin-bottom: 0px;" required ></textarea>
                 </div>
               </div>
 
               <div id="left">
-
-                  <div class="form-group ">
+                <div class="form-group ">
                 <select class="form-control2 sem " name="college" required>
-                  <option>College</option>
-                  <option>SSGI (S1)</option>
-                  <option>SSEC (S2)</option>
+                  <option value="">College</option>
+                  <option value="SSGI (S1)">SSGI (S1)</option>
+                  <option value="SSEC (S2)">SSEC (S2)</option>
                 </select>
-              </div>
+                </div>
 
                 <div class="form-group ">
                   <select class="form-control2 sem" name="branch" required>
-                    <option>Select Branch</option>
-                    <option>Computer Science Engineering</option>
-                    <option>Electronics and Tele-Communicatiom</option>
-                    <option>Information Technology</option>
-                    <option>Electrical and Electronics Engineering</option>
-                    <option>Electrical engineering</option>
-                    <option>Civil Engineering</option>
-                    <option>Mechanical Engineering</option>
+                    <option value="">Select Branch</option>
+                    <option value="Computer Science Engineering">Computer Science Engineering</option>
+                    <option value="Electronics and Tele-Communicatiom">Electronics and Tele-Communicatiom</option>
+                    <option value="Information Technology">Information Technology</option>
+                    <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+                    <option value="Electrical engineering">Electrical engineering</option>
+                    <option value="Civil Engineering">Civil Engineering</option>
+                    <option value="Mechanical Engineering">Mechanical Engineering</option>
                   </select>
                 </div>
                   <div>
@@ -522,24 +635,22 @@ background-color:gray;
               </div>
 
                 <div>
-
                   <span class="input-label">Semester</span><br>
                   <div class="form-group checkbox-container"  required>
                     <table class="checktable">
                       <tr>
-                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="1">&nbsp;1</span></td>
-                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="2">&nbsp;2</span></td>
-                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="3">&nbsp;3</span></td>
-                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="4">&nbsp;4</span></td>
+                        <td><span class="checkspan">1&nbsp;<input type="checkbox" name="ques_semester" value="1"></span></td>
+                        <td><span class="checkspan">2&nbsp;<input type="checkbox" name="ques_semester" value="2"></span></td>
+                        <td><span class="checkspan">3&nbsp;<input type="checkbox" name="ques_semester" value="3"></span></td>
+                        <td><span class="checkspan">4&nbsp;<input type="checkbox" name="ques_semester" value="4"></span></td>
                       </tr>
                       <tr>
-                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="5">&nbsp;5</span></td>
-                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="6">&nbsp;6</span></td>
-                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="7">&nbsp;7</span></td>
-                        <td><span class="checkspan"><input type="checkbox" name="ques_semester" value="8">&nbsp;8</span></td>
+                        <td><span class="checkspan">5&nbsp;<input type="checkbox" name="ques_semester" value="5"></span></td>
+                        <td><span class="checkspan">6&nbsp;<input type="checkbox" name="ques_semester" value="6"></span></td>
+                        <td><span class="checkspan">7&nbsp;<input type="checkbox" name="ques_semester" value="7"></span></td>
+                        <td><span class="checkspan">8&nbsp;<input type="checkbox" name="ques_semester" value="8"></span></td>
                       </tr>
                       <tr>
-
                       </tr>
                     </table>
                   </div>
@@ -550,27 +661,20 @@ background-color:gray;
                   <div class="form-group checkbox-container ">
                     <table class="checktable" required>
                       <tr id="sectionrow">
-                        <td><span class="checkspan"><input type="checkbox" name="ques_section" value="A">&nbsp;A</span></td>
-                        <td><span class="checkspan"><input type="checkbox" name="ques_section" value="B">&nbsp;B</span></td>
-                        <td><span class="checkspan"><input type="checkbox" name="ques_section" value="C">&nbsp;C</span></td>
-                        <td><span class="checkspan"><input type="checkbox" name="ques_section" value="D">&nbsp;D</span></td>
+                        <td><span class="checkspan">A&nbsp;<input type="checkbox" name="ques_section" value="A"></span></td>
+                        <td><span class="checkspan">B&nbsp;<input type="checkbox" name="ques_section" value="B"></span></td>
+                        <td><span class="checkspan">C&nbsp;<input type="checkbox" name="ques_section" value="C"></span></td>
+                        <td><span class="checkspan">D&nbsp;<input type="checkbox" name="ques_section" value="D"></span></td>
                       </tr>
-
                     </table>
-
                   </div>
-
                 </div>
-
-
               </div>
 
               <div id="right">
-
-
                 <div class="form-group ">
                   <select class="form-control1" name="test_type" required>
-                    <option>Test type</option>
+                    <option value="">Test type</option>
                     <option value="objective">Objective</option>
                     <option value="subjective">Subjective</option>
                   </select>
@@ -584,23 +688,23 @@ background-color:gray;
                 <div>
                   <span class="input-label">Exam Date</span><br>
                   <div class="form-group">
-                    <input type="date" id="examdate" class="form-control1" name="date" required>
+                    <input type="date" id="examdate" class="form-control2" name="date" required>
                   </div>
                 </div>
                   <div>
                   <span class="input-label">Start Time:</span><br>
                   <div class="form-group">
-                    <input type="datetime-local" id="" class="form-control1" name="start_time" required>
+                    <input type="datetime-local" id="" class="form-control2" name="start_time" required>
                   </div>
                 </div>
                 <div><br>
                   <span class="input-label">End Time</span><br>
                   <div class="form-group">
-                    <input type="datetime-local" id="" class="form-control1" name="end_time" required>
+                    <input type="datetime-local" id="" class="form-control2" name="end_time" required>
                   </div>
                 </div>
 
-                   <div>
+                <div>
                 <span class="input-label">Duration</span><br>
                 <div class="form-group duration-container ">
                   <table class="durationtable">
@@ -609,28 +713,22 @@ background-color:gray;
                       <td><input type="text" name="hour" id="" required></td>
                         <td style="text-align: right;">Minutes</td>
                       <td><input type="text" name="minute" id="" value="0"></td>
-
                     </tr>
-
                   </table>
-
                 </div>
-
               </div>
               </div>
               <hr id="clrFloat">
-
-
               <div class="text-center">
                 <br>
                 <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
-                <input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Submit" name=""></div>
+                <input type="submit" onclick="return confirm('Do you want to submit?');" class="btn btn-success submit btn3 rounded-pill" value="Submit" name=""></div>
             </form>
           </div>
         </div>
+
         <div id="results_div">
             <div class="main_result">
-
             <div class="left">
               <form class="form-result text-center" role="form">
                 <h4>Search by Student Details</h4>
@@ -662,7 +760,6 @@ background-color:gray;
                       <option>6</option>
                       <option>7</option>
                       <option>8</option>
-
                     </select>
                   </div>
                   <div class="form-group">
@@ -681,7 +778,6 @@ background-color:gray;
                       <option>Electrical engineering</option>
                       <option>Civil Engineering</option>
                       <option>Mechanical Engineering</option>
-
                     </select>
                   </div>
                   <div class="form-group ">
@@ -697,21 +793,18 @@ background-color:gray;
                   </div>
                 </div>
                 <hr id="clrfloat">
-
                 <div>
                   <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
                   <button class="btn btn-success submit btn3 rounded-pill" type="button" id="result_btn">Submit</button>
                 </div>
               </form>
-
             </div>
 
             <div class="right form-group text-center">
-
               <form class="form-result text-center" action="" role="form">
                 <h4> Search by Student ID</h4><br>
                 <div class="form-group">
-                  <input type='text' placeholder='Enter Id' class="form-control" name="student_id">
+                  <input type='text' placeholder='Enter Id' class="form-control" id="input_sid" name="student_id">
                 </div>
 
                 <div>
@@ -723,53 +816,57 @@ background-color:gray;
             <hr>
             <br>
           </div>
-            <div id="error" style="display: none"></div>
-                          <div id="show-results">
+          <div id="error" style="display: none"></div>
+          <div id="show-results">
                 <div class="tabs">
-
                   <input type="radio" id="tab1" name="tab-control" checked>
                   <input type="radio" id="tab2" name="tab-control">
                   <ul>
                     <li title="Objective Result"><label for="tab1" role="button"><svg viewBox="0 0 24 24"><path d="M14,2A8,8 0 0,0 6,10A8,8 0 0,0 14,18A8,8 0 0,0 22,10H20C20,13.32 17.32,16 14,16A6,6 0 0,1 8,10A6,6 0 0,1 14,4C14.43,4 14.86,4.05 15.27,4.14L16.88,2.54C15.96,2.18 15,2 14,2M20.59,3.58L14,10.17L11.62,7.79L10.21,9.21L14,13L22,5M4.93,5.82C3.08,7.34 2,9.61 2,12A8,8 0 0,0 10,20C10.64,20 11.27,19.92 11.88,19.77C10.12,19.38 8.5,18.5 7.17,17.29C5.22,16.25 4,14.21 4,12C4,11.7 4.03,11.41 4.07,11.11C4.03,10.74 4,10.37 4,10C4,8.56 4.32,7.13 4.93,5.82Z"/>
-                </svg><br><span>Objective</span></label></li>
+                    </svg><br><span>Objective</span></label></li>
                     <li title="Subjective Result"><label for="tab2" role="button"><svg viewBox="0 0 24 24"><path d="M2,10.96C1.5,10.68 1.35,10.07 1.63,9.59L3.13,7C3.24,6.8 3.41,6.66 3.6,6.58L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.66,6.72 20.82,6.88 20.91,7.08L22.36,9.6C22.64,10.08 22.47,10.69 22,10.96L21,11.54V16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V10.96C2.7,11.13 2.32,11.14 2,10.96M12,4.15V4.15L12,10.85V10.85L17.96,7.5L12,4.15M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V12.69L14,15.59C13.67,15.77 13.3,15.76 13,15.6V19.29L19,15.91M13.85,13.36L20.13,9.73L19.55,8.72L13.27,12.35L13.85,13.36Z" />
-                </svg><br><span>Subjective</span></label></li>
-
+                    </svg><br><span>Subjective</span></label></li>
                   </ul>
-
                   <div class="slider"><div class="indicator"></div></div>
                   <div class="content">
                     <section style="font-family: Arial, Helvetica, sans-serif;">
                       <h2>Objective</h2>
                     <table border="1px" cellpadding="5px" cellspacing="0px" width="100%" class="text-center" id="obj_table">
-
-                 </table>
-                 <h3 style="text-align: center;"> <button class="btn-success btn-print">Print</button></h3>
-            </section>
-            <section class="subj-container">
-              <h2>Subjective</h2>
-          </section>
+                    </table>
+                    <h3 style="text-align: center;"> <button class="btn-success btn-print">Print</button></h3>
+                    </section>
+                    <section class="subj-container">
+                    <h2>Subjective</h2>
+                   </section>
                   </div>
                 </div>
-                </div>
+         </div>
         </div>
 
        <div id="feedback">
-          <div class="item">
+          <!-- <div class="item">
             <h3>Aman Verma</h3>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque nemo quaerat vel iure quam repudiandae tempora velit
-            sed ducimus obcaecati eum hic dignissimos porro, accusantium at
-            corrupti dolor aut non suscipit eveniet cumque quo culpa?
+          </div> -->
+          <div class="item">
+            <br>
+            <h3 class="text-center">Your valuable feedback</h3> <br>
+            <form action="" >
+              <div class="form-group">
+                <div>
+                  <textarea rows="8" name="feedback" id="" class="form-control2" placeholder="Enter your feedback here so that we can improve this website."
+                    style="padding: 5px 10px; margin-bottom: 5px; width: 95%;"></textarea>
+                </div>
+                <br>
+                <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
+                <input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Submit" name="">
+              </div>
+            </form>
           </div>
         </div>
         </div>
-
-
     </div>
   </div>
-
-  <!-- partial -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 {% endif %}
 
@@ -777,7 +874,6 @@ background-color:gray;
     <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
 {% endif %}
 </body>
-
 <script>
   $(document).ready(function () {
       $('.dashboard-details').hide();
@@ -801,7 +897,6 @@ background-color:gray;
     //   $('.wrapper').removeClass('active');
     // });
 
-
     //It will change the active tab on click.
     $(".siderbar_menu li a").click(function (ev) {
       $(".siderbar_menu li a").removeClass("active");
@@ -809,7 +904,7 @@ background-color:gray;
     });
   });
 
-  //-----To load container data--------------------------------------------
+  //-----To load container data------------------
 
   //for dash
   function dashboard() {
@@ -852,7 +947,6 @@ background-color:gray;
       $("#feedback").show();
 
     });
-
   }
 </script>
 <script type="text/javascript">
@@ -883,5 +977,4 @@ background-color:gray;
         }
       }
 </script>
-
 </html>
