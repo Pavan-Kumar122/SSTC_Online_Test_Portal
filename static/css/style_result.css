@@ -241,6 +241,10 @@ body{
 .main_result{
   margin-top: 10px;
 }
+.main_result h4{
+  font-size: 18px;
+  font-weight: 500;
+}
 .main_result .left{
    float: none;
    margin: auto;
@@ -250,11 +254,13 @@ body{
  }
 
  .main_result .right{
-   float: none;
-   margin: auto;
-   margin-top: 10px;
-   width: 90%;
- }
+  float: none;
+  margin: auto;
+  margin-top: 10px;
+  padding-top: 10px;
+  width: 90%;
+  height: 200px;
+}
 
  .ques-group{
    width: 90%;

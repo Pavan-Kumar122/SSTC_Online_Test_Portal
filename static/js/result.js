@@ -36,8 +36,8 @@ $(function(){
 					paper_list += '<div class="result-list">';
 					paper_list += '<table border="0x" class="rl-table">';
 					paper_list += '<tr>';
-					paper_list += '<td>&nbsp;' + e + '<td>';
-					paper_list += '<td>' + response.subj_testname[i] + '<td>';
+					paper_list += '<td class="rl-number">' + e + '<td>';
+					paper_list += '<td> Testname: ' + response.subj_testname[i] + '<td>';
 					paper_list += '<td>Total Questions -' + response.subj_ques_count[i] + ' <td>';
 					paper_list += '<td>Paper Date- ' + response.paper_date[i] + '<td>';
 					paper_list += '<td><button class="btn-result" style="width: 60px;" class=" btn-subj" onclick="show_ans('+i+')"><span>Show</span></button></td>';
@@ -46,7 +46,7 @@ $(function(){
 					paper_list += '</table>';
 					paper_list += '<div class="subj-ans" id="subj_'+i+'" style="display: none">';
 					paper_list += '<div id="printMe_'+i+'">';
-					paper_list += '<table border="2px" style="width:90%; margin-top: 50px;" class="text-center" id="subj_table">';
+					paper_list += '<table border="2px" style="width:90%; margin-top: 50px;" class="text-center  rl-table-details" id="subj_table">';
 					paper_list += '<tr>';
 					paper_list += '<td colspan="4"><h4 class="text-center text" style="font-weight: 700; margin: 15px auto 10px auto;">Answer Sheet</h4></td>';
 					paper_list += '</tr>';
@@ -98,6 +98,9 @@ $(function(){
 				$('#error').append('Please Enter a valid User Id');
 				$('#error').hide(8000);
 			}
+			
 		});
+
+		$('#input_sid').val(" ");
 	});
 });
