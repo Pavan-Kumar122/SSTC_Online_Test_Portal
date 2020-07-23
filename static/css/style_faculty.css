@@ -393,8 +393,38 @@ padding-top: 12px;
 }
 
 /* ======================Media Queries==================== */
+@media screen and (max-width: 1265px){
+  #logo{
+    font-size: 34px;
+    font-weight: 800;
+    margin: 0;
+    text-align: center;
+  }
+  #show{
+    margin: auto;
+    margin-left: 55%;  
+  }
 
-@media screen and (max-width: 800px){
+}
+@media screen and (max-width: 948px){
+  #logo{
+    font-size: 32px;
+    font-weight: 700;
+    margin: auto;
+  }
+  #show{
+    margin: auto;
+    margin-left: 45%;  
+  }
+  #show button{
+    width: 74px;
+    height: 35px;
+    margin: 2px;
+    text-align: center;
+  }
+
+}
+@media screen and (max-width: 768px){
   .wrapper .sidebar__inner{
     left: -100%;
   }
@@ -417,6 +447,25 @@ padding-top: 12px;
     visibility: visible;
     opacity: 0.7;
   }
+ 
+  #logo{
+    font-size: 35px;
+    font-weight: 700;
+    margin: 0;
+    margin-top: -5px;
+  }
+  #show{
+    margin: auto;
+    margin-left: 40%;  
+  }
+  #show button{
+    width: 74px;
+    height: 35px;
+    margin: 2px;
+    text-align: center;
+  }
+ 
+
 }
 
 @media screen and (max-width: 530px){
@@ -536,6 +585,26 @@ padding-top: 12px;
 }
 }
 
+@media screen and (max-width: 375px){
+  #logo{
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+  }
+  #show{
+    margin: 5px auto 0 auto;
+    text-align: center;  
+  }
+  #show button{
+    width: 40px;
+    height: 20px;
+    margin: 0 5px;
+  }
+
+}
+
+
 /* ==============================Update Profile========================= */
 .modal-content{
   height: 920px;
@@ -632,19 +701,55 @@ padding-top: 12px;
   margin-bottom: 20px;
   height: 33px;
 }
-
-@media only screen and (max-width: 991px) {
+@media screen and (max-width: 1265px){
   .modal-content{
-    height: 1100px;
+    width: 90%;
+    height: 920px;
+    margin: auto;
   }
+  .close-modal{
+    margin-top: 10px;
+    width: 60px;
+    font-size: 8px;
+    margin-left: 85%;
+  }
+
+}
+@media only screen and (max-width: 948px) {
+  
   .main-profile .form-group .label1{
    text-align: center; 
   }
+  .modal-content{
+    width: 90%;
+    height: 960px;
+    margin: auto;
+  }
+  .close-modal{
+    margin-top: 10px;
+    width: 60px;
+    font-size: 8px;
+    margin-left: 80%;
+  }
 }
+@media screen and (max-width: 768px){
+  .modal-content{
+    width: 90%;
+    height: 960px;
+    margin: auto;
+  }
+  .close-modal{
+    margin-top: 10px;
+    width: 60px;
+    font-size: 8px;
+    margin-left: 85%;
+  }
+}
+
 @media screen and (max-width: 530px){
   .modal-content{
     width: 90%;
-    height: 890px;
+    height: 850px;
     margin: auto;
   }
   .close-modal{
@@ -705,4 +810,18 @@ padding-top: 12px;
   font-size: 15px;
   border-radius: 5px;
 }
+}
+
+@media screen and (max-width: 375px){
+  .modal-content{
+    width: 90%;
+    height: 820px;
+    margin: auto;
+  }
+  .close-modal{
+    margin-top: 10px;
+    width: 60px;
+    font-size: 8px;
+    margin-left: 70%;
+  }
 }

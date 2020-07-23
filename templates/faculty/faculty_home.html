@@ -301,7 +301,82 @@
             transform: translateY(0%);
   }
 }
-@media (max-width: 500px) {
+@media (max-width: 1265px){
+  .result-list table,.result-list thead,.result-list tbody,.result-list th,.result-list td,.result-list tr { 
+    display: block;
+    text-align: center; 
+  }
+  .result-list .rl-number{
+    border-radius: 500px;
+    width: 30px;
+    padding-top: 2px;
+    height: 30px;
+    margin:1px auto 5px auto;
+    border: 2px solid black;
+  }
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.result-list thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+  }
+  .result-list .rl-table tr{
+    margin-bottom: 3px;
+  }
+
+}
+@media (max-width: 948px){
+  .result-list table,.result-list thead,.result-list tbody,.result-list th,.result-list td,.result-list tr { 
+    display: block;
+    text-align: center; 
+  }
+  .result-list .rl-number{
+    border-radius: 500px;
+    width: 30px;
+    padding-top: 2px;
+    height: 30px;
+    margin:1px auto 5px auto;
+    border: 2px solid black;
+  }
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.result-list thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+  }
+  .result-list .rl-table tr{
+    margin-bottom: 3px;
+  }
+}
+
+@media (max-width: 768px){
+  .result-list table,.result-list thead,.result-list tbody,.result-list th,.result-list td,.result-list tr { 
+    display: block;
+    text-align: center; 
+  }
+  .result-list .rl-number{
+    border-radius: 500px;
+    width: 30px;
+    padding-top: 2px;
+    height: 30px;
+    margin:1px auto 5px auto;
+    border: 2px solid black;
+  }
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.result-list thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+  }
+  .result-list .rl-table tr{
+    margin-bottom: 3px;
+  }
+}
+
+@media (max-width: 530px) {
   .tabs ul li label {
     white-space: initial;
   }
@@ -324,7 +399,7 @@
 .btn-result{
   margin: 5px auto;
 }
-  .result-list table,.result-list thead,.result-list tbody,.result-list th,.result-list td,.result-list tr { 
+  /* .result-list table,.result-list thead,.result-list tbody,.result-list th,.result-list td,.result-list tr { 
     display: block;
     text-align: center; 
   }
@@ -335,14 +410,14 @@
     height: 30px;
     margin:1px auto 5px auto;
     border: 2px solid black;
-  }
+  } */
 	
 	/* Hide table headers (but not display: none;, for accessibility) */
-	.result-list thead tr { 
+	/* .result-list thead tr { 
 		position: absolute;
 		top: -9999px;
 		left: -9999px;
-	}
+	} */
 .tabs{
   padding: 10px;
   padding-bottom: 30px;
@@ -770,7 +845,7 @@
                 <div class="right-result">
                   <div class="form-group ">
                     <select class="form-control" name="Rbranch">
-                      <option>Select Branch</option>
+                      <option>Branch</option>
                       <option>Computer Science Engineering</option>
                       <option>Electronics and Tele-Communicatiom</option>
                       <option>Information Technology</option>
