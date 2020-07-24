@@ -298,7 +298,7 @@ canvas {
 
 </head>
 
-<body>
+<body oncontextmenu="return false;">
 {% if current_user.is_authenticated and current_user.role == 'Student' %}
     <div class="wrapper">
         <!-- Sidebar  -->
@@ -450,6 +450,8 @@ canvas {
     <script>
         function pre_exam() 
         {
+
+
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() 
             {
@@ -504,31 +506,17 @@ canvas {
 
         $("#files").change(function() 
         {
-            filename = this.files[0].name;
+            filename = this.files[0].name
             console.log(filename);
         });
     </script>
 
     <!-- for disabling and enabling -->
-    <script>
-         function enable_disable()
-        {  $(function(){
-                        $.ajax({
-                            url: '/stud_prof_up',
-                            data: $('form').serialize(),
-                            type: 'POST',
-                            success: function(data){
-                                var response = JSON.parse(data);
-                                console.log(response)
-                            },
-                            error: function(error){
-                                console.log(error);
-                            }
-                        });
-                    });
-            $("#GFG :input").prop("disabled", true);
-        }
-
+    <script> 
+        function enable_disable() 
+        { 
+            $("#GFG :input").prop("disabled", true); 
+        } 
         function disable_enable() 
         { 
             $("#GFG :input").prop("disabled", false); 
@@ -543,6 +531,40 @@ canvas {
             var retVal = confirm("Do you want to start the exam ?");
             if( retVal == true ) 
             {
+
+                $(function () {  
+                        $(document).keydown(function (e) {  
+                            return (e.which || e.keyCode) != 116;  
+                        });  
+                    });
+
+                document.onkeydown = function() {    
+                    switch (event.keyCode) { 
+                        case 116 : //F5 button
+                            event.returnValue = false;
+                            event.keyCode = 0;
+                            return false; 
+                        case 82 : //R button
+                            if (event.ctrlKey) { 
+                                event.returnValue = false; 
+                                event.keyCode = 0;  
+                                return false; 
+                            } 
+                    }
+                }
+
+
+                var target = window; // this can be any scrollable element
+                var last_y = 0;
+                target.addEventListener('touchmove', function(e){
+                    var scrolly = target.pageYOffset || target.scrollTop || 0;
+                    var direction = e.changedTouches[0].pageY > last_y ? 1 : -1;
+                    if(direction>0 && scrolly===0){
+                        e.preventDefault();
+                    }
+                    last_y = event.changedTouches[0].pageY;
+                });
+
                 var T1 = document.getElementById("ExamDiv");
                 T1.style.display = "block";  
 
@@ -570,7 +592,7 @@ canvas {
                   }
                 };
 
-                const TIME_LIMIT = document.getElementById('time_limit').value;
+                const TIME_LIMIT = 20;
                 let timePassed = 0;
                 let timeLeft = TIME_LIMIT;
                 let timerInterval = null;
@@ -604,6 +626,7 @@ canvas {
 
                 function onTimesUp() {
                   clearInterval(timerInterval);
+                  window.location='redirect.html';
                   alert("Times up....Exam has ended..");
                 }
 
@@ -616,6 +639,7 @@ canvas {
                     );
                     setCircleDasharray();
                     setRemainingPathColor(timeLeft);
+
 
                     if (timeLeft === 0) {
                       onTimesUp();
@@ -683,18 +707,47 @@ canvas {
 
         $("#exam").on('click', function() 
         {
+            document.getElementById("pre_exam").style.background = "#00002d";
+            document.getElementById("pre_exam").style.color = "white";
+
+            document.getElementById("exam").style.background = "#ddd";
+            document.getElementById("exam").style.color = "black";
+
+            document.getElementById("profile").style.background = "#00002d";
+            document.getElementById("profile").style.color = "white";
+
+           
            $("#exam_details").show();
            $("#pre_exam_details,#profile_details").hide();
         });
 
         $("#pre_exam").on('click', function() 
         {
+            document.getElementById("pre_exam").style.background = "#ddd";
+            document.getElementById("pre_exam").style.color = "black";
+
+            document.getElementById("exam").style.background = "#00002d";
+            document.getElementById("exam").style.color = "white";
+
+            document.getElementById("profile").style.background = "#00002d";
+            document.getElementById("profile").style.color = "white";
+
            $("#pre_exam_details").show();
            $("#profile_details,#exam_details").hide();
         });
 
         $("#profile").on('click', function() 
         {
+            document.getElementById("pre_exam").style.background = "#00002d";
+            document.getElementById("pre_exam").style.color = "white";
+
+            document.getElementById("exam").style.background = "#00002d";
+            document.getElementById("exam").style.color = "white";
+
+            document.getElementById("profile").style.background = "#ddd";
+            document.getElementById("profile").style.color = "black";
+
+           
            $("#profile_details").show();
            $("#pre_exam_details,#exam_details").hide();
         });
@@ -706,17 +759,54 @@ canvas {
           e.preventDefault();
       });
     </script>
-<script type="text/javascript">
-    function toggle_ques111() {
-          var i = 0;
-          var x = document.getElementById("collapseExample_"+arguments[i]);
-          if (x.style.display === "none") {
-            x.style.display = "block";
-          } else {
-            x.style.display = "none";
+
+    <!-- console -->
+    <!-- <script language="JavaScript">
+      /**
+        * Disable right-click of mouse, F12 key, and save key combinations on page
+        * By Arthur Gareginyan (https://www.arthurgareginyan.com)
+        * For full source code, visit https://mycyberuniverse.com
+        */
+      window.onload = function() {
+        document.addEventListener("contextmenu", function(e){
+          e.preventDefault();
+        }, false);
+        document.addEventListener("keydown", function(e) {
+        //document.onkeydown = function(e) {
+          // "I" key
+          if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+            disabledEvent(e);
           }
+          // "J" key
+          if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+            disabledEvent(e);
+          }
+          // "S" key + macOS
+          if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+            disabledEvent(e);
+          }
+          // "U" key
+          if (e.ctrlKey && e.keyCode == 85) {
+            disabledEvent(e);
+          }
+          // "F12" key
+          if (event.keyCode == 123) {
+            disabledEvent(e);
+          }
+        }, false);
+        function disabledEvent(e){
+          if (e.stopPropagation){
+            e.stopPropagation();
+          } else if (window.event){
+            window.event.cancelBubble = true;
+          }
+          e.preventDefault();
+          return false;
         }
-</script>
+      };
+    </script> -->
+
+    
 {% else %}
     <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
 {% endif %}

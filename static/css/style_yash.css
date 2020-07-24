@@ -314,11 +314,12 @@
     margin-top: 10px;
 }
 
-#csvtuRollNo, #branch, #section, #email, #clg, #sem, #clsRollNo {
+#csvtuRollNo, #name, #branch, #section, #email, #clg, #sem, #clsRollNo {
         width: 100%;
         margin-right: 0px;
         margin-bottom: 10px;
         border-color: grey;
+        text-align: center;
     }
 
 #img {
@@ -332,14 +333,6 @@
     margin-top: 25px;
 }
 
-#name {
-    width: 210px;
-    margin: auto;
-    text-align: center;
-    margin-bottom: 10px;
-    border-color: grey;
-}
-
 .head {
     color: white;
 }
@@ -347,7 +340,7 @@
 .pw_change_section {
     font-size: 20px;
     color: black;
-    margin-top: 60px;
+    margin-top: 190px;
 }
 
 .header {
@@ -479,16 +472,26 @@ img {
   for profile.html (starts)
 ============================*/
 
-@media only screen and (max-width: 320px) {
+
+.button-section {
+  margin-left: 80px;
+  margin-top: 30px;
+}
+
+.profile-box1 {
+    margin-top: -65px;
+}
+
+@media only screen and (max-width: 580px) {
     .profile-card.text-center {
         margin-left: -30px;
     }
 }
 
  /* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
+@media only screen and (min-width: 580px) {
     .profile-card.text-center {
-        margin-left: -30px;
+        margin-left: 15%;
     }
 }
 
@@ -509,7 +512,7 @@ img {
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-        
+           
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
@@ -522,7 +525,11 @@ img {
     .profile-card {
         margin-left: 5%;
     }
-}
+
+    .profile-box {
+        margin-top: -65px;
+    }
+
 } 
 
 /*==========================
@@ -727,7 +734,7 @@ span
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
+      font-size: 4.8vw;
     }
 
     .detail {
@@ -736,7 +743,7 @@ span
     }
 
     .table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
-        border: 2px solid black;
+        border: 2px solid lightgrey;
     }
 
     .ques_heading {
@@ -748,12 +755,6 @@ span
         background-color: #cccccc;
         width: 119%;
         margin-left: -10%;
-    }
-
-    .seperate {
-        width: 99%;
-        height: 2px;
-        background-color: grey
     }
 }
 
@@ -860,31 +861,98 @@ span
     margin-bottom: 10px;
 }
 
+#GFG {
+  text-align: center;
+  float: left;
+}
 
-/*==========================
-      redirect section
-==========================*/
+@media only screen and (max-width: 768px) {
+  #can {
+    margin-left: 5px;
+  }
+}
 
- .result_header {
-    width: 100%;
-    margin-top: 20px;
-    height: 95px;
-    background-color: #f7f7f7;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
- }
+@media only screen and (min-width: 768px) {
+  #can {
+  margin-left: -45px;
+  }
+}
 
- .result_timer {
-    font-family: 'Oswald', sans-serif; font-size: 40px;
-    margin-top: 30px; 
-    text-align: center;
- }
+@media screen and (min-width: 1200px) {
 
- .result_table {
-    width: 60%;
-    height: auto; 
-    margin-top: 50px;
-    background-color: #f7f7f7;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); 
-    margin-left: 20%;
-    border-radius: 15px;
- }
+  #can {
+    margin-left: -65px;
+  }
+
+
+
+
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+h1 {
+  margin: 0 0 30px 0;
+  text-align: center;
+}
+
+input,
+select {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  font-size: 16px;
+  height: auto;
+  margin: 0;
+  outline: 0;
+  padding: 15px;
+  width: 100%;
+  background-color: white;
+  color: #8a97a0;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+  margin-bottom: 30px;
+  text-align: center;
+
+}
+
+select {
+  padding: 6px;
+  height: 32px;
+  border-radius: 2px;
+}
+
+fieldset {
+  margin-bottom: 30px;
+  border: none;
+}
+
+legend {
+  font-size: 1.4em;
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+label.light {
+  font-weight: 300;
+  display: inline;
+}
+
+.number {
+  background-color: #5fcf80;
+  color: #fff;
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  font-size: 0.8em;
+  margin-right: 4px;
+  line-height: 30px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+  border-radius: 100%;
+}
