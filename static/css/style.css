@@ -6,6 +6,9 @@ body{
   height: 100vh;
   margin: 0;
   padding: 0;
+  background-image: url('/static/assets/img/back.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .main{
   padding: 0;
