@@ -109,7 +109,7 @@ class Users(db.Model, UserMixin):
         return Users.query.get(user_id)
 
     def __repr__(self):
-        return f"Users('{self.role}','{self.username}', '{self.userid}', '{self.rollno}', '{self.email}'," \
+        return f"Users('{self.role}','{self.username}', '{self.userid}', '{self.rollno}','{self.id}', '{self.email}'," \
                f" '{self.branch}', '{self.semester}', '{self.college}', '{self.image_file}') "
 
 
@@ -167,6 +167,13 @@ class Result(db.Model, UserMixin):
     def __repr__(self):
         return f"Result('{self.result_id}','{self.test_id}','{self.test_given}','{self.user_id}','{self.testtype}', '{self.attempted}', '{self.correct}', '{self.total_marks}'," \
                f" '{self.date_posted}') "
+
+
+class SaveFeedBack(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20))
+    feedback = db.Column(db.String(20))
+    date_posted = db.Column(db.DateTime, default=datetime.now())
 
 
 class QuestionSchema(ma.SQLAlchemySchema):
@@ -481,18 +488,8 @@ def profile():
 @app.route('/stud_prof_up', methods=['POST'])
 def update_student():
     image_file = url_for('static', filename='Profile_pics/' + current_user.image_file)
-    stud_image = request.files.get('file')
-    print(stud_image)
-    stud_name = request.form['stud_profile_name']
-    vusername = validate_username(username=stud_name)
-    # vemail = validate_email(email=request.form['Semail'])
-    if allowed_file(image_file):
-        if vusername is None:
-            return json.dumps(dict(status='ok', iamge=image_file, image_file='right image'))
-        else:
-            return json.dumps(dict(status='Something Went Wrong'))
-    else:
-        return json.dumps(dict(image_file='Please upload images of .jpg, .jpeg, and .png !!'))
+    stud_name = request.form['csvtuRollNo']
+    return json.dumps(dict(status='col-1'))
 
 
 @app.route('/faculty/main', methods=['GET', 'POST'])
@@ -500,6 +497,13 @@ def update_student():
 def faculty_login():
     global post
     time = ""
+    if request.method == 'POST':
+        current_user.username = request.form['fac_username']
+        current_user.college = request.form['fac_college']
+        current_user.branch = request.form['fac_branch']
+        current_user.userid = request.form['fac_userid']
+        current_user.email = request.form['fac_email']
+        db.session.commit()
     ques = Questions.query.filter_by(user_id=current_user.id).all()
     faculty_post = Paperdetails.query.filter_by(user_id=current_user.id)
     for f in faculty_post:
@@ -516,6 +520,19 @@ def faculty_login():
         return render_template('faculty/faculty_home.html', check=check)
     else:
         return render_template('faculty/faculty_home.html', post=faculty_post, ques=ques)
+
+
+@app.route('/feedback', methods=['POST', 'GET'])
+def Feedback():
+    feed = request.form['feedback']
+    print(feed)
+    if feed == '':
+        return json.dumps(dict(empty='yes'))
+    else:
+        set_feed = SaveFeedBack(username=current_user.username, feedback=feed, date_posted=datetime.now())
+        db.session.add(set_feed)
+        db.session.commit()
+        return json.dumps(dict(status='Right'))
 
 
 @app.route('/paper_data', methods=['GET', 'POST'])
@@ -672,6 +689,7 @@ def show_result():
             subj_paper_test_id = []
             obj = ""
             obj_duration = ''
+            subj = " "
             for res in result:
                 test_id.append(res.test_id)
             test_id = list(dict.fromkeys(test_id))

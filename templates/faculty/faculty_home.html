@@ -13,30 +13,7 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  <!-- to prevent reload on enter -->
-  <script>
-    $("#input_sid").bind('keyup', function(event){ 
-  if(event.keyCode == 13){ 
-    event.preventDefault();
-    //$("#buttonSrch").click(); 
-    search(this.value);
-       }
-   });
-  </script>
-  <!-- to change profile picture on selecting a file -->
 
-  <!-- <script>
-    function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#update-img')
-                        .attr('src', e.target.result);
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-  </script> -->
   <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc-logo.png" />
     <script src="/static/js/result.js"></script>
     <script>
@@ -534,62 +511,62 @@
          DATA WILL BE LOADED HERE.
          ========================================== -->
          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal" >Close</button>
-                <div class="main-profile">
-                    <h3 class="text-center">Update Profile</h3>
-                    <form action="">
-                    <div class="img-container">
-                      <div class="text-center"><img src="{{ url_for('static', filename='Profile_pics/'+ current_user.image_file) }}" alt="" id="update-img"><br>
-                       
-                        <!-- <label class="custom-file-upload">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
+                            <div class="main-profile">
+                                <h3 class="text-center">Update Profile</h3>
+                                <form action="" method="POST">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                    <div class="img-container">
+                                        <div class="text-center"><img src="{{ url_for('static', filename='Profile_pics/'+ current_user.image_file) }}" alt="" id="update-img"><br>
+
+                                            <!-- <label class="custom-file-upload">
                             <input type="file" onchange="readURL(this);">
                             Choose New
                         </label>
                         -->
-                      <h4 class="text-center">Your Name</h4>
-                      <h5 class="text-center">Branch</h5>
-                      </div>
-                    </div>
-                     
-                    <div class="personal-details">
-                        <div class="form-group text-center">
-                      <label> <span class="label1">Name</span> <input type="text"></label>
-                        </div>
-    
-                        <div class="form-group text-center">
-                            <label><span class="label1">College</span> <input type="text"></label>
-                        </div>
-    
-                        <div class="form-group text-center">
-                            <label><span class="label1">Branch</span> <input type="text"></label>
-                        </div>
-                    </div>
-                
-                    <div class="college-details">
-                        <div class="form-group text-center">
-                            <label><span class="label1">User ID</span> <input type="text"></label>
-                        </div>
-    
-                        <div class="form-group text-center">
-                            <label><span class="label1">Email</span> <input type="text"></label>
-                        </div>
-    
-                        <div class="form-group text-center">
-                            <a href="{{ url_for('resetpassword') }}">Reset Password ?</a>
-                        </div>
-                        <br>
-                        <div class=" text-center">
-                            <input type="submit" class="btn-success" value="Update">
-                        </div>
-                    </div>
-                  </form>
-                </div>
-            </div>
-          </div>
-        </div>
+                                            <h4 class="text-center">{{ current_user.username }}</h4>
+                                            <h5 class="text-center">{{ current_user.role }}</h5>
+                                        </div>
+                                    </div>
 
+                                    <div class="personal-details">
+                                        <div class="form-group text-center">
+                                            <label> <span class="label1">Name</span> <input type="text" value="{{ current_user.username }}" name="fac_username"></label>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <label><span class="label1">College</span> <input type="text" value="{{ current_user.college }}" name="fac_college"></label>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <label><span class="label1">Branch</span> <input type="text" value="{{ current_user.branch }}" name="fac_branch"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="college-details">
+                                        <div class="form-group text-center">
+                                            <label><span class="label1">User ID</span> <input type="text" value="{{ current_user.userid }}" name="fac_userid"></label>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <label><span class="label1">Email</span> <input type="text" value="{{ current_user.email }}" name="fac_email"></label>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <a href="{{ url_for('resetpassword') }}">Reset Password ?</a>
+                                        </div>
+                                        <br>
+                                        <div class=" text-center">
+                                            <input type="submit" class="btn-success" value="Update" onclick="return confirm('Press OK to confirm / Cancel to update again !!')" id="update_button">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         <div id="dashboard">
         {% if check == false %}
                     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -605,7 +582,7 @@
             {% for posts in post %}
           <div class="item">
                       <h3>{{ posts.testname }}</h3>
-                    <h5>{{ posts.date_posted.strftime('%a-%Y-%m-%d') }} Time- {{ posts.date_posted.strftime('%I:%M %p') }}</h5>
+                    <h5>Date Posted:- {{ posts.date_posted.strftime('%a-%Y-%m-%d') }} Time- {{ posts.date_posted.strftime('%I:%M %p') }}<br>Scheduled Date:- {{ posts.scheduled_date }}</h5>
                         <hr id="item_ruler">
                     {{ posts.description }}
 
@@ -876,7 +853,7 @@
             </div>
 
             <div class="right form-group text-center">
-              <form class="form-result text-center" action="" role="form">
+              <form class="form-result text-center" action="" role="form" onsubmit="return false;">
                 <h4> Search by Student ID</h4><br>
                 <div class="form-group">
                   <input type='text' placeholder='Enter Id' class="form-control" id="input_sid" name="student_id">
@@ -919,25 +896,23 @@
         </div>
 
        <div id="feedback">
-          <!-- <div class="item">
-            <h3>Aman Verma</h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          </div> -->
           <div class="item">
             <br>
             <h3 class="text-center">Your valuable feedback</h3> <br>
-            <form action="" >
+            <form action="/feedback" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
               <div class="form-group">
                 <div>
-                  <textarea rows="8" name="feedback" id="" class="form-control2" placeholder="Enter your feedback here so that we can improve this website."
+                  <textarea rows="8" name="feedback" id="feedback" class="form-control2 clear" placeholder="Enter your feedback here so that we can improve this website."
                     style="padding: 5px 10px; margin-bottom: 5px; width: 95%;"></textarea>
                 </div>
                 <br>
                 <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
-                <input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Submit" name="">
+                <input type="button" class="btn btn-success submit btn3 rounded-pill" value="Submit" name="" id="feedback_btn">
               </div>
             </form>
           </div>
+           <div id="feed" style="display: none" class="alert-info"></div>
         </div>
         </div>
     </div>
@@ -958,6 +933,7 @@
     $("#new_test").hide();
     $("#results_div").hide();
     $("#feedback").hide();
+
 
     //To show and hide menu button
     $(".hamburger .fas").click(function () {
@@ -1026,7 +1002,7 @@
 </script>
 <script type="text/javascript">
     function toggle_ques111() {
-          var i = 0;
+          var i = 1;
           var x = document.getElementById("ques_content_"+arguments[i]);
           if (x.style.display === "none") {
             x.style.display = "block";
@@ -1051,5 +1027,40 @@
           x.style.display = "none";
         }
       }
+</script>
+<script type="text/javascript">
+    $(function(){
+	$('#feedback_btn').click(function(){
+
+		$.ajax({
+			url: '/feedback',
+			data: $('form').serialize(),
+			type: 'POST',
+			success: function(data){
+				var response = JSON.parse(data);
+                console.log(response.valueOf());
+                if (response.empty) {
+                    $('.clear').val('');
+                $('#feed').empty();
+				$('#feed').show();
+				$('#feed').append('Please Write Someting !!');
+				$('#feed').hide(8000);
+                }else {
+                    $('.clear').val('');
+                $('#feed').empty();
+				$('#feed').show();
+				$('#feed').append('Thank You for your valuable feedback!!');
+				$('#feed').hide(8000);
+                }
+
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+
+	});
+});
+
 </script>
 </html>

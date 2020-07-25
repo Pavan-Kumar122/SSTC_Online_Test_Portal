@@ -298,7 +298,7 @@ canvas {
 
 </head>
 
-<body oncontextmenu="return false;">
+<body> {#oncontextmenu="return false;"#}
 {% if current_user.is_authenticated and current_user.role == 'Student' %}
     <div class="wrapper">
         <!-- Sidebar  -->
@@ -421,7 +421,7 @@ canvas {
                             {% endif %}
                         {% endfor %}
                             {% endfor %}
-                                <div><input type="submit" class="btn btn-success" value="Submit" name="" onclick="return confirm('Are you sure?')"></div>
+                                <div><input type="submit" class="btn btn-success" value="Submit" name="" onclick="return confirm('Are you sure?')" style="width: 100px"></div>
                             </form>
                         </div>
                         {% endif %}
@@ -592,7 +592,7 @@ canvas {
                   }
                 };
 
-                const TIME_LIMIT = 20;
+                const TIME_LIMIT = {{ time_limit }};
                 let timePassed = 0;
                 let timeLeft = TIME_LIMIT;
                 let timerInterval = null;
@@ -626,7 +626,7 @@ canvas {
 
                 function onTimesUp() {
                   clearInterval(timerInterval);
-                  window.location='redirect.html';
+                  window.location='{{ url_for('showresult') }}';
                   alert("Times up....Exam has ended..");
                 }
 
@@ -755,12 +755,24 @@ canvas {
 
     <!-- cut copy paste disable -->
     <script>
-         $('#answer').bind("cut copy paste",function(e) {
-          e.preventDefault();
-      });
+    $(document).ready(function() {
+        $('#answer').bind("cut copy paste", function (e) {
+            e.preventDefault();
+        });
+    });
     </script>
-
-    <!-- console -->
+  <script type="text/javascript">
+    function toggle_ques111() {
+          var i = 0;
+          var x = document.getElementById("collapseExample_"+arguments[i]);
+          if (x.style.display === "none") {
+            x.style.display = "block";
+          } else {
+            x.style.display = "none";
+          }
+        }
+</script>
+<!-- console -->
     <!-- <script language="JavaScript">
       /**
         * Disable right-click of mouse, F12 key, and save key combinations on page
@@ -805,7 +817,6 @@ canvas {
         }
       };
     </script> -->
-
     
 {% else %}
     <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>

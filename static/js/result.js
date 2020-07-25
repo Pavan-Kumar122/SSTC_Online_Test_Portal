@@ -9,15 +9,7 @@ $(function(){
 				var subjective_result = response.subj_result;
 				var subjective_questions = response.subjective_ques;
 				var papers = response.all_paper;
-				// var obj = $.extend({}, subjective_questions, subjective_result);
-				// console.log(obj);
-				// $.each(z, function (i,v) {
-				// 		console.log(v.testtype);
-				// });
-				// console.log(subjective_questions, subjective_result, papers);
-				// $.each(papers, function (i,v) {
-				// 	console.log(v.testtype);
-				// });
+				$('#obj_table tr').remove();
 				if (response.objective){
 					$('#obj_table').append('<tr><th colspan="3">College-'+ response.college +'</th><th colspan="2">Semester- '+response.semester+'th</th><th colspan="2">Section- '+response.section+'</th></tr>');
 					$('#obj_table').append('<tr><th colspan="3">Name- '+response.name+'</th><th colspan="2">Branch- '+response.branch+'</th><th colspan="2">Roll Number- '+response.rollno+'</th></tr>');
@@ -28,6 +20,7 @@ $(function(){
 						j = j+ 1;
 					}
 				}
+
 				let e = 1;
 				let c = 1;
 				let count = 0;
@@ -98,9 +91,8 @@ $(function(){
 				$('#error').append('Please Enter a valid User Id');
 				$('#error').hide(8000);
 			}
-			
 		});
+				$('.result-list').remove();
 
-		$('#input_sid').val(" ");
 	});
 });
