@@ -121,8 +121,9 @@ label.light {
 </head>
 <body>
 
-      <form class="profile-form" method="post">
-      	 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      <form class="profile-form" role="form" action="" method="post">
+      	 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <input type="hidden" name="hide" value="1">
       	<div class="col-md-12">
       		<div class="col-md-4"></div>
         	<div class="col-md-4">
@@ -138,11 +139,9 @@ label.light {
 						<div><h3><i>{{ current_user.role }}</i></h3></div>
 					</div>
 					<div><b><u>Name</u></b></div>
-					<div><input type="text" class="form-control" id="name" value="{{ current_user.username }}" name="stud_profile_name"></div>
-
+					<div><input type="text" class="form-control" id="name1" value="{{ current_user.username }}" name="stud_profile_name"></div>
 					<div><b><u>CSVTU Roll Number</u></b></div>
-					<div><input type="text" class="form-control" id="csvtuRollNo" value="{{ current_user.userid }}" name=""></div>
-
+					<div><input type="text" class="form-control" id="csvtuRollNo" value="{{ current_user.userid }}" name="csvturollno"></div>
 					<div><b><u>College Name</u></b></div>
 					<div><input type="text" class="form-control" id="clg" value="{{ current_user.college }}" name=""></div>
 					
@@ -164,7 +163,7 @@ label.light {
     				<div class="button-section" style="">
     				<div>
 
-						<input onclick="enable_disable()" type="button" class="btn btn-primary" value="Save" id="save_btn" style="width: 65px;">
+						<input onclick="enable_disable()" type="submit" class="btn btn-primary" value="Save" id="save_btn" style="width: 65px;">
 
 						<input onclick="disable_enable()" type="button" class="btn btn-primary" value="Edit" id="myButton2" style="width: 65px;margin-left: 10px">
 					</div>

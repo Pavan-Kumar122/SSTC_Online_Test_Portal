@@ -13,7 +13,7 @@
 
         <title>SSTC- Test Portal</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/unnamed - Copy.png" />
+        <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc_logo.png" />
 
         <link href="/static/css/style_yash.css" rel="stylesheet" />
          
@@ -91,12 +91,12 @@ body {
  }
 
  .result_table {
-    width: 77%;
+    width: 30%;
     height: auto; 
     margin-top: 50px;
     background-color: #f7f7f7;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); 
-    margin-left: 10%;
+    margin-left: 35%;
     border-radius: 15px;
  }
 
@@ -124,12 +124,12 @@ body {
 	 }
 
 	 .result_table {
-	    width: 100%;
+	    width: 30%;
 	    height: auto; 
 	    margin-top: 30px;
 	    background-color: #f7f7f7;
 	    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); 
-	    margin-left: 0%;
+	    margin-left: 35%;
 	    border-radius: 15px;
 	 }
 
@@ -169,7 +169,7 @@ body {
             <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #b7b7b7;z-index: 1000">
                 <div class="container-fluid">
 					<div style="float: left;">
-                		<img src="assets/img/logo/unnamed - Copy.png" class="sstc-icon">
+                		<img src="/static/assets/img/logo/sstc_logo.png" class="sstc-icon">
               			<div class="result_title">Online Test Portal</div>
             		</div>
                 </div>
@@ -184,16 +184,16 @@ body {
 					</thead>
 					<tbody>
 						<tr>
-							<td>Number Of Question Attempted-</td>
+							<td>Attempted- {{ attempt }}</td>
 						</tr>
 						<tr>
-							<td>Number Of Correct Choices-</td>
+							<td>Correct- {{ correct }}</td>
 						</tr>
 						<tr>
-							<td>Total Marks Obtained-</td>
+							<td>Marks Obtained- {{ correct }}</td>
 						</tr>
 						<tr>
-							<td>Out Of-</td>
+							<td>Out Of- {{ outof }}</td>
 						</tr>
 					</tbody>
 				</table>

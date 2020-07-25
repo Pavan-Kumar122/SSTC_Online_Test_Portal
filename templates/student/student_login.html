@@ -13,7 +13,7 @@
 
         <title>SSTC- Test Portal</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/unnamed - Copy.png" />
+        <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc_logo.png" />
 
         <link href="/static/css/style_yash.css" rel="stylesheet" />
         <script src = 'http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js'></script>
@@ -506,7 +506,7 @@ canvas {
 
         $("#files").change(function() 
         {
-            filename = this.files[0].name
+            filename = this.files[0].name;
             console.log(filename);
         });
     </script>
@@ -514,7 +514,7 @@ canvas {
     <!-- for disabling and enabling -->
     <script> 
         function enable_disable() 
-        { 
+        {
             $("#GFG :input").prop("disabled", true); 
         } 
         function disable_enable() 
@@ -755,10 +755,8 @@ canvas {
 
     <!-- cut copy paste disable -->
     <script>
-    $(document).ready(function() {
-        $('#answer').bind("cut copy paste", function (e) {
-            e.preventDefault();
-        });
+    $('input,textarea').bind('cut copy paste', function (e) {
+    e.preventDefault(); //disable cut,copy,paste
     });
     </script>
   <script type="text/javascript">

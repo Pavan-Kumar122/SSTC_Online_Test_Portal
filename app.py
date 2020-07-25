@@ -384,6 +384,12 @@ def logout():
 @app.route('/student/main', methods=['GET', 'POST'])
 @login_required
 def student_login():
+    if request.method == 'POST':
+        if request.form.get('hide') == '1':
+            s = request.form['stud_profile_name']
+            print(s)
+            return 'hello'
+        return 'got it'
     global time_limit, get_ques, paper, e, set_test_id, time, check
     get_ques = ""
     time_limit = ""
@@ -443,12 +449,16 @@ def showresult():
         print(get_ques)
     if request.method == 'POST':
         sub_ans = []
+        quesno = 0
+        correct = 0
+        wrong = 0
         for ques in get_ques:
             if request.form.get('objective') == 'objective':
                 obj_ans = Questions.query.filter_by(ques_id=request.form.get('id_' + str(ques.ques_id)))
                 user_ans = request.form.get('Obj_option_' + str(ques.ques_no))
                 get_test_id = ques.test_id
                 for result in obj_ans:
+                    quesno += 1
                     if result.obj_ans == user_ans:
                         correct += 1
                     else:
@@ -462,6 +472,8 @@ def showresult():
                                 date_posted=datetime.now(), test_given='Yes')
             db.session.add(obj_result)
             db.session.commit()
+            return render_template('student/redirect.html', attempt=str(correct + wrong), correct=correct,
+                                   marks=correct, outof=quesno)
         else:
             for i in range(0, len(sub_ans)):
                 if sub_ans[i] == "":
@@ -470,7 +482,7 @@ def showresult():
                                      attempted=sub_ans[i], date_posted=datetime.now(), test_given='Yes')
                 db.session.add(subj_result)
                 db.session.commit()
-    return render_template('student/redirect.html')
+            return redirect(url_for('student_login'))
 
 
 @app.route('/exam', methods=['GET', 'POST'])
@@ -486,10 +498,10 @@ def profile():
 
 
 @app.route('/stud_prof_up', methods=['POST'])
-def update_student():
-    image_file = url_for('static', filename='Profile_pics/' + current_user.image_file)
-    stud_name = request.form['csvtuRollNo']
-    return json.dumps(dict(status='col-1'))
+def stud_prof_up():
+    # image_file = url_for('static', filename='Profile_pics/' + current_user.image_file)
+    stud_name = request.form['stud_profile_name']
+    return json.dumps(dict(status='OK'))
 
 
 @app.route('/faculty/main', methods=['GET', 'POST'])
