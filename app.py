@@ -388,7 +388,7 @@ def student_login():
         if request.form.get('hide') == '1':
             s = request.form['stud_profile_name']
             print(s)
-            return 'hello'
+            return 'hello student'
         return 'got it'
     global time_limit, get_ques, paper, e, set_test_id, time, check
     get_ques = ""
@@ -814,6 +814,7 @@ def resetpassword():
             return redirect(url_for('index'))
         else:
             send_reset_email(user)
+            logout_user()
             flash('An email has been sent to your registered Email Id !', 'info')
             return redirect(url_for('index'))
     return render_template('forget_password.html')
