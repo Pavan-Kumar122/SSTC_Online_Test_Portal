@@ -121,7 +121,7 @@ label.light {
 </head>
 <body>
 
-      <form class="profile-form" role="form" action="" method="post">
+      <form class="profile-form" role="form" action="">
       	 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
           <input type="hidden" name="hide" value="1">
       	<div class="col-md-12">
@@ -163,7 +163,7 @@ label.light {
     				<div class="button-section" style="">
     				<div>
 
-						<input onclick="enable_disable()" type="submit" class="btn btn-primary" value="Save" id="save_btn" style="width: 65px;">
+						<input onclick="enable_disable()" type="button" class="btn btn-primary" value="Save" id="save_btn" style="width: 65px;">
 
 						<input onclick="disable_enable()" type="button" class="btn btn-primary" value="Edit" id="myButton2" style="width: 65px;margin-left: 10px">
 					</div>
