@@ -582,7 +582,7 @@
             {% for posts in post %}
           <div class="item">
                       <h3>{{ posts.testname }}</h3>
-                    <h5>Date Posted:- {{ posts.date_posted.strftime('%a-%Y-%m-%d') }} Time- {{ posts.date_posted.strftime('%I:%M %p') }}<br>Scheduled Date:- {{ posts.scheduled_date }}</h5>
+                    <h5>Date Posted:- {{ posts.date_posted.strftime('%a-%Y-%m-%d') }} Time- {{ posts.date_posted.strftime('%I:%M %p') }}<br>Scheduled Date:- {{ posts.scheduled_date }}&nbsp;&nbsp;From- {{ posts.start_time }}&nbsp;To- {{ posts.end_time }}</h5>
                         <hr id="item_ruler">
                     {{ posts.description }}
 
@@ -885,7 +885,7 @@
                       <h2>Objective</h2>
                     <table border="1px" cellpadding="5px" cellspacing="0px" width="100%" class="text-center" id="obj_table">
                     </table>
-                    <h3 style="text-align: center;"> <button class="btn-success btn-print">Print</button></h3>
+{#                    <h3 style="text-align: center;"> <button class="btn-success btn-print">Print</button></h3>#}
                     </section>
                     <section class="subj-container">
                     <h2>Subjective</h2>

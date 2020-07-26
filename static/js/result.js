@@ -54,7 +54,7 @@ $(function(){
 					paper_list += '<th>Marks Obtained-'+response.subj_marks[i] +' </th>';
 					paper_list += '<th>Total Que- '+response.subj_ques_count[i]+'</th>';
 					paper_list += '<th>Duration- '+response.subj_duration[i]+'</th>';
-					paper_list += '<th>Submission Date- '+response.subj_date_posted[i]+'</th>';
+					paper_list += '<th>Date Submitted- '+response.subj_date_posted[i]+'</th>';
 					paper_list += '</tr>';
 					for(let j =0;j<response.subj_ques_count[i];j++) {
 						if (count === 0) {

@@ -73,7 +73,6 @@ select {
   background-color: white;
   color: #8a97a0;
   box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
-  margin-bottom: 30px;
   text-align: center;
 
 }
@@ -139,7 +138,7 @@ label.light {
 						<div><h3><i>{{ current_user.role }}</i></h3></div>
 					</div>
 					<div><b><u>Name</u></b></div>
-					<div><input type="text" class="form-control" id="name1" value="{{ current_user.username }}" name="stud_profile_name"></div>
+					<div><input type="text" class="form-control" id="name" value="{{ current_user.username }}" name="stud_profile_name"></div>
 					<div><b><u>CSVTU Roll Number</u></b></div>
 					<div><input type="text" class="form-control" id="csvtuRollNo" value="{{ current_user.userid }}" name="csvturollno"></div>
 					<div><b><u>College Name</u></b></div>
