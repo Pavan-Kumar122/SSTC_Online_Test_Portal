@@ -791,7 +791,6 @@ def all_details():
     #     print(get_user)
     papers = Paperdetails.query.filter(Paperdetails.user_id.contains(current_user.id)).all()
     print(papers)
-
     return str(papers)
     # return json.dumps(dict(test_type=get_test_type, college=get_college, semester=get_semester, subject=get_subject, branch=get_branch, section=get_section, rollno=get_rollno))
 

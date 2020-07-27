@@ -567,6 +567,9 @@
                         </div>
                     </div>
                 </div>
+
+
+
         <div id="dashboard">
         {% if check == false %}
                     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -586,8 +589,41 @@
                         <hr id="item_ruler">
                     {{ posts.description }}
 
-          <div id="show"><button class="btn-show" >Edit</button><button class="btn-show" >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
+          <div id="show"><button class="btn-show" >Edit</button><button class="btn-show" data-toggle="modal" data-target="#delete-exam-modal"  >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
                                                                                                          id="read-more"></button> </div>
+
+
+          <!-- Modal to delete any exam -->
+          <form method="POST">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <div class="modal fade" id="delete-exam-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content" style="height: 250px;">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete This Test</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <ul>
+                  <li> <b>Test Name-</b> Computer Network</li>
+                  <li> <b>Total Questions-</b> 10</li>
+                  <li> <b>Date-</b> 24/07/20</li>
+                </ul>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+          </form>
+
+
+
+
           <div class="dashboard-details" id="ques_content_{{ posts.test_id }}">
               <hr>
               <h1 class="text-center text" class="qp" style="font-weight: 600; font-size: 15px;">Question Paper</h1>
