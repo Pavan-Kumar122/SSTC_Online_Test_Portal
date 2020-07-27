@@ -768,6 +768,34 @@ def show_result():
              paper_date=subj_paper_date_posted))
 
 
+@app.route('/all_details', methods=['POST', 'GET'])
+def all_details():
+    get_test_type = request.form['Rtest_type']
+    get_college = request.form['Rcollege']
+    get_semester = request.form['Rsemester']
+    get_subject = request.form['Rsubject']
+    get_branch = request.form['Rbranch']
+    get_section = request.form['Rsection']
+    get_rollno = request.form['Rrollno']
+    get_paper = Paperdetails.query.filter(Paperdetails.testtype.contains(get_test_type),
+                                          Paperdetails.college.contains(get_college),
+                                          Paperdetails.semester.contains(get_semester),
+                                          Paperdetails.subject.contains(get_subject),
+                                          Paperdetails.branch.contains(get_branch),
+                                          Paperdetails.section.contains(get_section),
+                                          Paperdetails.user_id.contains(current_user.id)).all()
+    # print(get_paper)
+    # for i in get_paper:
+    #     get_user = Users.query.filter(Users.college.contains(i.college), Users.semester.contains(i.semester),
+    #                                   Users.branch.contains(i.branch), Users.section.contains(i.section)).all()
+    #     print(get_user)
+    papers = Paperdetails.query.filter(Paperdetails.user_id.contains(current_user.id)).all()
+    print(papers)
+
+    return str(papers)
+    # return json.dumps(dict(test_type=get_test_type, college=get_college, semester=get_semester, subject=get_subject, branch=get_branch, section=get_section, rollno=get_rollno))
+
+
 @app.route('/register')
 def register():
     if current_user.is_authenticated:

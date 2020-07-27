@@ -782,7 +782,8 @@
         <div id="results_div">
             <div class="main_result">
             <div class="left">
-              <form class="form-result text-center" role="form">
+              <form class="form-result text-center" role="form" method="POST" action="/all_details">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <h4>Search by Student Details</h4>
                 <br>
                 <div class="left-result">
@@ -795,10 +796,10 @@
               </div>
                   <div class="form-group ">
                     <select class="form-control" name="Rcollege">
-                      <option>College</option>
-                      <option>S-1</option>
-                      <option>S-2</option>
-                      <option>S-3</option>
+                      <option value="">College</option>
+                  <option value="SSGI (S1)">SSGI (S1)</option>
+                  <option value="SSEC (S2)">SSEC (S2)</option>
+                    </select>
                     </select>
                   </div>
                   <div class="form-group ">
@@ -847,7 +848,7 @@
                 <hr id="clrfloat">
                 <div>
                   <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
-                  <button class="btn btn-success submit btn3 rounded-pill" type="button" id="result_btn">Submit</button>
+                  <button class="btn btn-success submit btn3 rounded-pill" type="submit" id="result_btn">Submit</button>
                 </div>
               </form>
             </div>
