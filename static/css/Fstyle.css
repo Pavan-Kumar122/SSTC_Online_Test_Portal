@@ -3,7 +3,6 @@ body{
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
   background-color: #fff;
-
 }
 
 body{
@@ -89,18 +88,24 @@ body{
   margin-top: 30px;
   margin-bottom: 0px;
   padding: 10px;
-  font-size: 20px;
-  font-weight: 500;
   width: 85%;
   text-align: center;
   /* background-color: #b8b8b8; */
   background-image: linear-gradient(#a7b7ff,#b265ff);
 }
-
-.test-details span{
-  padding: 0px;
-  text-decoration: underline;
-  margin: 0px 15px 0px 15px;
+ 
+.test-details table{
+  margin: 10px auto;
+  width: 70%;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 500;
+}
+.test-details table td{
+  padding-left: 8px;
+}
+#desc-td{
+  width:370px;
 }
 
 
@@ -191,6 +196,15 @@ body{
   width: 90%;
 
 }
+.input-marks{
+  border: black 1.5px solid;
+  border-radius: 5px;
+  font-size: 15px;
+  height: 32px;
+  width: 80px;
+  margin: 8px 5px 2px 5px;
+  padding-left: 8px;
+}
 
 .search-control{
   margin-top: 10px;
@@ -211,22 +225,69 @@ body{
 
 }
 
-
 .btn{
   margin-left: 15px;
   margin-right: 15px;
 }
 
+@media screen and (max-width: 1000px){
+ .test-details table{
+   width: 95%;
+ }
+
+}
+@media screen and (max-width: 630px){
+  .head-title{
+    font-size: 30px;
+    line-height: 50px;
+    color: #3958E4;
+  }
+  .test-details table{
+    width: 90%;
+    font-size: 15px;
+    font-weight: 400px;
+  }
+  #desc-td{
+    width:320px;
+  }
+  
+}
+@media screen and (max-width: 550px){
+  .test-details table tr,td{
+    display: block;
+    text-align: center;
+  }
+  #desc-td{
+    width:auto;
+  }
+
+}
 @media screen and (max-width: 530px){
   .main{
     margin: 0px;
     padding: 0px;
     padding-top: 10px;
   }
+  /* .test-details table{
+    width: 98%;
+    font-size: 10px;
+    font-weight: 300px;
+  }
+  .test-details table td{
+    padding-left: 3px;
+  } */
+  .test-details table tr,td{
+    display: block;
+    text-align: center;
+  }
+  #desc-td{
+    width:auto;
+  }
 
 .head-title{
-  font-size: 35px;
+  font-size: 28px;
   color: #3958E4;
+  line-height: 40px;
 
 }
 #title{
@@ -235,7 +296,6 @@ body{
 #backbtn, #homebtn{
   margin-top: 12px;
 }
-
 
 .header-content span{
   display: block;
@@ -271,18 +331,26 @@ body{
    margin: auto;
  }
 
- .test-details{
-   width: 90%;
-   margin-top: 15px;
-   margin-bottom: 10px;
-   background-color: #b8b8b8;
-   padding: 20px;
- }
+}
 
- .test-details span{
-   display: block;
-   margin: auto;
- }
+@media screen and (max-width:480px){
+  .marks-container span{
+    text-decoration: none;
+  } 
+}
+@media screen and (max-width: 388px){
+  .head-title{
+    font-size: 25px;
+    color: #3958E4;
+  }
+
+}
+@media screen and (max-width: 346px){
+  .head-title{
+    font-size: 18px;
+    color: #3958E4;
+  }
+
 }
 
 
