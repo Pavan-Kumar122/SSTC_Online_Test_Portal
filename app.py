@@ -387,7 +387,6 @@ def student_login():
     if request.method == 'POST':
         if request.form.get('hide') == '1':
             s = request.form['stud_profile_name']
-            print(s)
             return 'hello student'
         return 'got it'
     global time_limit, get_ques, paper, e, set_test_id, time, check
@@ -399,7 +398,7 @@ def student_login():
                                           Paperdetails.scheduled_date.like(date.today()),
                                           Paperdetails.college.like(current_user.college),
                                           Paperdetails.branch.like(current_user.branch)).all()
-    # print(get_paper)
+    print(get_paper)
     sub_ans = []
     correct = 0
     wrong = 0
@@ -425,13 +424,15 @@ def student_login():
                     set_test_id = i.test_id
                     paper1 = Paperdetails.query.filter(Paperdetails.test_id.like(i.test_id))
                     check = True
+            else:
+                if str(datetime.now().time()) < i.start_time:
+                    flash(f'Upcoming Paper {i.testname} on {i.start_time}', 'primary')
+                    return render_template('student/student_login.html', check=False)
         session['test_id'] = set_test_id
-        print(set_test_id)
         if not paper1:
             flash("No New Paper Uploaded!!", 'info')
             return render_template('student/student_login.html', check=False)
         else:
-
             return render_template('student/student_login.html', get_ques=get_ques,
                                    time_limit=time_limit, time=time, check=check, paper1=paper1)
     else:
@@ -446,7 +447,6 @@ def showresult():
         test_id = session['test_id']
         session.permanent = True
         get_ques = Questions.query.filter(Questions.test_id.like(test_id))
-        print(get_ques)
     if request.method == 'POST':
         sub_ans = []
         quesno = 0
@@ -510,12 +510,20 @@ def faculty_login():
     global post
     time = ""
     if request.method == 'POST':
-        current_user.username = request.form['fac_username']
-        current_user.college = request.form['fac_college']
-        current_user.branch = request.form['fac_branch']
-        current_user.userid = request.form['fac_userid']
-        current_user.email = request.form['fac_email']
-        db.session.commit()
+        if request.form.get('update_profile', "") == '0':
+            current_user.username = request.form['fac_username']
+            current_user.college = request.form['fac_college']
+            current_user.branch = request.form['fac_branch']
+            current_user.userid = request.form['fac_userid']
+            current_user.email = request.form['fac_email']
+            db.session.commit()
+        elif request.form.get('paper_delete', "") == '1':
+            data = request.form['paper_id']
+            delete_paper = Paperdetails.query.get(data)
+            delete_ques = Questions.query.get(data)
+            db.session.delete(delete_paper)
+            db.session.delete(delete_ques)
+            db.session.commit()
     ques = Questions.query.filter_by(user_id=current_user.id).all()
     faculty_post = Paperdetails.query.filter_by(user_id=current_user.id)
     for f in faculty_post:
@@ -537,7 +545,6 @@ def faculty_login():
 @app.route('/feedback', methods=['POST', 'GET'])
 def Feedback():
     feed = request.form['feedback']
-    print(feed)
     if feed == '':
         return json.dumps(dict(empty='yes'))
     else:
@@ -790,7 +797,7 @@ def all_details():
     #                                   Users.branch.contains(i.branch), Users.section.contains(i.section)).all()
     #     print(get_user)
     papers = Paperdetails.query.filter(Paperdetails.user_id.contains(current_user.id)).all()
-    print(papers)
+    # print(papers)
     return str(papers)
     # return json.dumps(dict(test_type=get_test_type, college=get_college, semester=get_semester, subject=get_subject, branch=get_branch, section=get_section, rollno=get_rollno))
 
@@ -812,6 +819,16 @@ def student():
 
 @app.route('/pre_exam')
 def pre_exam():
+    res = Result.query.filter_by(user_id=current_user.id).all()
+    res_test_id = []
+    for r in res:
+        res_test_id.append(r.test_id)
+    res_test_id = list(dict.fromkeys(res_test_id))
+    for t in res_test_id:
+        paper_get = Paperdetails.query.filter_by(test_id=t)
+        ques = Questions.query.filter_by(test_id=t)
+    print(paper_get)
+    print(ques)
     return render_template('student/pre-exam.html')
 
 

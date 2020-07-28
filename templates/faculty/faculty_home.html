@@ -518,6 +518,7 @@
                                 <h3 class="text-center">Update Profile</h3>
                                 <form action="" method="POST">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                    <input type="hidden" name="update_profile" value="0">
                                     <div class="img-container">
                                         <div class="text-center"><img src="{{ url_for('static', filename='Profile_pics/'+ current_user.image_file) }}" alt="" id="update-img"><br>
 
@@ -589,14 +590,15 @@
                         <hr id="item_ruler">
                     {{ posts.description }}
 
-          <div id="show"><button class="btn-show" >Edit</button><button class="btn-show" data-toggle="modal" data-target="#delete-exam-modal"  >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
+          <div id="show"><button class="btn-show" >Edit</button><button class="btn-show" data-toggle="modal" data-target="#delete-exam-modal_{{ posts.test_id }}"  >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
                                                                                                          id="read-more"></button> </div>
 
 
           <!-- Modal to delete any exam -->
           <form method="POST">
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-        <div class="modal fade" id="delete-exam-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+              <input type="hidden" name="paper_delete" value="1">
+        <div class="modal fade" id="delete-exam-modal_{{ posts.test_id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content" style="height: 250px;">
               <div class="modal-header">
@@ -607,9 +609,9 @@
               </div>
               <div class="modal-body">
                 <ul>
-                  <li> <b>Test Name-</b> Computer Network</li>
-                  <li> <b>Total Questions-</b> 10</li>
-                  <li> <b>Date-</b> 24/07/20</li>
+                  <li> <b>Test Name-</b> {{ posts.testname }}</li>
+                  <li> <b>Date Posted-</b> {{ posts.date_posted.strftime('%a-%Y-%m-%d') }}</li>
+                    <input type="hidden" name="paper_id" value="{{ posts.test_id }}">
                 </ul>
               </div>
               <div class="modal-footer">
