@@ -130,10 +130,12 @@ class Paperdetails(db.Model, UserMixin):
     scheduled_date = db.Column(db.String(60))
     start_time = db.Column(db.String(60), nullable=False)
     end_time = db.Column(db.String(60), nullable=False)
+    correct_ans = db.Column(db.Integer, default=1)
+    wrong_ans = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return f"Paperdetails('{self.testname}','{self.college}','{self.branch}','{self.testtype}','{self.section}','{self.subject}','{self.start_time}','{self.end_time}','{self.test_id}','{self.scheduled_date}','{self.semester}','{self.totaltime}','{self.description}'," \
-               f" {self.date_posted}) "
+               f" {self.date_posted},{self.correct_ans}, {self.wrong_ans} ) "
 
 
 class Questions(db.Model, UserMixin):
@@ -520,9 +522,10 @@ def faculty_login():
         elif request.form.get('paper_delete', "") == '1':
             data = request.form['paper_id']
             delete_paper = Paperdetails.query.get(data)
-            delete_ques = Questions.query.get(data)
+            delete_ques = Questions.query.filter_by(test_id=data).all()
+            for d in delete_ques:
+                Questions.query.filter_by(test_id=d.test_id).delete()
             db.session.delete(delete_paper)
-            db.session.delete(delete_ques)
             db.session.commit()
     ques = Questions.query.filter_by(user_id=current_user.id).all()
     faculty_post = Paperdetails.query.filter_by(user_id=current_user.id)
@@ -609,12 +612,12 @@ def paper_data():
             # print(int(total_ques))
             return render_template('faculty/add_ques.html', ques=int(total_ques), branch=branch, semester=semester,
                                    section=section, subject=subject, testname=name, description=description,
-                                   test_type=test_type, college=college)
+                                   test_type=test_type, college=college,scheduled_date=scheduled_date)
         else:
             return render_template('faculty/add_ques_subjective.html', ques=int(total_ques), branch=branch,
                                    semester=semester,
                                    section=section, subject=subject, testname=name, description=description,
-                                   test_type=test_type, college=college)
+                                   test_type=test_type, college=college,scheduled_date=scheduled_date)
     return redirect(url_for('faculty_login'))
 
 
@@ -624,11 +627,14 @@ def add_ques():
     global name, description, semester, total_ques, test_type, college, branch, section, subject, duration, scheduled_date, st_time, en_time
     if request.method == 'POST':
         if request.form.get("obj", "") == "1":
+            correct_ans = request.form['correct_answer']
+            wrong_ans = request.form['minus_mark']
+            print(correct_ans, wrong_ans)
             test_details = Paperdetails(testname=name, description=description, college=college, branch=branch,
                                         semester=semester,
                                         section=section, subject=subject, totalques=total_ques, totaltime=duration,
                                         testtype=test_type, user_id=current_user.id, scheduled_date=scheduled_date,
-                                        start_time=st_time, end_time=en_time, date_posted=datetime.now())
+                                        start_time=st_time, end_time=en_time, date_posted=datetime.now(), correct_ans=correct_ans, wrong_ans=wrong_ans)
             db.session.add(test_details)
             db.session.commit()
             # current_test_id = Paperdetails.query.filter_by(test_id=current_user.id).first()
@@ -827,8 +833,8 @@ def pre_exam():
     for t in res_test_id:
         paper_get = Paperdetails.query.filter_by(test_id=t)
         ques = Questions.query.filter_by(test_id=t)
-    print(paper_get)
-    print(ques)
+    # print(paper_get)
+    # print(ques)
     return render_template('student/pre-exam.html')
 
 

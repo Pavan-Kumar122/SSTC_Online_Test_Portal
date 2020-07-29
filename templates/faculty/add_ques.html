@@ -31,22 +31,36 @@
 		</div>
 
 		<div class="test-details">
-            <span>College-{{ college }}</span><br>
-            <span>Branch-{{ branch }}</span><br>
-			<span>Semester-{{ semester }}</span>
-			<span>Sec-{{ section }}</span><br>
-			<span>Subject-{{ subject }}</span>
-			<span>TestName-{{ testname }}</span><br>
-			<span>Description-{{ description }}</span><br>
-			<span>Total Questions-{{ ques }}</span>
-			<span>Test_type-{{ test_type }}</span>
 
+			<table border="2px">
+				<tr>
+					<td>College- {{ college }}</td>
+					<td>Branch- {{ branch }}</td>
+					<td>Subject- {{ subject }}</td>
+				</tr>
+				<tr>
+					<td>Semester- {{ semester }}</td>
+					<td>Section- {{ section }}</td>
+					<td>Testtype- {{ test_type }}</td>
+				</tr>
+				<tr>
+					<td>Name- {{ testname }}</td>
+					<td id="desc-td" style="word-wrap: break-word;">Description- {{ description }} </td>
+					<td>Total Ques- {{ ques }}</td>
+				</tr>
+                <form class=" " method="POST" action="/add_ques">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <input value = "1" type="hidden" name="obj">
+				<tr>
+					<td>Scheduled Date- {{ scheduled_date }}</td>
+					<td ><label><span>Correct answer</span>  <input type="text" class="input-marks" placeholder="???" name="correct_answer"> </label></td>
+					<td> <label><span>Minus Marking</span><input type="text" class="input-marks" placeholder="???" name="minus_mark" > </label></td>
+				</tr>
+			</table>
 		</div>
 
 		<!-- Objective type============================================== -->
-		<form class=" text-center" method="POST" action="/add_ques">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <input value = "1" type="hidden" name="obj">
+
             {%for i in range(1,ques + 1) %}
 			<div class="ques-group">
 				<br>
