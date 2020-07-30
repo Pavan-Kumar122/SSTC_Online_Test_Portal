@@ -5,8 +5,8 @@
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <style>
-	canvas {
-  max-width  : 200px; 
+	img {
+  max-width  : 200px;
   height : 200px;
   border : 1px solid #c3c3c3;
   background-color: white;
@@ -15,112 +15,163 @@
   margin-right: 1%;
   background-image: url(/static/Profile_pics/default.jpg);
 }
+
+@media only screen and (min-width: 420px) {
+	img {
+		margin-left: 25px;
+	}
+}
+
+.profile-form {
+  max-width: 350px;
+  padding: 10px 20px;
+  background: #f4f7f8;
+  border-radius: 8px;
+  margin: auto;
+  height: 995px;
+  margin-top: 15px;
+}
+
+@media only screen and (max-width: 420px) {
+
+  .profile-form {
+    margin-left: -27px;
+    width: 320px;
+  }
+
+  .button-section {
+    margin-left: 65px;
+    margin-top: 30px;
+}
+
+}
+
+
+
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+h1 {
+  margin: 0 0 30px 0;
+  text-align: center;
+}
+
+input,
+select {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  font-size: 16px;
+  height: auto;
+  margin: 0;
+  outline: 0;
+  padding: 15px;
+  width: 100%;
+  background-color: white;
+  color: #8a97a0;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+  text-align: center;
+
+}
+
+select {
+  padding: 6px;
+  height: 32px;
+  border-radius: 2px;
+}
+
+fieldset {
+  margin-bottom: 30px;
+  border: none;
+}
+
+legend {
+  font-size: 1.4em;
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+label.light {
+  font-weight: 300;
+  display: inline;
+}
+
+.number {
+  background-color: #5fcf80;
+  color: #fff;
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  font-size: 0.8em;
+  margin-right: 4px;
+  line-height: 30px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+  border-radius: 100%;
+}
 </style>
 </head>
 <body>
-	<div class="container">
-  <div class="row ">
-    <div class="col-lg-12">
-      <div>
-        <div class="col-md-4" style="margin-top: -65px">
-          <div class="profile-card text-center">
-          	<img class="img-fluid" src="/static/assets/img/profile_area/left.jpeg">
-            <div class="profile-info">
-                <form action="" role="form" enctype="multipart/form-data">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-			<div>
+
+      <form class="profile-form" role="form" action="">
+      	 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <input type="hidden" name="hide" value="1">
+      	<div class="col-md-12">
+      		<div class="col-md-4"></div>
+        	<div class="col-md-4">
 				<canvas id = "can">
 				</canvas>
 				<script src = 'http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js'>
 				</script>
-				<p>
-				<label for="files" class="btn" style="border-color: black; color: black;">Select Image</label>
-				      <input id="files" style="visibility:hidden; width: 0px;" multiple = "false" accept = "image/*" type="file" onchange="upload()" name="file">
-				</p>
 			</div>
-			<div style="text-align: center; margin-bottom: 15px;">
-				<div><input type="text" class="form-control" id="name" value="{{ current_user.username }}" name="stud_profile_name" onkeyup="manage(this)"></div>
-				<div><i>{{ current_user.role }}</i></div>
-				<div class="pw_change_section">
-					<div><b><u>Reset Password</u></b></div>
-					<div><a href="/templates/new_password.html">Change Password ?</a></div>
-				</div>
-			</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4" style="margin-top: -65px">
-          <div class="profile-card text-center" style="">
-          	<img class="img-responsive" src="/static/assets/img/profile_area/center.jpeg">
-            <div class="profile-info" style="">
-              <div class="generalDetails" id="GFG"><!-- general Details -->
-				<div style="text-decoration-line: underline; text-decoration-style: double;">
-					<h3>General Details</h3>
-				</div>
+      		<div class="col-md-4"></div>
+      	</div>
+				<div id="GFG" style="text-align: center">
+					<div>
+						<div><h3><i>{{ current_user.role }}</i></h3></div>
+					</div>
+					<div><b><u>Name</u></b></div>
+					<div><input type="text" class="form-control" id="name" value="{{ current_user.username }}" name="stud_profile_name"></div>
 					<div><b><u>CSVTU Roll Number</u></b></div>
-					<div><input type="text" class="form-control" id="csvtuRollNo" value="{{ current_user.userid }}" name="" onkeyup="manage(this)"></div>
-
+					<div><input type="text" class="form-control" id="csvtuRollNo" value="{{ current_user.userid }}" name="csvturollno"></div>
 					<div><b><u>College Name</u></b></div>
-					<div><input type="text" class="form-control" id="clg" value="{{ current_user.college }}" name="" onkeyup="manage(this)"></div>
+					<div><input type="text" class="form-control" id="clg" value="{{ current_user.college }}" name=""></div>
 					
 					<div><b><u>Branch</u></b></div>
-					<div>
-						<input type="text" class="form-control" id="clg" value="{{ current_user.branch }}" name="" onkeyup="manage(this)">
-					</div>
+					<div><input type="text" id="branch" class="form-control" value="{{ current_user.branch }}" name=""></div>
 					
 					<div><b><u>Semester</u></b></div>
-					<div>
-						<input type="text" class="form-control" id="clg" value="{{ current_user.semester }}" name="" onkeyup="manage(this)">
-					</div>
+					<div><input type="text" id="sem" class="form-control" value="{{ current_user.semester }}" name=""></div>
 					<div><b><u>Section</u></b></div>
-					<div><input type="text" class="form-control" id="section" value="{{ current_user.section }}" name="" onkeyup="manage(this)"></div>
+					<div><input type="text" class="form-control" id="section" value="{{ current_user.section }}" name=""></div>
 					
 					<div><b><u>Class Roll Number</u></b></div>
-					<div><input type="text" class="form-control" id="clsRollNo" value="{{ current_user.rollno }}" name="" onkeyup="manage(this)"></div>
+					<div><input type="text" class="form-control" id="clsRollNo" value="{{ current_user.rollno }}" name=""></div>
 					
 					<div><b><u>Email ID</u></b></div>
-					<div><input type="email" class="form-control" id="email" value="{{ current_user.email }}" name="" onkeyup="manage(this)"></div>
+					<div><input type="email" class="form-control" id="email" value="{{ current_user.email }}" name=""></div>
 				</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4" style="margin-top: -65px">
-          <div class="profile-card text-center">
-          	<img class="img-responsive" src="/static/assets/img/profile_area/right.jpeg">
-            <div class="profile-info">
-              <div class="examDetails"><!-- exam Details -->
-				<div style="text-decoration-line: underline; text-decoration-style: double;">
-					<h3>Exam Details</h3>
-				</div>
-				<div>
-					<div><b><u>Number Of Exam Attended</u></b></div>
-					<div>2</div>
-					<div><b><u>Total Number Of Exam</u></b></div>
-					<div>5</div>
+				<div style="width: 100%; float: left;">
+    				<div class="button-section" style="">
+    				<div>
 
+						<input onclick="enable_disable()" type="button" class="btn btn-primary" value="Save" id="save_btn" style="width: 65px;">
+
+						<input onclick="disable_enable()" type="button" class="btn btn-primary" value="Edit" id="myButton2" style="width: 65px;margin-left: 10px">
+					</div>
 				</div>
 			</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div style="width: 100%">
-    	<div class="col-md-4"></div>
-    	<div class="col-md-4">
-    		<div style="margin-top: 30px;">
-    				<div style=" margin-left: 25%;">
-
-					<input onclick="enable_disable()" type="button" class="btn btn-primary" value="Save" id="save_btn" style="width: 65px;">
-
-					<input onclick="disable_enable()" type="button" class="btn btn-primary" value="Edit" id="myButton2" style="width: 65px;margin-left: 10px">
-                            </form>
-				</div>
+			<div style="float: left;text-align: center;margin-left: 80px;margin-top: 30px;">
+				<div style="color: teal"><a href="/resetpassword">Reset Password ?</a></div>
 			</div>
-		</div>
-    	<div class="col-md-4"></div>
-	</div>
-  </div>
-</div>
-</body>
+      </form>
+      
+    </body>
 </html>

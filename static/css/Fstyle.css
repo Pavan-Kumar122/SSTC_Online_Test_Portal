@@ -93,7 +93,7 @@ body{
   /* background-color: #b8b8b8; */
   background-image: linear-gradient(#a7b7ff,#b265ff);
 }
- 
+
 .test-details table{
   margin: 10px auto;
   width: 70%;
@@ -146,9 +146,9 @@ body{
 }
 
 #ques-btn{
+  text-align: center;
   margin-bottom: 30px ;
 }
-
 #separator{
   color: green ;
   border: green 2px solid ;
@@ -251,7 +251,7 @@ body{
   #desc-td{
     width:320px;
   }
-  
+
 }
 @media screen and (max-width: 550px){
   .test-details table tr,td{
@@ -337,7 +337,7 @@ body{
 @media screen and (max-width:480px){
   .marks-container span{
     text-decoration: none;
-  } 
+  }
 }
 @media screen and (max-width: 388px){
   .head-title{
@@ -353,7 +353,3 @@ body{
   }
 
 }
-
-
-
-

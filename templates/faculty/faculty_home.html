@@ -13,30 +13,7 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  <!-- to prevent reload on enter -->
-  <script>
-    $("#input_sid").bind('keyup', function(event){ 
-  if(event.keyCode == 13){ 
-    event.preventDefault();
-    //$("#buttonSrch").click(); 
-    search(this.value);
-       }
-   });
-  </script>
-  <!-- to change profile picture on selecting a file -->
 
-  <!-- <script>
-    function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#update-img')
-                        .attr('src', e.target.result);
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-  </script> -->
   <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc-logo.png" />
     <script src="/static/js/result.js"></script>
     <script>
@@ -534,61 +511,65 @@
          DATA WILL BE LOADED HERE.
          ========================================== -->
          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal" >Close</button>
-                <div class="main-profile">
-                    <h3 class="text-center">Update Profile</h3>
-                    <form action="">
-                    <div class="img-container">
-                      <div class="text-center"><img src="{{ url_for('static', filename='Profile_pics/'+ current_user.image_file) }}" alt="" id="update-img"><br>
-                       
-                        <!-- <label class="custom-file-upload">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
+                            <div class="main-profile">
+                                <h3 class="text-center">Update Profile</h3>
+                                <form action="" method="POST">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                    <input type="hidden" name="update_profile" value="0">
+                                    <div class="img-container">
+                                        <div class="text-center"><img src="{{ url_for('static', filename='Profile_pics/'+ current_user.image_file) }}" alt="" id="update-img"><br>
+
+                                            <!-- <label class="custom-file-upload">
                             <input type="file" onchange="readURL(this);">
                             Choose New
                         </label>
                         -->
-                      <h4 class="text-center">Your Name</h4>
-                      <h5 class="text-center">Branch</h5>
-                      </div>
+                                            <h4 class="text-center">{{ current_user.username }}</h4>
+                                            <h5 class="text-center">{{ current_user.role }}</h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="personal-details">
+                                        <div class="form-group text-center">
+                                            <label> <span class="label1">Name</span> <input type="text" value="{{ current_user.username }}" name="fac_username"></label>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <label><span class="label1">College</span> <input type="text" value="{{ current_user.college }}" name="fac_college"></label>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <label><span class="label1">Branch</span> <input type="text" value="{{ current_user.branch }}" name="fac_branch"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="college-details">
+                                        <div class="form-group text-center">
+                                            <label><span class="label1">User ID</span> <input type="text" value="{{ current_user.userid }}" name="fac_userid"></label>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <label><span class="label1">Email</span> <input type="text" value="{{ current_user.email }}" name="fac_email"></label>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <a href="{{ url_for('resetpassword') }}">Reset Password ?</a>
+                                        </div>
+                                        <br>
+                                        <div class=" text-center">
+                                            <input type="submit" class="btn-success" value="Update" onclick="return confirm('Press OK to confirm / Cancel to update again !!')" id="update_button">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                     
-                    <div class="personal-details">
-                        <div class="form-group text-center">
-                      <label> <span class="label1">Name</span> <input type="text"></label>
-                        </div>
-    
-                        <div class="form-group text-center">
-                            <label><span class="label1">College</span> <input type="text"></label>
-                        </div>
-    
-                        <div class="form-group text-center">
-                            <label><span class="label1">Branch</span> <input type="text"></label>
-                        </div>
-                    </div>
-                
-                    <div class="college-details">
-                        <div class="form-group text-center">
-                            <label><span class="label1">User ID</span> <input type="text"></label>
-                        </div>
-    
-                        <div class="form-group text-center">
-                            <label><span class="label1">Email</span> <input type="text"></label>
-                        </div>
-    
-                        <div class="form-group text-center">
-                            <a href="{{ url_for('resetpassword') }}">Reset Password ?</a>
-                        </div>
-                        <br>
-                        <div class=" text-center">
-                            <input type="submit" class="btn-success" value="Update">
-                        </div>
-                    </div>
-                  </form>
                 </div>
-            </div>
-          </div>
-        </div>
+
+
 
         <div id="dashboard">
         {% if check == false %}
@@ -605,15 +586,11 @@
             {% for posts in post %}
           <div class="item">
                       <h3>{{ posts.testname }}</h3>
-                    <h5>{{ posts.date_posted.strftime('%a-%Y-%m-%d') }} Time- {{ posts.date_posted.strftime('%I:%M %p') }}</h5>
+                    <h5>Date Posted:- {{ posts.date_posted.strftime('%a-%Y-%m-%d') }} Time- {{ posts.date_posted.strftime('%I:%M %p') }}<br>Scheduled Date:- {{ posts.scheduled_date }}&nbsp;&nbsp;From- {{ posts.start_time }}&nbsp;To- {{ posts.end_time }}</h5>
                         <hr id="item_ruler">
                     {{ posts.description }}
 
-<<<<<<< Updated upstream
-          <div id="show"><button class="btn-show" >Edit</button><button class="btn-show" >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
-                                                                                                         id="read-more"></button> </div>
-=======
-          <div id="show"><button class="btn-show" onclick="window.location.href='{{ url_for('edit_ques') }}'" >Edit</button><button class="btn-show" data-toggle="modal" data-target="#delete-exam-modal_{{ posts.test_id }}"  >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
+          <div id="show"><button class="btn-show" >Edit</button><button class="btn-show" data-toggle="modal" data-target="#delete-exam-modal_{{ posts.test_id }}"  >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
                                                                                                          id="read-more"></button> </div>
 
 
@@ -647,7 +624,8 @@
           </form>
 
 
->>>>>>> Stashed changes
+
+
           <div class="dashboard-details" id="ques_content_{{ posts.test_id }}">
               <hr>
               <h1 class="text-center text" class="qp" style="font-weight: 600; font-size: 15px;">Question Paper</h1>
@@ -840,29 +818,8 @@
         </div>
 
         <div id="results_div">
-            <div class="main_result">
+          <div class="main_result">
             <div class="left">
-<<<<<<< Updated upstream
-              <form class="form-result text-center" role="form">
-                <h4>Search by Student Details</h4>
-                <br>
-                <div class="left-result">
-                    <div class="form-group ">
-                <select class="form-control" name="Rtest_type" required>
-                  <option>Test type</option>
-                  <option value="objective">Objective</option>
-                  <option value="subjective">Subjective</option>
-                </select>
-              </div>
-                  <div class="form-group ">
-                    <select class="form-control" name="Rcollege">
-                      <option>College</option>
-                      <option>S-1</option>
-                      <option>S-2</option>
-                      <option>S-3</option>
-                    </select>
-                  </div>
-=======
               <form class="form-result text-center" role="form" method="POST" action="/all_details">
                   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <h4>Search by Exam Details</h4>
@@ -876,7 +833,6 @@
                 </div>
 
                 <div class="left-result">              
->>>>>>> Stashed changes
                   <div class="form-group ">
                     <select class="form-control" name="Rsemester">
                       <option>Semester</option>
@@ -928,7 +884,7 @@
             <br>
           </div>
           <div id="error" style="display: none"></div>
-
+          
           <div id="show-results-by-test">
             <table border="2px">
               <tr><th>Sr No</th> <th>Name</th><th>Roll Number</th><th>Result</th> </tr>
@@ -957,7 +913,7 @@
                       <h2>Objective</h2>
                     <table border="1px" cellpadding="5px" cellspacing="0px" width="100%" class="text-center" id="obj_table">
                     </table>
-                    <h3 style="text-align: center;"> <button class="btn-success btn-print">Print</button></h3>
+{#                    <h3 style="text-align: center;"> <button class="btn-success btn-print">Print</button></h3>#}
                     </section>
                     <section class="subj-container">
                     <h2>Subjective</h2>
@@ -968,25 +924,23 @@
         </div>
 
        <div id="feedback">
-          <!-- <div class="item">
-            <h3>Aman Verma</h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          </div> -->
           <div class="item">
             <br>
             <h3 class="text-center">Your valuable feedback</h3> <br>
-            <form action="" >
+            <form action="/feedback" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
               <div class="form-group">
                 <div>
-                  <textarea rows="8" name="feedback" id="" class="form-control2" placeholder="Enter your feedback here so that we can improve this website."
+                  <textarea rows="8" name="feedback" id="feedback" class="form-control2 clear" placeholder="Enter your feedback here so that we can improve this website."
                     style="padding: 5px 10px; margin-bottom: 5px; width: 95%;"></textarea>
                 </div>
                 <br>
                 <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
-                <input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Submit" name="">
+                <input type="button" class="btn btn-success submit btn3 rounded-pill" value="Submit" name="" id="feedback_btn">
               </div>
             </form>
           </div>
+           <div id="feed" style="display: none" class="alert-info"></div>
         </div>
         </div>
     </div>
@@ -1007,6 +961,7 @@
     $("#new_test").hide();
     $("#results_div").hide();
     $("#feedback").hide();
+
 
     //To show and hide menu button
     $(".hamburger .fas").click(function () {
@@ -1100,5 +1055,40 @@
           x.style.display = "none";
         }
       }
+</script>
+<script type="text/javascript">
+    $(function(){
+	$('#feedback_btn').click(function(){
+
+		$.ajax({
+			url: '/feedback',
+			data: $('form').serialize(),
+			type: 'POST',
+			success: function(data){
+				var response = JSON.parse(data);
+                console.log(response.valueOf());
+                if (response.empty) {
+                    $('.clear').val('');
+                $('#feed').empty();
+				$('#feed').show();
+				$('#feed').append('Please Write Someting !!');
+				$('#feed').hide(8000);
+                }else {
+                    $('.clear').val('');
+                $('#feed').empty();
+				$('#feed').show();
+				$('#feed').append('Thank You for your valuable feedback!!');
+				$('#feed').hide(8000);
+                }
+
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+
+	});
+});
+
 </script>
 </html>

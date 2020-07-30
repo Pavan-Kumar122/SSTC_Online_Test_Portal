@@ -9,17 +9,30 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
     <title>SSTC Online Portal</title>
+{#    <script>#}
+{#        let vh = window.innerHeight;#}
+{#        document.documentElement.style.setProperty('--vh', `${vh}px`);#}
+{##}
+{#        // We listen to the resize event#}
+{#        window.addEventListener('resize', () => {#}
+{#            // We execute the same script as before#}
+{#            let vh = window.innerHeight * 0.01;#}
+{#            document.documentElement.style.setProperty('--vh', `${vh}px`);#}
+{#        });#}
+{#    </script>#}
 </head>
+<body>
+    <div class="main">
 
-<body style="background-image: url('/static/assets/img/back.jpg') ">
-    <div class="d-flex justify-content-center align-items-center heading"><img src="/static/assets/img/logo/unnamed%20-%20Copy.png"
-            alt="" width="80px;" class="head">
-        <span class="head">ONLINE TEST PORTAL</span></div>
-    <div class="d-flex justify-content-center align-items-center login-container">
+        <div class="heading"><span class="head-img"><img
+                src="/static/assets/img/logo/sstc_logo.png" alt="" height="100%"></span>
+            <span class="head-title">ONLINE TEST PORTAL</span>
+        </div>
 
-        <form class="login-form text-center" method="POST" action="/registerData">
+        <div class="login-container">
+          <div class="login-wrapper">
+         <form class="login-form text-center" method="POST" action="/registerData">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <img src="/static/assets/img/user.png" alt="userlogo" style="width: 100px;">
             <h2 class="mb-3 mt-2 font-weight-light text-uppercase">Signup As</h2>
@@ -35,13 +48,11 @@
             <div class="form-group" id="details"></div>
         </form>
     </div>
+    </div>
 
-    <div class="d-flex justify-content-center align-items-center footer">
-        Copyright &copy; Your Website 2020</div>
-
-
-
-
+    <div class="footer">
+        Copyright &copy;SSTC Bhilai 2020</div>
+    </div>
     <!-- Bootstrap core JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
@@ -90,6 +101,65 @@
                   };
                   xhttp.open("GET", "{{ url_for('faculty') }}", true);
                   xhttp.send();
+    }
+</script>
+
+<!-- Password Strength -->
+<script type="text/javascript">
+    function CheckPasswordStrength(password) {
+var password_strength = document.getElementById("password_strength");
+
+        //TextBox left blank.
+        if (password.length == 0) {
+            password_strength.innerHTML = "";
+            return;
+        }
+
+        //Regular Expressions.
+        var regex = new Array();
+        regex.push("[A-Z]"); //Uppercase Alphabet.
+        regex.push("[a-z]"); //Lowercase Alphabet.
+        regex.push("[0-9]"); //Digit.
+        regex.push("[$@$!%*#?&]"); //Special Character.
+
+        var passed = 0;
+
+        //Validate for each Regular Expression.
+        for (var i = 0; i < regex.length; i++) {
+            if (new RegExp(regex[i]).test(password)) {
+                passed++;
+            }
+        }
+
+        //Display status.
+        var color = "";
+        var strength = "";
+        switch (passed) {
+            case 0:
+            case 1:
+            case 2:
+                strength = "Password Is Weak";
+                color = "red";
+                break;
+            case 3:
+                 strength = "Password Is Medium";
+                color = "orange";
+                break;
+            case 4:
+                 strength = "Password Is Strong";
+                color = "green";
+                break;
+
+        }
+        password_strength.innerHTML = strength;
+        password_strength.style.color = color;
+
+if(passed <= 2){
+         document.getElementById('show').disabled = true;
+        }else{
+            document.getElementById('show').disabled = false;
+        }
+
     }
 </script>
 </html>

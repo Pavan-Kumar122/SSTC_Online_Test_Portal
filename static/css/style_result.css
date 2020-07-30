@@ -77,7 +77,6 @@ body{
 }
 .main_result .left{
   margin: 0px;
-  
   float: left;
   width: 64%;
   height: 400px;
@@ -212,12 +211,12 @@ body{
 #show-results-by-test table{
   max-width: 80%;
   margin-left: 5%;
+  margin-bottom: 30px;
 }
 #show-results-by-test td,#show-results-by-test th{
   text-align: center;
   padding: 5px;
 }
-
 
 /* =======================================media query======================================= */
 @media screen and (max-width: 1265px){
@@ -271,7 +270,7 @@ body{
     max-width: 80%;
     margin: auto;
   }
-  
+
 }
 @media screen and (max-width: 530px){
   .main{
@@ -370,7 +369,6 @@ body{
    margin: 3px 0;
    font-size: 11px;
  }
-
 
 }
 

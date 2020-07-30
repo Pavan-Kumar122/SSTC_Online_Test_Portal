@@ -3,22 +3,45 @@ body{
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
   color: #ffffff;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-image: url('/static/assets/img/back.jpg');
+  background-repeat: no-repeat;
+  background-position: left top;
+}
+.main{
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+/* Use vh as a fallback for browsers that do not support Custom Properties */
+  /* height: calc(var(--vh, 1vh) * 100); */
 }
 .heading{
   font-size: 35px;
   font-weight: 500;
   background: #54229d;
   color:#fff;
+  height: 10%;
+  margin: 0 auto;
+  text-align: center;
 }
-.head{
-  margin-left: 5px;
-  margin-right: 5px;
+.head-image, .head-title{
+  margin: 0 5px;
 }
+
 .login-container{
-  height: auto;
+  min-height: 85%;
+  margin: 0 auto;
+
+}
+
+.login-wrapper{
   width: 100%;
-  margin-top: 20px;
-   
+  margin: 0 auto;
+  padding-top: 40px;
+  padding-bottom: 40px;
+
 }
 .login-form{
   margin: auto;
@@ -92,8 +115,6 @@ body{
   border: white 2px solid;
   font-size: 18px;
   color:#fff;
-
-
 }
 
 .btn3{
@@ -104,7 +125,65 @@ body{
 
 .footer{
   background: #54229d;
-  margin-top:100px;
+  margin: 0 auto;
   color:#fff;
-  height: 40px;
+  height: 5%;
+  text-align: center;
+  line-height: 5vh;
+}
+
+@media screen and (max-width: 480px){
+
+   body, .main{
+    height: 100vh;
+    /* Use vh as a fallback for browsers that do not support Custom Properties */
+    /*height: calc(var(--vh, 1vh) * 100);*/
+   }
+   .head-image{
+     height: 10px;
+   }
+   .head-title{
+     font-size: 25px;
+   }
+   .login-form{
+     width: 350px;
+   }
+   .btn2{
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 100px;
+  }
+
+}
+
+@media screen and (max-width: 425px){
+  .login-form{
+    width: 300px;
+  }
+  .head-title{
+    font-size: 24px;
+  }
+  .btn2{
+    margin-right: 15px;
+    margin-left: 15px;
+    width: 90px;
+  }
+
+}
+@media screen and (max-width: 380px){
+  .login-form{
+    width: 300px;
+  }
+  .head-title{
+    font-size: 20px;
+  }
+  .head-title, .head-image{
+    margin: auto 0;
+  }
+  .btn2{
+    margin-right: 5px;
+    margin-left: 5px;
+    width: 85px;
+  }
+
 }
