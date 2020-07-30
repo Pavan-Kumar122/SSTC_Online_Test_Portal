@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc-logo.png" />
+    <link type="text/css" rel="stylesheet" href="../../static/css/edit_style.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>SSTC Online Portal</title>
+</head>
+
+<body>
+<!-- {% if current_user.is_authenticated and current_user.role == 'Faculty' %} -->
+	<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+	<div class="main">
+		<div class="header">
+			<div class="header-content" id="backbtn"><span><i class="fa fa-arrow-left" style="color: #3958E4;"></i>
+				</span><span><a href="">
+						Back</a></span>
+			</div>
+			<div class=" header-content" id="title">
+				<h3 class="text-center text-uppercase head-title">Edit Test</h3>
+			</div>
+			<div class="header-content" id="homebtn"><span><i class="fas fa-home " style="color: #3958E4;"></i>
+				</span><span><a href="faculty_home.html">
+						Home</a></span> </div>
+			<hr id="clrfloat">
+		</div>
+
+		<div class="test-details">
+           
+            <div class="form-group text-center">
+			   <button>Edit Details</button>
+			   <button>Edit Questions</button>
+            </div>
+<!--            
+            <div class="form-group text-center">
+                <label> <span class="label1">Semester</span> <input type="text"></label>
+                <label> <span class="label1">Section</span> <input type="text" ></label>
+            </div>
+           
+            <div class="form-group text-center">
+                <label> <span class="label1">Subject</span> <input type="text" ></label>
+                <label> <span class="label1">Test Name</span> <input type="text" ></label>
+            </div>
+            <div class="form-group text-center">
+                <label> <span class="label1">Start time</span> <input type="datetime-local"  class="date-time"></label>
+                <label> <span class="label1">End Time</span> <input type="datetime-local"  class="date-time"></label>
+            </div> -->
+           
+		</div>
+
+		<!-- Modal For Test Details -->
+		<div class="modal fade test-details-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					
+				</div>
+	        </div>
+		</div>
+		
+		<!-- Modal For Questions Details -->
+		<div class="modal fade ques-details-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					
+				</div>
+	        </div>
+        </div>
+
+
+		<!-- Objective type============================================== -->
+		<form class=" text-center" method="POST" action="/add_ques">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <input value = "1" type="hidden" name="obj">
+			<div class="ques-group">
+				<br>
+				<div class="left form-group">
+					<h4 id='h1quizform'>Question-{{i}}</h4>
+					<textarea id="" class="text-area" placeholder="Write the question here." name="ques_{{ i }}" required></textarea>
+				</div>
+
+				<div class="right form-group text-center">
+					<h4>Options</h4>
+					<div class="form-group">
+						<input type='text' placeholder='Option 1' class="form-control" name="op1_{{ i }}" required>
+					</div>
+
+					<div class="form-group">
+						<input type='text' placeholder='Option 2' class="form-control" name="op2_{{ i }}" required>
+					</div>
+
+					<div class="form-group">
+						<input type='text' placeholder='Option 3' class="form-control" name="op3_{{ i }}" required>
+					</div>
+
+					<div class="form-group">
+						<input type='text' placeholder='Option 4' class="form-control" name="op4_{{ i }}" required>
+					</div>
+                    <div class="form-group">
+                        <select class="form-control" name="obj_ans_{{ i }}">
+                            <option>Correct Answer ?</option>
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
+                            <option>D</option>
+                        </select>
+                    </div>
+				</div>
+				<hr id="clrfloat">
+				<!-- <hr id="separator"> -->
+			</div>
+			<div id="ques-btn">
+				<br>
+				<input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
+				<input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Update" name="">
+			</div>
+        </form>
+        <!-- Subjective -->
+        <form class=" text-center" method="POST" action="/add_ques">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+               
+                    <div class="ques-group">
+                        <h4>Question-{{ i }}</h4>
+                        <div class="form-group subj-textarea">
+                        <textarea name="ques_{{ i }}" id="" class="text-area" placeholder="Write the question here." required></textarea>
+                        </div>
+                 </div>
+    
+                <div id="ques-btn">
+                    <br>
+                    <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
+                    <input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Update" name="">
+    
+                </div>
+    
+     </form>
+        
+
+	</div>
+	</div>
+	</div>
+	
+<!-- {% else %}
+    <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
+{% endif %} -->
+</body>
+
+</html>

@@ -803,6 +803,9 @@ def newpassword(token):
         return redirect(url_for('index'))
     return render_template('new_password.html')
 
+@app.route('/edit_ques', methods=['POST', 'GET'])
+def edit_ques():
+    return render_template('faculty/edit_test.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

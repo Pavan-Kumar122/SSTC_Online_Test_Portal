@@ -77,10 +77,12 @@ body{
 }
 .main_result .left{
   margin: 0px;
+  
   float: left;
   width: 64%;
   height: 400px;
   padding: 0px;
+  padding-top: 50px;
   background-color:  #e8dbff;
   border-left: 5px solid;
   border-image-source: linear-gradient(to bottom ,#708aff,#8e4fce);
@@ -207,6 +209,14 @@ body{
 
 } */
 
+#show-results-by-test table{
+  max-width: 80%;
+  margin-left: 5%;
+}
+#show-results-by-test td,#show-results-by-test th{
+  text-align: center;
+  padding: 5px;
+}
 
 
 /* =======================================media query======================================= */
@@ -247,13 +257,21 @@ body{
    height: 200px;
  }
   */
+  #show-results-by-test table{
+    max-width: 80%;
+    margin: auto;
+  }
 }
 
 @media screen and (max-width: 768px){
   .main_result .left, .main_result .right{
     float: none;
   }
-
+  #show-results-by-test table{
+    max-width: 80%;
+    margin: auto;
+  }
+  
 }
 @media screen and (max-width: 530px){
   .main{
@@ -339,6 +357,10 @@ body{
  .result-container table{
    width: 90%;
  }
+ #show-results-by-test table{
+  max-width: 80%;
+  margin: auto;
+}
 }
 
 @media screen and (max-width: 375px){
@@ -348,6 +370,7 @@ body{
    margin: 3px 0;
    font-size: 11px;
  }
+
 
 }
 
