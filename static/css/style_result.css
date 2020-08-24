@@ -5,7 +5,7 @@ body{
   background-color:#fff;
   margin: 0px;
   padding: 0px;
-  
+
 }
 
 .header{
@@ -81,6 +81,7 @@ body{
   width: 64%;
   height: 400px;
   padding: 0px;
+  padding-top: 50px;
   background-color:  #e8dbff;
   border-left: 5px solid;
   border-image-source: linear-gradient(to bottom ,#708aff,#8e4fce);
@@ -207,6 +208,87 @@ body{
 
 } */
 
+.results-by-test{
+  width: 100%;
+
+}
+.student-list{
+  margin: 5px auto 15px auto;
+  width: 90%;
+  /* background-color:#e8dbff; */
+  background-color:#d4dbff;
+  padding: 10px;
+}
+.result-obj, .result-subj{
+  margin: 5px auto 5px auto;
+  width: 100%;
+}
+.student-list table{
+  table-layout: fixed;
+  width: 100%;
+  min-width: 600px;
+  margin: 5px auto;
+  font-size: 16px;
+}
+.student-list table td, .student-list table td{
+  border: 2px solid rgb(73, 28, 146);
+}
+.student-list td{
+  text-align: left;
+  padding: auto 8px;
+
+}
+.student-list table input, #subj_table input {
+  width: 60px;
+  margin: 5px auto;
+  border: blueviolet 1.2px solid;
+  border-radius: 2px;
+  text-align: center;
+}
+
+.sr-no{
+  width: 4%;
+}
+.test-name{
+  width: 25%;
+}
+.stu-name{
+  width: 50%;
+}
+
+.stu-roll{
+  width: 140px;
+}
+.student-list button{
+  min-width: 50px;
+  border: 1.2px solid rgb(65, 52, 136);
+  font-size: 15px;
+  margin: auto 5px;
+  padding: 1px 3px;
+  border-radius: 5px;
+}
+.res-image{
+  padding: 0;
+  min-width: 600px;
+}
+.res-image ul{
+  box-sizing: border-box;
+  margin: auto;
+}
+.res-image ul li{
+  float: left;
+  width: 18%;
+  border: 2px rgb(85, 0, 141) solid;
+  margin: 1%;
+}
+.res-image img{
+  width: 100%;
+}
+.clr-float{
+  visibility: hidden;
+  clear: both;
+}
+
 
 
 /* =======================================media query======================================= */
@@ -229,6 +311,14 @@ body{
    height: 200px;
  }
 }
+@media screen and (max-width: 1200px){
+  .student-list{
+    overflow: scroll;
+    font-size: 12px;
+  }
+
+}
+
 @media screen and (max-width: 948px){
   /* .main_result .left{
     float: none;
@@ -247,6 +337,7 @@ body{
    height: 200px;
  }
   */
+
 }
 
 @media screen and (max-width: 768px){
@@ -339,10 +430,17 @@ body{
  .result-container table{
    width: 90%;
  }
+
+ .student-list{
+   overflow: scroll;
+   font-size: 12px;
+   width: 90%;
+ }
+
 }
 
 @media screen and (max-width: 375px){
- 
+
  .main_result .left .form-control, .main_result .right .form-control,.main_result .left .form-control2, .main_result .right .form-control2{
    width: 100%;
    margin: 3px 0;

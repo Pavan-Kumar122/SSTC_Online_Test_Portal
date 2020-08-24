@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc-logo.png" />
+	<link type="text/css" rel="stylesheet" href="../../static/css/edit_style.css">
+	<link rel="stylesheet" href="/static/css/style_faculty.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <title>SSTC Online Portal</title>
+</head>
+
+<body>
+<!-- {% if current_user.is_authenticated and current_user.role == 'Faculty' %} -->
+	<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+	<div class="main">
+		<div class="header">
+			<div class="header-content" id="backbtn"><span><i class="fa fa-arrow-left" style="color: #3958E4;"></i>
+				</span><span><a href="">
+						Back</a></span>
+			</div>
+			<div class=" header-content" id="title">
+				<h3 class="text-center text-uppercase head-title">Edit Test</h3>
+			</div>
+			<div class="header-content" id="homebtn"><span><i class="fas fa-home " style="color: #3958E4;"></i>
+				</span><span><a href="faculty_home.html">
+						Home</a></span> </div>
+			<hr id="clrfloat">
+		</div>
+
+		<div class="test-details">
+           
+            <div class="text-center " >
+			   <button class="edit-buttons" data-toggle="modal" data-target="#edit-details-modal">Edit Details</button>
+			   <button class="edit-buttons" data-toggle="modal" data-target=".ques-details-modal">Edit Questions</button>
+            </div>
+
+		</div>
+
+		<!-- Modal For Test Details -->
+		<div class="modal fade test-details-modal" id="edit-details-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content " style="height: auto;">
+					<div >
+                          <button class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
+					</div>
+					<br>
+					<div id="new_test">
+						<div class="login-container">
+						  <form class="new-form-test " action="/paper_data" method="POST">
+							<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+							<br>
+							<div class="text-center"> <i class=" fa fa-plus fa-3x text-center" style="color:darkslategrey;"></i></div>
+			  
+							<h2 class="mb-3 mt-2 font-weight-light text-uppercase text-center "
+							  style=" font-family: 'Poppins', sans-serif;">Edit Details</h2>
+			  
+							<div class="form-group ">
+			  
+							  <div><input type="text" class="form-control2 " name="testname" placeholder="Enter Test Name" required></div>
+							</div>
+			  
+							<div class="form-group">
+							  <div>
+								<textarea rows="4" name="description" id="" class="form-control2" placeholder="Description"
+								  style="padding-top: 5px; margin-bottom: 0px;" required ></textarea>
+							  </div>
+							</div>
+			  
+							<div id="left">
+							  <div class="form-group ">
+							  <select class="form-control2 sem " name="college" required>
+								<option value="">College</option>
+								<option value="SSGI (S1)">SSGI (S1)</option>
+								<option value="SSEC (S2)">SSEC (S2)</option>
+							  </select>
+							  </div>
+			  
+							  <div class="form-group ">
+								<select class="form-control2 sem" name="branch" required>
+								  <option value="">Select Branch</option>
+								  <option value="Computer Science Engineering">Computer Science Engineering</option>
+								  <option value="Electronics and Tele-Communicatiom">Electronics and Tele-Communicatiom</option>
+								  <option value="Information Technology">Information Technology</option>
+								  <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+								  <option value="Electrical engineering">Electrical engineering</option>
+								  <option value="Civil Engineering">Civil Engineering</option>
+								  <option value="Mechanical Engineering">Mechanical Engineering</option>
+								</select>
+							  </div>
+								<div>
+								<span class="input-label">Subject</span><br>
+							  <div class="form-group">
+								<input type="text" class="form-control2 " name="subject" placeholder="Subject" required>
+							  </div>
+							</div>
+			  
+							  <div>
+								<span class="input-label">Semester</span><br>
+								<div class="form-group checkbox-container"  required>
+								  <table class="checktable">
+									<tr>
+									  <td><span class="checkspan">1&nbsp;<input type="checkbox" name="ques_semester" value="1"></span></td>
+									  <td><span class="checkspan">2&nbsp;<input type="checkbox" name="ques_semester" value="2"></span></td>
+									  <td><span class="checkspan">3&nbsp;<input type="checkbox" name="ques_semester" value="3"></span></td>
+									  <td><span class="checkspan">4&nbsp;<input type="checkbox" name="ques_semester" value="4"></span></td>
+									</tr>
+									<tr>
+									  <td><span class="checkspan">5&nbsp;<input type="checkbox" name="ques_semester" value="5"></span></td>
+									  <td><span class="checkspan">6&nbsp;<input type="checkbox" name="ques_semester" value="6"></span></td>
+									  <td><span class="checkspan">7&nbsp;<input type="checkbox" name="ques_semester" value="7"></span></td>
+									  <td><span class="checkspan">8&nbsp;<input type="checkbox" name="ques_semester" value="8"></span></td>
+									</tr>
+									<tr>
+									</tr>
+								  </table>
+								</div>
+							  </div>
+			  
+							  <div>
+								<span class="input-label">Section</span><br>
+								<div class="form-group checkbox-container ">
+								  <table class="checktable" required>
+									<tr id="sectionrow">
+									  <td><span class="checkspan">A&nbsp;<input type="checkbox" name="ques_section" value="A"></span></td>
+									  <td><span class="checkspan">B&nbsp;<input type="checkbox" name="ques_section" value="B"></span></td>
+									  <td><span class="checkspan">C&nbsp;<input type="checkbox" name="ques_section" value="C"></span></td>
+									  <td><span class="checkspan">D&nbsp;<input type="checkbox" name="ques_section" value="D"></span></td>
+									</tr>
+								  </table>
+								</div>
+							  </div>
+							</div>
+			  
+							<div id="right">
+							  <div class="form-group ">
+								<select class="form-control1" name="test_type" required>
+								  <option value="">Test type</option>
+								  <option value="objective">Objective</option>
+								  <option value="subjective">Subjective</option>
+								</select>
+							  </div>
+			  
+							  <div class="form-group ">
+								<input type="text" class=" form-control2" name="total_ques" placeholder="Total Questions" required>
+			  
+							  </div>
+			  
+							  <div>
+								<span class="input-label">Exam Date</span><br>
+								<div class="form-group">
+								  <input type="date" id="examdate" class="form-control2" name="date" required>
+								</div>
+							  </div>
+								<div>
+								<span class="input-label">Start Time:</span><br>
+								<div class="form-group">
+								  <input type="datetime-local" id="" class="form-control2" name="start_time" required>
+								</div>
+							  </div>
+							  <div><br>
+								<span class="input-label">End Time</span><br>
+								<div class="form-group">
+								  <input type="datetime-local" id="" class="form-control2" name="end_time" required>
+								</div>
+							  </div>
+			  
+							  <div>
+							  <span class="input-label">Duration</span><br>
+							  <div class="form-group duration-container ">
+								<table class="durationtable">
+								  <tr>
+									  <td style="text-align: right;">Hour</td>
+									<td><input type="text" name="hour" id="" required></td>
+									  <td style="text-align: right;">Minutes</td>
+									<td><input type="text" name="minute" id="" value="0"></td>
+								  </tr>
+								</table>
+							  </div>
+							</div>
+							</div>
+							<hr id="clrFloat">
+							<div class="text-center">
+							  <br>
+							  <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
+							  <input type="submit" onclick="return confirm('Do you want to submit?');" class="btn btn-success submit btn3 rounded-pill" value="Update" name=""></div>
+						  </form>
+						</div>
+					  </div>
+			        <br><br>
+				</div>
+	        </div>
+		</div>
+		
+		<!-- Modal For Questions Details -->
+		<div class="modal fade ques-details-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content" style="height: auto;padding: 20px;">
+						<button class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
+				  <br>
+				 <div>
+				  <div class="text-center" style="background-color: rgb(226, 226, 226);padding: 20px 10px;">
+					<h2 class="mb-3 mt-2 font-weight-light text-uppercase text-center "
+					style=" font-family: 'Poppins', sans-serif;">Edit Questions</h2>
+					  <form action="">
+						  <div>
+							  <label>Number of questions you want to add</label>
+							  <input type="text" placeholder="5" style="width: 60px; text-align: center; border: 2px solid rebeccapurple ;">
+						  </div>
+						  <div class="ques-list">
+							  <table border="2px">
+								  <tr>
+									  <td>1.</td><td>Question-1</td><td><a href="">Delete</a></td>
+								  </tr>
+								  <tr>
+									<td>2.</td><td>Question-2</td><td><a href="">Delete</a></td>
+								</tr>
+								<tr>
+									<td>3.</td><td>Question-3</td><td><a href="">Delete</a></td>
+								</tr>
+								<tr>
+									<td>4.</td><td>Question-4</td><td><a href="">Delete</a></td>
+								</tr>
+								<tr>
+									<td>5.</td><td>Question-5</td><td><a href="">Delete</a></td>
+								</tr>
+							  </table>
+						  </div>
+						  <div class="text-center">
+							<br>
+							<input type="submit" onclick="return confirm('Do you want to submit?');" class="btn btn-success submit btn3 rounded-pill" value="Update" name="">
+							<input type="submit" onclick="return confirm('Do you want to submit?');" class="btn btn-success submit btn3 rounded-pill" value="Save as new" name=""></div>
+					  </form>
+				  </div>
+				</div>
+				</div>
+	        </div>
+        </div>
+
+
+		<!-- Objective type============================================== -->
+		<form class=" text-center" method="POST" action="/add_ques">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <input value = "1" type="hidden" name="obj">
+			<div class="ques-group">
+				<br>
+				<div class="left form-group">
+					<h4 id='h1quizform'>Question-{{i}}</h4>
+					<textarea id="" class="text-area" placeholder="Write the question here." name="ques_{{ i }}" required></textarea>
+				</div>
+
+				<div class="right form-group text-center">
+					<h4>Options</h4>
+					<div class="form-group">
+						<input type='text' placeholder='Option 1' class="form-control" name="op1_{{ i }}" required>
+					</div>
+
+					<div class="form-group">
+						<input type='text' placeholder='Option 2' class="form-control" name="op2_{{ i }}" required>
+					</div>
+
+					<div class="form-group">
+						<input type='text' placeholder='Option 3' class="form-control" name="op3_{{ i }}" required>
+					</div>
+
+					<div class="form-group">
+						<input type='text' placeholder='Option 4' class="form-control" name="op4_{{ i }}" required>
+					</div>
+                    <div class="form-group">
+                        <select class="form-control" name="obj_ans_{{ i }}">
+                            <option>Correct Answer ?</option>
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
+                            <option>D</option>
+                        </select>
+                    </div>
+				</div>
+				<hr id="clrfloat">
+				<!-- <hr id="separator"> -->
+			</div>
+			<div id="ques-btn">
+				<br>
+				<input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
+				<input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Update" name="">
+			</div>
+        </form>
+        <!-- Subjective -->
+        <form class=" text-center" method="POST" action="/add_ques">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+               
+                    <div class="ques-group">
+                        <h4>Question-{{ i }}</h4>
+                        <div class="form-group subj-textarea">
+                        <textarea name="ques_{{ i }}" id="" class="text-area" placeholder="Write the question here." required></textarea>
+                        </div>
+                 </div>
+    
+                <div id="ques-btn">
+                    <br>
+                    <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
+                    <input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Update" name="">
+    
+                </div>
+    
+     </form>
+        
+
+	</div>
+	</div>
+	</div>
+	
+<!-- {% else %}
+    <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
+{% endif %} -->
+</body>
+
+</html>

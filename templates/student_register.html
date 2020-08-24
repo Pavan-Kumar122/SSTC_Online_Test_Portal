@@ -11,24 +11,24 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <input value = "1" type="hidden" name="id">
 		<div class="form-group ">
-			<div><input type="text" class="form-control  rounded-pill" name="Sname" placeholder="Enter Your Name"></div>
+			<div><input type="text" class="form-control  rounded-pill" name="Sname" placeholder="Enter Your Name" required></div>
 		</div>
 		<div class="form-group">
 
-			<div><input type="text" class="form-control  rounded-pill" name="Sid" placeholder="User ID"></div>
+			<div><input type="text" class="form-control  rounded-pill" name="Sid" placeholder="User ID" required></div>
 		</div>
             <div class="form-group">
 
-			<div><input type="text" class="form-control  rounded-pill" name="Srollno" placeholder="Roll Number"></div>
+			<div><input type="text" class="form-control  rounded-pill" name="Srollno" placeholder="Roll Number" required></div>
 		</div>
 
 		<div class="form-group">
 
-			<div><input type="email" class="form-control  rounded-pill" name="Semail" placeholder="Email"></div>
+			<div><input type="email" class="form-control  rounded-pill" name="Semail" placeholder="Email" required></div>
 		</div>
 
 		<div class="form-group">
-			<select class="form-control branch rounded-pill" name="Sbranch">
+			<select class="form-control branch rounded-pill" name="Sbranch" required>
 				<option>Select Branch</option>
 				<option>Computer Science Engineering</option>
 				<option>Electronics and Tele-Communicatiom</option>
@@ -40,7 +40,7 @@
 			</select>
 		</div>
             <div class="form-group ">
-			<select class="form-control sem rounded-pill" name="Ssection">
+			<select class="form-control sem rounded-pill" name="Ssection" required>
 				<option>Section</option>
 				<option>A</option>
 				<option>B</option>
@@ -49,7 +49,7 @@
 			</select>
 		</div>
 		<div class="form-group ">
-			<select class="form-control sem rounded-pill" name="Ssemester">
+			<select class="form-control sem rounded-pill" name="Ssemester" required>
 				<option>Semester</option>
 				<option>1</option>
 				<option>2</option>
@@ -63,7 +63,7 @@
 		</div>
 
 		<div class="form-group ">
-			<select class="form-control sem rounded-pill" name="Scollege">
+			<select class="form-control sem rounded-pill" name="Scollege" required>
 				<option>Select College</option>
 				<option>SSGI (S1)</option>
 				<option>SSEC (S2)</option>
@@ -73,13 +73,13 @@
 
 		<div class="form-group">
 
-			<div><input type="password" class="form-control pw rounded-pill" name="Spassword" placeholder="Password" onkeyup="CheckPasswordStrength(this.value)"  id="password"></div>
+			<div><input type="password" class="form-control pw rounded-pill" name="Spassword" placeholder="Password" onkeyup="CheckPasswordStrength(this.value)"  id="password" required></div>
 				<div style="background-color:#ddd; margin-top:10px; border-radius:100px; width:60%; margin-left:20%">
 					<strong id="password_strength"></strong>
 				</div>
 		</div>
 		<div><input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
-			<input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Submit" name=""></div>
+			<input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Submit" name="" onclick="return alert('Are you sure you want to submit ?')"></div>
 		<div></div>
             </form>
 	</div>

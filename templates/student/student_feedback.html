@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <div id="feedback" style="margin-top: 30px; background-color: #ccc; border-radius: 10px;">
+          <div class="item">
+            <br>
+            <h3 class="text-center">Your valuable feedback</h3> <br>
+            <form action="/feedback" role="form" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+              <div class="form-group">
+                <div>
+                  <textarea rows="8" name="feedback" class="form-control2 clear" placeholder="Enter your feedback here so that we can improve this website."
+                    style="padding: 5px 10px; margin-bottom: 5px; width: 95%; margin-left: 2.5%;"></textarea>
+                </div>
+                <br>
+                <div>
+                  <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="" style="">
+                  <input type="button" class="btn btn-success submit btn3 rounded-pill" value="Submit" name="" id="stu_feed_btn" style="">
+                </div>
+              </div>
+            </form>
+          </div>
+           <div id="feed" style="display: none" class="alert-info"></div>
+        </div>
+
+</body>
+</html>

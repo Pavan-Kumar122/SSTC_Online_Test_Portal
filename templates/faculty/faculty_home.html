@@ -16,10 +16,22 @@
 
   <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc-logo.png" />
     <script src="/static/js/result.js"></script>
+    <script src="/static/js/result_by_details.js"></script>
     <script>
       function printDiv(){
           var i =0;
           var printContents = document.getElementById("printMe_"+arguments[i]).innerHTML;
+          var originalContents = document.body.innerHTML;
+          document.body.innerHTML = printContents;
+          window.print();
+          document.body.innerHTML = originalContents;
+      }
+
+      function print_res(){
+          var i =0;
+          // var x = document.getElementById("hidden-details_"+arguments[i]);
+          // x.style.display = "inline";
+          var printContents = document.getElementById("print-res_"+arguments[i]).innerHTML;
           var originalContents = document.body.innerHTML;
           document.body.innerHTML = printContents;
           window.print();
@@ -497,7 +509,7 @@
         <ul>
           <li>
             <h2 id="logo">
-              SSTC Online Portal
+              SSTC Online Test Portal
             </h2>
           </li>
         </ul>
@@ -516,7 +528,7 @@
                             <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
                             <div class="main-profile">
                                 <h3 class="text-center">Update Profile</h3>
-                                <form action="" method="POST">
+                                <form action="/faculty_update" method="POST">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                                     <input type="hidden" name="update_profile" value="0">
                                     <div class="img-container">
@@ -590,7 +602,7 @@
                         <hr id="item_ruler">
                     {{ posts.description }}
 
-          <div id="show"><button class="btn-show" >Edit</button><button class="btn-show" data-toggle="modal" data-target="#delete-exam-modal_{{ posts.test_id }}"  >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
+          <div id="show"><button class="btn-show" onclick="window.location.href='{{ url_for('edit_ques') }}'"  disabled>Edit</button><button class="btn-show" data-toggle="modal" data-target="#delete-exam-modal_{{ posts.test_id }}"  >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
                                                                                                          id="read-more"></button> </div>
 
 
@@ -622,9 +634,6 @@
           </div>
         </div>
           </form>
-
-
-
 
           <div class="dashboard-details" id="ques_content_{{ posts.test_id }}">
               <hr>
@@ -818,30 +827,25 @@
         </div>
 
         <div id="results_div">
-            <div class="main_result">
+          <div class="main_result">
             <div class="left">
-              <form class="form-result text-center" role="form" method="POST" action="/all_details">
+              <form class="form-result text-center" role="form">
                   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <h4>Search by Student Details</h4>
+                <h4>Search by Exam Details</h4>
                 <br>
-                <div class="left-result">
-                    <div class="form-group ">
-                <select class="form-control" name="Rtest_type" required>
-                  <option>Test type</option>
-                  <option value="objective">Objective</option>
-                  <option value="subjective">Subjective</option>
-                </select>
-              </div>
+                <div class="form-group test-dropdown ">
+                  <select class="form-control" name="Rtest">
+                    <option>Select Exam</option>
+                      {% for p in post %}
+                    <option value="{{ p.test_id }}">Testname:- {{ p.testname }} &nbsp;&nbsp;| Sem- {{ p.semester }}/{{ p.section }}&nbsp;&nbsp;  | {{ p.testtype }} | &nbsp;&nbsp; {{ p.date_posted.strftime('%a-%Y-%m-%d') }}</option>
+                      {% endfor %}
+                   
+                  </select>
+                </div>
+
+                <div class="left-result">              
                   <div class="form-group ">
-                    <select class="form-control" name="Rcollege">
-                      <option value="">College</option>
-                  <option value="SSGI (S1)">SSGI (S1)</option>
-                  <option value="SSEC (S2)">SSEC (S2)</option>
-                    </select>
-                    </select>
-                  </div>
-                  <div class="form-group ">
-                    <select class="form-control" name="Rsemester">
+                    <select class="form-control" name="Rsemester" disabled>
                       <option>Semester</option>
                       <option>1</option>
                       <option>2</option>
@@ -853,46 +857,30 @@
                       <option>8</option>
                     </select>
                   </div>
-                  <div class="form-group">
-                    <input type="text" class="form-control2 " name="Rsubject" placeholder="Subject">
-                  </div>
                 </div>
 
                 <div class="right-result">
+                  
                   <div class="form-group ">
-                    <select class="form-control" name="Rbranch">
-                      <option>Branch</option>
-                      <option>Computer Science Engineering</option>
-                      <option>Electronics and Tele-Communicatiom</option>
-                      <option>Information Technology</option>
-                      <option>Electrical and Electronics Engineering</option>
-                      <option>Electrical engineering</option>
-                      <option>Civil Engineering</option>
-                      <option>Mechanical Engineering</option>
-                    </select>
-                  </div>
-                  <div class="form-group ">
-                    <select class="form-control" name="Rsection">
+                    <select class="form-control" name="Rsection" disabled>
                       <option>Section</option>
                       <option>A</option>
                       <option>B</option>
                       <option>C</option>
                     </select>
                   </div>
-                  <div class="form-group">
-                    <input type="text" class="form-control2 " name="Rrollno" placeholder="Roll Number">
-                  </div>
                 </div>
                 <hr id="clrfloat">
                 <div>
                   <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
-                  <button class="btn btn-success submit btn3 rounded-pill" type="submit" id="result_btn">Submit</button>
+{#                  <button class="btn btn-success submit btn3 rounded-pill" type="button" id="result_btn" onclick="search2()">Submit</button>#}
+                    <input type="button" class="btn btn-success submit btn3 rounded-pill" id="result_btn" onclick="search2()" value="Submit">
                 </div>
               </form>
             </div>
 
             <div class="right form-group text-center">
-              <form class="form-result text-center" action="" role="form" onsubmit="return false;">
+              <form class="form-result text-center" action="" role="form">
                 <h4> Search by Student ID</h4><br>
                 <div class="form-group">
                   <input type='text' placeholder='Enter Id' class="form-control" id="input_sid" name="student_id">
@@ -908,6 +896,25 @@
             <br>
           </div>
           <div id="error" style="display: none"></div>
+          
+          <div class="results-by-test" id="results_by_test">
+{#            <div class="student-list">#}
+{#              <table border="2px"><tr><td>Siddheshwar Chandra</td><td>303030303030</td><td><button onclick="toggle_resultbytest()">Show</button></td><td><button >Evaluate</button></td></tr></table>#}
+{#              <div id="student_result_div">#}
+{#               <div class="result-obj" id="result-obj-details">#}
+{#              <table border="2px"><tr><td>Test Name</td><td>Date</td><td>Attempted</td><td>Marks</td></tr></table>#}
+{#              </div>#}
+{#              <div class="result-subj" id="result-subj-details">#}
+{#                <table border="2px"><tr><td>Java Unit-5 </td><td>20/2/2020</td><td>Attempted-17</td><td>Marks-85</td></tr>#}
+{#                                    <tr><td colspan="4" style="text-align: left; padding-left: 8px;">Question- What?????????????<br>#}
+{#                                      Answer- Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores cumque quo esse quis, consequuntur nisi libero dolores iusto saepe modi placeat eligendi excepturi dolore ex tempora enim explicabo laborum?  </td> </tr>#}
+{#                </table>#}
+{#              </div>#}
+{#                  </div>#}
+{#            </div>#}
+           
+          </div>
+
           <div id="show-results">
                 <div class="tabs">
                   <input type="radio" id="tab1" name="tab-control" checked>
@@ -966,6 +973,7 @@
 <script>
   $(document).ready(function () {
       $('.dashboard-details').hide();
+      $('#results_by_test').hide();
       $('.subj-ans').hide();
       $('#show-results').hide();
     $("#dashboard").show();
@@ -1050,16 +1058,81 @@
           }
         }
 </script>
+
+<script type="text/javascript">
+  function toggle_resultbytest() {
+      var i =0;
+      $('#student_result_div1_'+arguments[i]).hide();
+      $('#student_result_div2_'+arguments[i]).hide();
+        var x = document.getElementById("student_result_div_"+arguments[i]);
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+</script>
+
+
+<script type="text/javascript">
+  function toggle_evaluate() {
+      var i =0;
+      $('#student_result_div_'+arguments[i]).hide();
+      $('#student_result_div2_'+arguments[i]).hide();
+        var x = document.getElementById("student_result_div1_"+arguments[i]);
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+</script>
+
+<script type="text/javascript">
+  function toggle_img() {
+      var i =0;
+      $('#student_result_div_'+arguments[i]).hide();
+      $('#student_result_div1_'+arguments[i]).hide();
+        var x = document.getElementById("student_result_div2_"+arguments[i]);
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+
+      }
+</script>
+
+
 <script type="text/javascript">
   function search() {
        document.getElementById("show-results").style.display = 'block';
+      }
+</script>
+<script type="text/javascript">
+  function search2() {
+        $('#show-results').hide();
+       document.getElementById("results_by_test").style.display = 'block';
       }
 </script>
 
 <script type="text/javascript">
   function show_ans() {
         var i = 0;
+        $('#subj1_'+arguments[i]).hide();
         var x = document.getElementById("subj_"+arguments[i]);
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+</script>
+<script type="text/javascript">
+  function show_eval() {
+        var i = 0;
+        $('#subj_'+arguments[i]).hide();
+        var x = document.getElementById("subj1_"+arguments[i]);
         if (x.style.display === "none") {
           x.style.display = "block";
         } else {
@@ -1102,4 +1175,103 @@
 });
 
 </script>
+<script type="text/javascript">
+    function evalu(para1, para2) {
+        var s = 0;
+        {#console.log(document.getElementById('marks_div_'+arguments[s]));#}
+        var roll = $("#hidden_id_"+arguments[s]).val();
+        var question_length = $('#question_len'+arguments[s]).val();
+        var test_id = $('#testid_'+arguments[s]).val();
+        var result_id = $('#resultid_'+arguments[s]).val();
+		$.ajax({
+			url: '/evaluate',
+			data: $('form').serialize() + "&rollno="+roll+"&index="+para2+"&user="+para1+"&ques_len="+question_length+"&test_id="+test_id+"&result_id="+result_id,
+			type: 'POST',
+			success: function(data){
+				var response = JSON.parse(data);
+				console.log(response);
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+		$(".enable_disable_"+arguments[s]+"").prop("disabled", true);
+    }
+</script>
+<script type="text/javascript">
+    function enable_input() {
+        var i = 0;
+        $(".enable_disable_"+arguments[i]+"").prop("disabled", false);
+    }
+</script>
+
+
+<script type="text/javascript">
+    function eval_enable_input() {
+        var i = 0;
+        $(".eval_enable_disable_"+arguments[i]+"").prop("disabled", false);
+    }
+</script>
+<script type="text/javascript">
+    function eval_evalu(para1, para2) {
+        var s = 0;
+        {#console.log(document.getElementById('marks_div_'+arguments[s]));#}
+        var roll = $("#eval_hidden_id_"+arguments[s]).val();
+        var question_length = $('#eval_question_len'+arguments[s]).val();
+        var test_id = $('#eval_testid_'+arguments[s]).val();
+        {#console.log(roll, question_length, test_id);#}
+        {#var result_id = $('#resultid_'+arguments[s]).val();#}
+		$.ajax({
+			url: '/evaluate_by_id',
+			data: $('form').serialize() + "&rollno="+roll+"&index="+para2+"&user="+para1+"&ques_len="+question_length+"&test_id="+test_id,
+			type: 'POST',
+			success: function(data){
+				var response = JSON.parse(data);
+				console.log(response);
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+		$(".eval_enable_disable_"+arguments[s]+"").prop("disabled", true);
+    }
+</script>
+
+
+<script type="text/javascript">
+    function delete_img(para1,para2) {
+        var start = 0;
+        var end  = 0;
+        let imagegarray = [];
+        let img;
+        if (para1 === 0) {
+            img = 1;
+            for (img; img <= 5; img++) {
+                imagegarray.push(localStorage.getItem("img" + img));
+                {#localStorage.removeItem("img"+img);#}
+            }
+        }
+        else {
+            for (img=para2-5; img <= para2; img++) {
+                imagegarray.push(localStorage.getItem("img" + img));
+                {#localStorage.removeItem("img"+img);#}
+            }
+        }
+        {#console.log(imagegarray,para1,para2);#}
+        $.get({
+			url: '/delete_img',
+			data: {host: imagegarray},
+			success: function(data){
+				var response = JSON.parse(data);
+				console.log(response);
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+
+
+    }
+</script>
+
 </html>

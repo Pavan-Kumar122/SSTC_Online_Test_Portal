@@ -57,13 +57,20 @@
 		<form class=" text-center" method="POST" action="/add_ques">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             {%for i in range(1,ques + 1) %}
-                <div class="ques-group">
+                <div class="ques-group subj-que">
 
-					<h4>Question-{{ i }}</h4>
+					
                     <div class="form-group subj-textarea">
+						<h4>Question-{{ i }}</h4>
 					<textarea name="ques_{{ i }}" id="" class="text-area" placeholder="Write the question here." required></textarea>
-                    </div>
-			 </div>
+					</div>
+					
+					<div class="marks-assigned">
+						<h4>Marks Assigned</h4>
+						<input type="text" placeholder="10" name="marks_assign_{{ i }}" required>
+					</div>
+					<hr class="clrfloat">
+			   </div>
 
 			{% endfor %}
 			<div id="ques-btn">
@@ -80,5 +87,4 @@
     <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
 {% endif %}
 </body>
-
 </html>

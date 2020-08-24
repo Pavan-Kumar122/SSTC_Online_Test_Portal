@@ -16,15 +16,14 @@
         <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc_logo.png" />
 
         <link href="/static/css/style_yash.css" rel="stylesheet" />
-        <script src = 'http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js'></script>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-<script src = 'http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!--
     <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script> -->
     <style type="text/css">
         /*
     DEMO STYLE
@@ -115,10 +114,24 @@ span {
     text-align: left;
 }
 
+#sidebar div {
+    text-align: left;
+    margin-left: 26px;
+}
+
 #sidebar.active ul li a {
     padding: 20px 10px;
     text-align: center;
-    font-size: 0.85em;
+    font-size: 0.90em;
+}
+
+#sidebar.active div {
+    text-align: center;
+    width: 80px;
+    height: auto;
+    padding-left: 6px;
+    font-size: 9px;
+    margin-left: -3px;
 }
 
 #sidebar.active ul li a i {
@@ -148,7 +161,7 @@ span {
 
 #sidebar .sidebar-header strong {
     display: none;
-    font-size: 1.8em;
+    font-size: 3.8em;
 }
 
 #sidebar ul.components {
@@ -157,14 +170,10 @@ span {
 }
 
 #sidebar ul li a {
-    padding: 10px;
-    font-size: 1.1em;
+    padding: 30px;
+    font-size: 20px;
     display: block;
-}
-
-#sidebar ul li a:hover {
-    color: #4b4276;
-    background: #fff;
+    height: 90px;
 }
 
 #sidebar ul li a i {
@@ -291,6 +300,91 @@ canvas {
   border-radius: 100px;
   background-image: url(/static/Profile_pics/default.jpg);
 }
+
+.textbox {
+    border-color: black;
+    text-align: center;
+}
+
+.update-profile {
+    border-color: white;
+    border-radius: 100px;
+    border-width: 2px;
+}
+
+
+
+
+.avatar-upload {
+  position: relative;
+  max-width: 205px;
+  margin: 50px auto;
+}
+.avatar-upload .avatar-edit {
+  position: absolute;
+  right: 12px;
+  z-index: 1;
+  top: 10px;
+}
+.avatar-upload .avatar-edit input {
+  display: none;
+}
+.avatar-upload .avatar-edit input + label {
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 0;
+  border-radius: 100%;
+  background: #ececec;
+  border: 1px solid transparent;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  font-weight: normal;
+  transition: all 0.2s ease-in-out;
+}
+.avatar-upload .avatar-edit input + label:hover {
+  background: #f1f1f1;
+  border-color: #d6d6d6;
+}
+.avatar-upload .avatar-edit input + label:after {
+  content: "\f040";
+  font-family: "FontAwesome";
+  color: #757575;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: auto;
+}
+.avatar-upload .avatar-preview {
+  width: 192px;
+  height: 192px;
+  position: relative;
+  border-radius: 100%;
+  border: 6px solid #c4c4c4;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+.avatar-upload .avatar-preview > div {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+        @media (min-width: 320px) {
+    #content {
+        background-position : center;
+    }
+}
+
+@media (min-width: 1200px) {
+    #content {
+        background-position : inherit;
+    }
+
+
     </style>
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
@@ -304,8 +398,8 @@ canvas {
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Online Test Portal</h3>
-                <strong style="margin-left: -10px;">OTP</strong>
+                <h3>SSTC Online Test Portal</h3>
+                <strong style="margin-left: 0px;">OTP</strong>
             </div>
 
             <ul class="list-unstyled components">
@@ -319,24 +413,22 @@ canvas {
                     </a>
                 </li>
                 <li>
-                    <a href="#" id="pre_exam" onclick="pre_exam()">
-                        <svg class="bi bi-folder" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9.828 4a3 3 0 01-2.12-.879l-.83-.828A1 1 0 006.173 2H2.5a1 1 0 00-1 .981L1.546 4h-1L.5 3a2 2 0 012-2h3.672a2 2 0 011.414.586l.828.828A2 2 0 009.828 3v1z"></path>
-                            <path fill-rule="evenodd" d="M13.81 4H2.19a1 1 0 00-.996 1.09l.637 7a1 1 0 00.995.91h10.348a1 1 0 00.995-.91l.637-7A1 1 0 0013.81 4zM2.19 3A2 2 0 00.198 5.181l.637 7A2 2 0 002.826 14h10.348a2 2 0 001.991-1.819l.637-7A2 2 0 0013.81 3H2.19z" clip-rule="evenodd"></path>
-                        </svg>
-                        Previous Exams
+                    <a href="#" id="feedback" onclick="feedback()">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat-left-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v11.586l2-2A2 2 0 0 1 4.414 11H14a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                            <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                        </svg> FeedBack
                     </a>
                 </li>
-                <li>
-                    <a href="#" id="profile" onclick="profile()">
-                        <svg class="bi bi-person-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-                            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                            <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-                        </svg>
-                        My Profile
-                    </a>
-                </li>
+{#                <li>#}
+{#                    <a href="#" id="pre_exam" onclick="pre_exam()">#}
+{#                        <svg class="bi bi-folder" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">#}
+{#                            <path d="M9.828 4a3 3 0 01-2.12-.879l-.83-.828A1 1 0 006.173 2H2.5a1 1 0 00-1 .981L1.546 4h-1L.5 3a2 2 0 012-2h3.672a2 2 0 011.414.586l.828.828A2 2 0 009.828 3v1z"></path>#}
+{#                            <path fill-rule="evenodd" d="M13.81 4H2.19a1 1 0 00-.996 1.09l.637 7a1 1 0 00.995.91h10.348a1 1 0 00.995-.91l.637-7A1 1 0 0013.81 4zM2.19 3A2 2 0 00.198 5.181l.637 7A2 2 0 002.826 14h10.348a2 2 0 001.991-1.819l.637-7A2 2 0 0013.81 3H2.19z" clip-rule="evenodd"></path>#}
+{#                        </svg>#}
+{#                        Previous Exams#}
+{#                    </a>#}
+{#                </li>#}
                 <li>
                     <a href="{{ url_for('logout') }}">
                         <svg class="bi bi-box-arrow-in-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -346,12 +438,127 @@ canvas {
                         </svg>
                         Logout
                     </a>
-                </li>
+                </li><!--
+                <li>
+                    <a href="#" id="profile">
+                        <svg class="bi bi-person-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+                            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                            <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                        </svg>
+                        <div class="btn update-profile" data-toggle="modal" data-target=".bd-example-modal-lg">Update Profile</div>
+                    </a>
+                </li> -->
             </ul>
+                    <div class="profile_data" id="profile">
+                        <div class="btn update-profile" data-toggle="modal" data-target=".bd-example-modal-lg">Update Profile</div>
+                        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Update</button> -->
+                      </div>
         </nav>
 
         <!-- Page Content  -->
-        <div id="content" style="background-color:#ddd">
+        <div id="content" style="background-image: url(/static/assets/img/bg.png);background-size: cover;">
+
+
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal" style="width: 24%; margin-left: 76%;">Close</button>
+                            <div class="main-profile">
+                                <h3 class="text-center">Update Profile</h3>
+                                <form action="/stud_prof_up" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                    <div class="img-container">
+                                        <div class="text-center">
+                                            <!-- <img src="{{ url_for('static', filename='Profile_pics/'+ current_user.image_file) }}" alt="" id="update-img" style="border-radius: 100%;width: 170px;"><br> -->
+
+                                                    <div class="avatar-upload">
+                                                        <div class="avatar-edit">
+                                                            <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+                                                            <label for="imageUpload"></label>
+                                                        </div>
+                                                        <div class="avatar-preview">
+                                                            <div id="imagePreview" style="background-image: url(/static/Profile_pics/default.jpg);">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            <!-- <label class="custom-file-upload">
+                            <input type="file" onchange="readURL(this);">
+                            Choose New
+                        </label>
+                        -->
+                                            <h5 class="text-center" style="margin-top: 20px">{{ current_user.role }}</h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="personal-details">
+                                        <div class="form-group text-center">
+                                            <label>
+                                                <span class="label1">Name</span>
+                                                <input class="form-control textbox" type="text" value="{{ current_user.username }}" name="stu_username">
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <label>
+                                                <span class="label1">College</span>
+                                                <input type="text" class="form-control textbox" value="{{ current_user.college }}" name="stu_college">
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <label>
+                                                <span class="label1">Branch</span>
+                                                <input type="text" class="form-control textbox" value="{{ current_user.branch }}" name="stu_branch">
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <label>
+                                                <span class="label1">Semester</span>
+                                                <input type="text" class="form-control textbox" value="{{ current_user.semester }}" name="stu_semester">
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <label>
+                                                <span class="label1">Section</span>
+                                                <input type="text" class="form-control textbox" value="{{ current_user.section }}" name="stu_section">
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="college-details">
+                                        <div class="form-group text-center">
+                                            <label>
+                                                <span class="label1">User ID</span>
+                                                <input type="text" class="form-control textbox" value="{{ current_user.userid }}" name="stu_csvtuid">
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <label>
+                                                <span class="label1">Email</span>
+                                                <input type="text" class="form-control textbox" value="{{ current_user.email }}" name="stu_email">
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group text-center" style="margin-bottom: -10px;">
+                                            <a href="{{ url_for('resetpassword') }}" style="color: #007bff;">Reset Password ?</a>
+                                        </div>
+                                        <br>
+                                        <div class=" text-center">
+                                            <input type="submit" class="btn-success" value="Update" onclick="return confirm('Press OK to confirm / Cancel to update again !!')" id="update_button" style="margin-bottom: 10px;margin-top: -15px;">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
 
             <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #ddd;z-index: 1000">
                 <div class="container-fluid">
@@ -380,22 +587,24 @@ canvas {
                         {% else %}
                             <div class="col-lg-12" id="header">
                             {% for paper in paper1 %}
-                                <div style="float: left; margin-left: 10px; margin-top: 10px;"><h3><span>Exam-{{ paper.testname }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Time Limit:{{ time }}</span></h3><div>Description-{{ paper.description }} Test Type-{{ paper.testtype }}</div></div><!-- for Exam Name -->
+                                <div style="float: left; margin-left: 0px; margin-top: 10px;"><h3><span>Exam-{{ paper.testname }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Time Limit:{{ time }}</span></h3><div>Description-{{ paper.description }} Test Type-{{ paper.testtype }}</div></div><!-- for Exam Name -->
                                     <input type="hidden" value="{{ time_limit }}" id="time_limit">
+                                    <input type="hidden" value="{{ paper.testname }}" id="exam_name">
                                     <div class="exam_start">
-                                        <input type="button" class="btn btn-info" value="Start" name="" id="start/submit" onclick="examFunction()">
+                                        <input type="button" class="btn btn-info" value="Start" name="" id="start/submit" onclick="examFunction()" style="margin-top: 21%;">
                                     </div><!-- Button for Showing the Exam Paper -->
                             </div>
                         <div class="col-lg-12 unselectable" style="margin-top: 20px; width: 100%; color: black; display: none;" id="ExamDiv">
-                            
-                            <div id="timer_section" class="align-items-center">
-                                        <div id="app"></div>
-                                    </div>
-                                <form method="POST" action="/showresult">
+
+                                <div id="timer_section" class="align-items-center" style="">
+                                    <div id="app"></div>
+                                </div>
+
+                            <form method="POST" action="/showresult" style="margin-top: inherit;" id="form_id">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                                 {% for ques in get_ques %}
                                 {% if paper.testtype == 'objective' %}
-                                    <input value = "objective" type="hidden" name="objective">
+                                <input value = "objective" type="hidden" name="objective">
                                 <div class="questions">
                                     <div><li class="ques"><span>{{ ques.ques_no }}-{{ ques.question }}</span></li></div>
                                     <input value = "{{ ques.ques_id }}" type="hidden" name="id_{{ ques.ques_id }}">
@@ -416,12 +625,12 @@ canvas {
                                         <div class="collapse" id="collapseExample_{{ ques.ques_no }}">
                                             <textarea class="write_answer form-control" id="answer" placeholder="Write Your Answer Here..." name="subj_{{ ques.ques_no }}"></textarea>
                                         </div>
-                                    </div>  
+                                    </div>
                                 </div>
                             {% endif %}
                         {% endfor %}
                             {% endfor %}
-                                <div><input type="submit" class="btn btn-success" value="Submit" name="" onclick="return confirm('Are you sure?')" style="width: 100px"></div>
+                                <div><input type="submit" class="btn btn-success" value="Submit" name="" id="" onclick="return confirm('Are you sure?')" style="width: 100px"></div>
                             </form>
                         </div>
                         {% endif %}
@@ -429,13 +638,14 @@ canvas {
                 </div>
             </div>
             <div id="pre_exam_details"  class="container align-items-center flex-column">
-                
+
             </div>
 
-            <div id="profile_details"  class="container align-items-center flex-column">
-                
+            <div id="feedback_details"  class="container align-items-center flex-column">
+
             </div>
         </div>
+    </div>
     </div>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -448,14 +658,14 @@ canvas {
 
     <!-- ajax pages connects -->
     <script>
-        function pre_exam() 
+        function pre_exam()
         {
 
 
             var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() 
+            xhttp.onreadystatechange = function()
             {
-                if (xhttp.readyState == 4 && xhttp.status == 200) 
+                if (xhttp.readyState === 4 && xhttp.status === 200)
                 {
                     document.getElementById("pre_exam_details").innerHTML = xhttp.responseText;
                 }
@@ -464,26 +674,26 @@ canvas {
             xhttp.send();
         }
 
-        function profile() 
+        function feedback()
         {
             var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() 
+            xhttp.onreadystatechange = function()
             {
-                if (xhttp.readyState == 4 && xhttp.status == 200) 
+                if (xhttp.readyState === 4 && xhttp.status === 200)
                 {
-                      document.getElementById("profile_details").innerHTML = xhttp.responseText;
+                    document.getElementById("feedback_details").innerHTML = xhttp.responseText;
                 }
             };
-            xhttp.open("GET", "{{ url_for('profile') }}", true);
+            xhttp.open("GET", "{{ url_for('stu_feedback') }}", true);
             xhttp.send();
         }
     </script>
 
     <!-- sidebar -->
     <script>
-        $(document).ready(function () 
+        $(document).ready(function ()
         {
-            $('#sidebarCollapse').on('click', function () 
+            $('#sidebarCollapse').on('click', function ()
             {
                 $('#sidebar').toggleClass('active');
             });
@@ -492,7 +702,7 @@ canvas {
 
 
     <!-- for profile image-->
-    <script>
+    <!-- <script>
         var image;
         function upload()
         {
@@ -504,52 +714,59 @@ canvas {
             image.drawTo(imgcanvas1);
         }
 
-        $("#files").change(function() 
+        $("#files").change(function()
         {
             filename = this.files[0].name;
             console.log(filename);
         });
-    </script>
+    </script> -->
 
     <!-- for disabling and enabling -->
-    <script> 
-        function enable_disable() 
+    <script>
+        function enable_disable()
         {
-            $("#GFG :input").prop("disabled", true); 
-        } 
-        function disable_enable() 
-        { 
-            $("#GFG :input").prop("disabled", false); 
-        } 
-    </script> 
+            $("#GFG :input").prop("disabled", true);
+        }
+        function disable_enable()
+        {
+            $("#GFG :input").prop("disabled", false);
+        }
+    </script>
 
     <!-- reference question list -->
     <script>
-        
-        function examFunction() 
-        {     
-            var retVal = confirm("Do you want to start the exam ?");
-            if( retVal == true ) 
-            {
 
-                $(function () {  
-                        $(document).keydown(function (e) {  
-                            return (e.which || e.keyCode) != 116;  
-                        });  
+        function examFunction()
+        {
+            var retVal = confirm("Do you want to start the exam ?");
+            if( retVal === true )
+            {
+                $.ajax({
+                    url: '/get_value',
+                    data: "&a=" + {{ time_limit }}+"&test=" + $('#exam_name').val(),
+                    success: function (data) {
+                        console.log(data)
+                    }
+                });
+
+                $(function () {
+                        $(document).keydown(function (e) {
+                            return (e.which || e.keyCode) !== 116;
+                        });
                     });
 
-                document.onkeydown = function() {    
-                    switch (event.keyCode) { 
+                document.onkeydown = function() {
+                    switch (event.keyCode) {
                         case 116 : //F5 button
                             event.returnValue = false;
                             event.keyCode = 0;
-                            return false; 
+                            return false;
                         case 82 : //R button
-                            if (event.ctrlKey) { 
-                                event.returnValue = false; 
-                                event.keyCode = 0;  
-                                return false; 
-                            } 
+                            if (event.ctrlKey) {
+                                event.returnValue = false;
+                                event.keyCode = 0;
+                                return false;
+                            }
                     }
                 }
 
@@ -566,11 +783,11 @@ canvas {
                 });
 
                 var T1 = document.getElementById("ExamDiv");
-                T1.style.display = "block";  
+                T1.style.display = "block";
 
                 var T2 = document.getElementById("timer_section");
-                T2.style.display = "block"; 
-                        
+                T2.style.display = "block";
+
                 /*timer*/
                 // Credit: Mateusz Rybczonec
 
@@ -626,7 +843,7 @@ canvas {
 
                 function onTimesUp() {
                   clearInterval(timerInterval);
-                  window.location='{{ url_for('showresult') }}';
+                    document.getElementById('form_id').submit();
                   alert("Times up....Exam has ended..");
                 }
 
@@ -639,8 +856,6 @@ canvas {
                     );
                     setCircleDasharray();
                     setRemainingPathColor(timeLeft);
-
-
                     if (timeLeft === 0) {
                       onTimesUp();
                     }
@@ -650,14 +865,11 @@ canvas {
                 function formatTime(time) {
                   const minutes = Math.floor(time / 60);
                   let seconds = time % 60;
-
                   if (seconds < 10) {
                     seconds = `0${seconds}`;
                   }
-
                   return `${minutes}:${seconds}`;
                 }
-
                 function setRemainingPathColor(timeLeft) {
                   const { alert, warning, info } = COLOR_CODES;
                   if (timeLeft <= alert.threshold) {
@@ -697,59 +909,135 @@ canvas {
                   return true;
 
 
-            } 
+                //Prevent pull to refresh chrome
+                var lastTouchY = 0;
+                var preventPullToRefresh = false;
+
+                $('body').on('touchstart', function(e) {
+                    if (e.originalEvent.touches.length != 1) {
+                        return;
+                    }
+                    lastTouchY = e.originalEvent.touches[0].clientY;
+                    preventPullToRefresh = window.pageYOffset == 0;
+                });
+
+                $('body').on('touchmove', function(e) {
+                    var touchY = e.originalEvent.touches[0].clientY;
+                    var touchYDelta = touchY - lastTouchY;
+                    lastTouchY = touchY;
+                    if (preventPullToRefresh) {
+                        // To suppress pull-to-refresh it is sufficient to preventDefault the first overscrolling touchmove.
+                        preventPullToRefresh = false;
+                        if (touchYDelta > 0) {
+                            e.preventDefault();
+                            return;
+                        }
+                    }
+                });
+
+
+            }
         };
 
     </script>
 
     <!-- show hide functions -->
+{#    <script>#}
+{##}
+{#        $("#exam").on('click', function()#}
+{#        {#}
+{#            document.getElementById("pre_exam").style.background = "#00002d";#}
+{#            document.getElementById("pre_exam").style.color = "white";#}
+{##}
+{#            document.getElementById("exam").style.background = "#ddd";#}
+{#            document.getElementById("exam").style.color = "black";#}
+{##}
+{#            document.getElementById("profile").style.background = "#00002d";#}
+{#            document.getElementById("profile").style.color = "white";#}
+{##}
+{##}
+{#           $("#exam_details").show();#}
+{#           $("#pre_exam_details,#profile_details").hide();#}
+{#        });#}
+{##}
+{#        $("#pre_exam").on('click', function()#}
+{#        {#}
+{#            document.getElementById("pre_exam").style.background = "#ddd";#}
+{#            document.getElementById("pre_exam").style.color = "black";#}
+{##}
+{#            document.getElementById("exam").style.background = "#00002d";#}
+{#            document.getElementById("exam").style.color = "white";#}
+{##}
+{#            document.getElementById("profile").style.background = "#00002d";#}
+{#            document.getElementById("profile").style.color = "white";#}
+{##}
+{#           $("#pre_exam_details").show();#}
+{#           $("#profile_details,#exam_details").hide();#}
+{#        });#}
+{##}
+{#        // $("#profile").on('click', function()#}
+{#        // {#}
+{#        //     document.getElementById("pre_exam").style.background = "#00002d";#}
+{#        //     document.getElementById("pre_exam").style.color = "white";#}
+{##}
+{#        //     document.getElementById("exam").style.background = "#00002d";#}
+{#        //     document.getElementById("exam").style.color = "white";#}
+{##}
+{#        //     document.getElementById("profile").style.background = "#ddd";#}
+{#        //     document.getElementById("profile").style.color = "black";#}
+{##}
+{##}
+{#        //    $("#profile_details").show();#}
+{#        //    $("#pre_exam_details,#exam_details").hide();#}
+{#        // });#}
+{#    </script>#}
     <script>
 
-        $("#exam").on('click', function() 
+        $("#exam").on('click', function()
         {
-            document.getElementById("pre_exam").style.background = "#00002d";
-            document.getElementById("pre_exam").style.color = "white";
+            // document.getElementById("pre_exam").style.background = "#00002d";
+            // document.getElementById("pre_exam").style.color = "white";
 
             document.getElementById("exam").style.background = "#ddd";
             document.getElementById("exam").style.color = "black";
 
-            document.getElementById("profile").style.background = "#00002d";
-            document.getElementById("profile").style.color = "white";
+            document.getElementById("feedback").style.background = "#00002d";
+            document.getElementById("feedback").style.color = "white";
 
-           
+
            $("#exam_details").show();
-           $("#pre_exam_details,#profile_details").hide();
+           $("#feedback_details,#pre_exam_details").hide();
         });
 
-        $("#pre_exam").on('click', function() 
+        $("#pre_exam").on('click', function()
         {
-            document.getElementById("pre_exam").style.background = "#ddd";
-            document.getElementById("pre_exam").style.color = "black";
+            // document.getElementById("pre_exam").style.background = "#ddd";
+            // document.getElementById("pre_exam").style.color = "black";
 
             document.getElementById("exam").style.background = "#00002d";
             document.getElementById("exam").style.color = "white";
 
-            document.getElementById("profile").style.background = "#00002d";
-            document.getElementById("profile").style.color = "white";
+            document.getElementById("feedback").style.background = "#00002d";
+            document.getElementById("feedback").style.color = "white";
 
            $("#pre_exam_details").show();
-           $("#profile_details,#exam_details").hide();
+           $("#feedback_details,#exam_details").hide();
         });
 
-        $("#profile").on('click', function() 
+        $("#feedback").on('click', function()
         {
-            document.getElementById("pre_exam").style.background = "#00002d";
-            document.getElementById("pre_exam").style.color = "white";
+            // document.getElementById("pre_exam").style.background = "#00002d";
+            // document.getElementById("pre_exam").style.color = "white";
 
             document.getElementById("exam").style.background = "#00002d";
             document.getElementById("exam").style.color = "white";
 
-            document.getElementById("profile").style.background = "#ddd";
-            document.getElementById("profile").style.color = "black";
+            document.getElementById("feedback").style.background = "#ddd";
+            document.getElementById("feedback").style.color = "black";
 
-           
-           $("#profile_details").show();
-           $("#pre_exam_details,#exam_details").hide();
+
+           $("#feedback_details").show();
+           $("#exam_details,#pre_exam_details").hide();
         });
     </script>
 
@@ -815,6 +1103,92 @@ canvas {
         }
       };
     </script> -->
+
+    <!-- driftable timer-->
+    <script>
+    var dragItem = document.querySelector("#timer_section");
+    var container = document.querySelector("#content");
+
+    var active = false;
+    var currentX;
+    var currentY;
+    var initialX;
+    var initialY;
+    var xOffset = 0;
+    var yOffset = 0;
+
+    container.addEventListener("touchstart", dragStart, false);
+    container.addEventListener("touchend", dragEnd, false);
+    container.addEventListener("touchmove", drag, false);
+
+    container.addEventListener("mousedown", dragStart, false);
+    container.addEventListener("mouseup", dragEnd, false);
+    container.addEventListener("mousemove", drag, false);
+
+    function dragStart(e) {
+      if (e.type === "touchstart") {
+        initialX = e.touches[0].clientX - xOffset;
+        initialY = e.touches[0].clientY - yOffset;
+      } else {
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+      }
+
+      if (e.target === dragItem) {
+        active = true;
+      }
+    }
+
+    function dragEnd(e) {
+      initialX = currentX;
+      initialY = currentY;
+
+      active = false;
+    }
+
+    function drag(e) {
+      if (active) {
+
+        e.preventDefault();
+
+        if (e.type === "touchmove") {
+          currentX = e.touches[0].clientX - initialX;
+          currentY = e.touches[0].clientY - initialY;
+        } else {
+          currentX = e.clientX - initialX;
+          currentY = e.clientY - initialY;
+        }
+
+        xOffset = currentX;
+        yOffset = currentY;
+
+        setTranslate(currentX, currentY, dragItem);
+      }
+    }
+
+    function setTranslate(xPos, yPos, el) {
+      el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+    }
+  </script>
+
+      <!-- profile photo -->
+    <script>
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+            $('#imagePreview').hide();
+            $('#imagePreview').fadeIn(650);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#imageUpload").change(function() {
+    readURL(this);
+});
+    </script>
+
     
 {% else %}
     <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>

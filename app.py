@@ -1,8 +1,11 @@
 import os
 import re
+import cv2
+import collections
+import time as t
 from datetime import datetime, date, timedelta
 from dateutil import parser
-from flask import Flask, render_template, redirect, request, url_for, flash, json, session
+from flask import Flask, render_template, redirect, request, url_for, flash, json, session, jsonify
 from flask_assets import Bundle, Environment
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required, UserMixin
@@ -72,6 +75,8 @@ attempt = 0
 sub_ans = []
 time = ""
 check = False
+c_ans = ''
+w_ans = ''
 
 
 @login_manager.user_loader
@@ -149,10 +154,11 @@ class Questions(db.Model, UserMixin):
     op4 = db.Column(db.String(100))
     obj_ans = db.Column(db.String(50))
     ques_no = db.Column(db.Integer, nullable=False, default=0)
+    marks_assign = db.Column(db.String(60))
 
     def __repr__(self):
         return f"Questions('{self.question}','{self.ques_id}','{self.test_id}','{self.ques_no}','{self.user_id}','{self.op1}', '{self.op2}', '{self.op3}', '{self.op4}'," \
-               f" '{self.obj_ans}') "
+               f" '{self.obj_ans}', {self.marks_assign}) "
 
 
 class Result(db.Model, UserMixin):
@@ -275,7 +281,7 @@ def index():
     if request.method == 'POST':
         user = Users.query.filter_by(userid=request.form['Lid']).first()
         if user is None:
-            flash("Please check Email and Password", 'danger')
+            flash("Please check User Id and Password", 'danger')
             return render_template('index.html')
         else:
             get_role = user.role
@@ -289,7 +295,7 @@ def index():
                         login_user(user, remember=remember_me)
                         return redirect(url_for('student_login'))
                 else:
-                    flash("Please check Email and Password", 'danger')
+                    flash("Please check User Id and Password", 'danger')
             else:
                 if user and bcrypt.check_password_hash(user.password, request.form['Lpassword']):
                     remember_me = request.form.get('remember')
@@ -300,7 +306,7 @@ def index():
                         login_user(user, remember=remember_me)
                         return redirect(url_for('faculty_login'))
                 else:
-                    flash("Please check Email and Password", 'danger')
+                    flash("Please check User Id and Password", 'danger')
     return render_template('index.html')
 
 
@@ -391,7 +397,7 @@ def student_login():
             s = request.form['stud_profile_name']
             return 'hello student'
         return 'got it'
-    global time_limit, get_ques, paper, e, set_test_id, time, check
+    global time_limit, get_ques, paper, e, set_test_id, time, check, c_ans, w_ans
     get_ques = ""
     time_limit = ""
     paper1 = ""
@@ -400,7 +406,7 @@ def student_login():
                                           Paperdetails.scheduled_date.like(date.today()),
                                           Paperdetails.college.like(current_user.college),
                                           Paperdetails.branch.like(current_user.branch)).all()
-    print(get_paper)
+
     sub_ans = []
     correct = 0
     wrong = 0
@@ -419,12 +425,15 @@ def student_login():
                     time = i.totaltime
                     time_limit = i.totaltime
                     if int(time) > 3600:
-                        time = "{0}Hour:{1}minute".format(int(int(time) / 3600), int((int(int(time) % 3600)) / 60))
+                        time = "{0}Hour:{1}mins".format(int(int(time) / 3600), int((int(int(time) % 3600)) / 60))
                     else:
-                        time = "{0}Hour:{1}minute".format(0, int(int(time) / 60))
+                        time = "{0}mins".format(int(int(time) / 60))
                     get_ques = Questions.query.filter(Questions.test_id.like(i.test_id))
                     set_test_id = i.test_id
                     paper1 = Paperdetails.query.filter(Paperdetails.test_id.like(i.test_id))
+                    for s in paper1:
+                        c_ans = s.correct_ans
+                        w_ans = s.wrong_ans
                     check = True
             else:
                 if str(datetime.now().time()) < i.start_time:
@@ -444,7 +453,7 @@ def student_login():
 
 @app.route('/showresult', methods=['GET', 'POST'])
 def showresult():
-    global time_limit, get_ques, paper, e, set_test_id, correct, wrong, time, check, sub_ans
+    global time_limit, get_ques, paper, e, set_test_id, correct, wrong, time, check, sub_ans, c_ans, w_ans
     if 'test_id' in session:
         test_id = session['test_id']
         session.permanent = True
@@ -454,28 +463,33 @@ def showresult():
         quesno = 0
         correct = 0
         wrong = 0
+        attempted = 0
+        mark_obt = 0
         for ques in get_ques:
             if request.form.get('objective') == 'objective':
-                obj_ans = Questions.query.filter_by(ques_id=request.form.get('id_' + str(ques.ques_id)))
+                objective_ans = Questions.query.filter_by(ques_id=request.form.get('id_' + str(ques.ques_id)))
                 user_ans = request.form.get('Obj_option_' + str(ques.ques_no))
+                if user_ans is not None:
+                    attempted = attempted + 1
                 get_test_id = ques.test_id
-                for result in obj_ans:
+                for result in objective_ans:
                     quesno += 1
                     if result.obj_ans == user_ans:
                         correct += 1
+                        mark_obt += c_ans
                     else:
-                        wrong += 1
+                        mark_obt = mark_obt - w_ans
             else:
                 get_test_id = ques.test_id
                 sub_ans.append(request.form.get('subj_' + str(ques.ques_no)))
         if request.form.get('objective') == 'objective':
             obj_result = Result(test_id=get_test_id, user_id=current_user.id, testtype='objective',
-                                attempted=str(correct + wrong), correct=correct, total_marks=correct,
+                                attempted=attempted, correct=correct, total_marks=mark_obt,
                                 date_posted=datetime.now(), test_given='Yes')
             db.session.add(obj_result)
             db.session.commit()
-            return render_template('student/redirect.html', attempt=str(correct + wrong), correct=correct,
-                                   marks=correct, outof=quesno)
+            return render_template('student/redirect.html', attempt=attempted, correct=correct,
+                                   marks=mark_obt, outof=quesno)
         else:
             for i in range(0, len(sub_ans)):
                 if sub_ans[i] == "":
@@ -493,17 +507,24 @@ def exam():
     return render_template('student/exam.html')
 
 
-@app.route('/profile', methods=['GET', 'POST'])
+@app.route('/stu_feedback', methods=['GET', 'POST'])
 @login_required
-def profile():
-    return render_template('student/profile_new.html')
+def stu_feedback():
+    return render_template('student/student_feedback.html')
 
 
 @app.route('/stud_prof_up', methods=['POST'])
 def stud_prof_up():
-    # image_file = url_for('static', filename='Profile_pics/' + current_user.image_file)
-    stud_name = request.form['stud_profile_name']
-    return json.dumps(dict(status='OK'))
+    current_user.userid = request.form['stu_csvtuid']
+    current_user.email = request.form['stu_email']
+    current_user.username = request.form['stu_username']
+    current_user.college = request.form['stu_college']
+    current_user.branch = request.form['stu_branch']
+    current_user.semester = request.form['stu_semester']
+    current_user.section = request.form['stu_section']
+    db.session.commit()
+    flash('Updated Successfully', 'primary')
+    return redirect(url_for('student_login'))
 
 
 @app.route('/faculty/main', methods=['GET', 'POST'])
@@ -512,19 +533,21 @@ def faculty_login():
     global post
     time = ""
     if request.method == 'POST':
-        if request.form.get('update_profile', "") == '0':
-            current_user.username = request.form['fac_username']
-            current_user.college = request.form['fac_college']
-            current_user.branch = request.form['fac_branch']
-            current_user.userid = request.form['fac_userid']
-            current_user.email = request.form['fac_email']
-            db.session.commit()
-        elif request.form.get('paper_delete', "") == '1':
+        # if request.form.get('update_profile', "") == '0':
+        #     current_user.username = request.form['fac_username']
+        #     current_user.college = request.form['fac_college']
+        #     current_user.branch = request.form['fac_branch']
+        #     current_user.userid = request.form['fac_userid']
+        #     current_user.email = request.form['fac_email']
+        #     flash('Updated Successfully', 'info')
+        #     db.session.commit()
+        if request.form.get('paper_delete', "") == '1':
             data = request.form['paper_id']
             delete_paper = Paperdetails.query.get(data)
             delete_ques = Questions.query.filter_by(test_id=data).all()
             for d in delete_ques:
                 Questions.query.filter_by(test_id=d.test_id).delete()
+                Result.query.filter_by(test_id=d.test_id).delete()
             db.session.delete(delete_paper)
             db.session.commit()
     ques = Questions.query.filter_by(user_id=current_user.id).all()
@@ -532,9 +555,9 @@ def faculty_login():
     for f in faculty_post:
         time = f.totaltime
         if int(time) > 3600:
-            f.totaltime = "{0}Hour:{1}minute".format(int(int(time) / 3600), int((int(int(time) % 3600)) / 60))
+            f.totaltime = "{0}Hour:{1}min".format(int(int(time) / 3600), int((int(int(time) % 3600)) / 60))
         else:
-            f.totaltime = "{0}Hour:{1}minute".format(0, int(int(time) / 60))
+            f.totaltime = "{0}Hour:{1}min".format(0, int(int(time) / 60))
     check = False
     for i in faculty_post:
         check = True
@@ -543,6 +566,17 @@ def faculty_login():
         return render_template('faculty/faculty_home.html', check=check)
     else:
         return render_template('faculty/faculty_home.html', post=faculty_post, ques=ques)
+
+
+@app.route('/faculty_update', methods=['POST', 'GET'])
+def faculty_update():
+    current_user.username = request.form['fac_username']
+    current_user.college = request.form['fac_college']
+    current_user.branch = request.form['fac_branch']
+    current_user.userid = request.form['fac_userid']
+    current_user.email = request.form['fac_email']
+    db.session.commit()
+    return redirect(url_for('faculty_login'))
 
 
 @app.route('/feedback', methods=['POST', 'GET'])
@@ -612,12 +646,12 @@ def paper_data():
             # print(int(total_ques))
             return render_template('faculty/add_ques.html', ques=int(total_ques), branch=branch, semester=semester,
                                    section=section, subject=subject, testname=name, description=description,
-                                   test_type=test_type, college=college,scheduled_date=scheduled_date)
+                                   test_type=test_type, college=college, scheduled_date=scheduled_date)
         else:
             return render_template('faculty/add_ques_subjective.html', ques=int(total_ques), branch=branch,
                                    semester=semester,
                                    section=section, subject=subject, testname=name, description=description,
-                                   test_type=test_type, college=college,scheduled_date=scheduled_date)
+                                   test_type=test_type, college=college, scheduled_date=scheduled_date)
     return redirect(url_for('faculty_login'))
 
 
@@ -634,7 +668,8 @@ def add_ques():
                                         semester=semester,
                                         section=section, subject=subject, totalques=total_ques, totaltime=duration,
                                         testtype=test_type, user_id=current_user.id, scheduled_date=scheduled_date,
-                                        start_time=st_time, end_time=en_time, date_posted=datetime.now(), correct_ans=correct_ans, wrong_ans=wrong_ans)
+                                        start_time=st_time, end_time=en_time, date_posted=datetime.now(),
+                                        correct_ans=correct_ans, wrong_ans=wrong_ans)
             db.session.add(test_details)
             db.session.commit()
             # current_test_id = Paperdetails.query.filter_by(test_id=current_user.id).first()
@@ -660,7 +695,8 @@ def add_ques():
             total_ques = int(total_ques)
             for i in range(1, total_ques + 1):
                 ques = Questions(test_id=max[-1], user_id=current_user.id,
-                                 question=request.form['ques_' + str(i)], ques_no=i)
+                                 question=request.form['ques_' + str(i)], ques_no=i,
+                                 marks_assign=request.form['marks_assign_' + str(i)])
                 db.session.add(ques)
                 db.session.commit()
     return redirect(url_for('paper_data'))
@@ -686,6 +722,7 @@ def show_result():
             stu_section = id.section
             stu_college = id.college
             stu_branch = id.branch
+        s_id = stu_id
         result = Result.query.filter(Result.user_id.contains(stu_id)).all()
         if not result:
             return json.dumps({'No Results Found'})
@@ -715,6 +752,8 @@ def show_result():
             obj = ""
             obj_duration = ''
             subj = " "
+            user_id = []
+            marks_asign = []
             for res in result:
                 test_id.append(res.test_id)
             test_id = list(dict.fromkeys(test_id))
@@ -727,7 +766,8 @@ def show_result():
                     if p.testtype == 'objective':
                         obj = 'objective'
                         obj_type += 1
-                        obj_res = Result.query.filter(Result.test_id.contains(p.test_id)).all()
+                        obj_res = Result.query.filter(Result.test_id.contains(p.test_id),
+                                                      Result.user_id.contains(s_id)).all()
                         for r in obj_res:
                             obj_result.append(r)
                             obj_ans.append(r.attempted)
@@ -746,9 +786,11 @@ def show_result():
                         subj_paper_date_posted.append(p.date_posted)
                         subj = 'subjective'
                         subj_type += 1
-                        subj_res = Result.query.filter(Result.test_id.contains(p.test_id)).all()
+                        subj_res = Result.query.filter(Result.test_id.contains(p.test_id),
+                                                       Result.user_id.contains(s_id)).all()
                         # print(subj_res)
                         for r in subj_res:
+                            user_id.append(r.user_id)
                             subj_result.append(r)
                             subj_ans.append(r.attempted)
                             subj_stu_marks.append(r.total_marks)
@@ -765,12 +807,15 @@ def show_result():
                         subj_testname.append(p.testname)
                         s_question = Questions.query.filter(Questions.test_id.contains(p.test_id)).all()
                         for q in s_question:
+                            marks_asign.append(q.marks_assign)
                             subj_ques.append(q.question)
                             subj_q.append(q)
     # paper_schema = PaperSchema(many=True)
     # all_paper = paper_schema.dumps(all_papers)
     # all_paper_op = paper_schema.loads(all_paper)
     stu_roll_no = student_id
+    user_id = list(dict.fromkeys(user_id))
+    print(obj_stu_marks)
     return json.dumps(
         dict(status='OK', name=stu_name, college=stu_college, branch=stu_branch, semester=stu_semester,
              section=stu_section, rollno=stu_roll_no, obj_testname=obj_testname, subj_testname=subj_testname,
@@ -778,34 +823,114 @@ def show_result():
              obj_marks=obj_stu_marks, subj_marks=subj_stu_marks, subj_date_posted=subj_date_posted,
              obj_date_posted=obj_date_posted, subj_ques=subj_ques, subj_duration=duration, obj_duration=obj_duration,
              obj_count=obj_type, subj_count=subj_type, subjective=subj, objective=obj, subj_ques_count=total_ques_subj,
-             paper_date=subj_paper_date_posted))
+             paper_date=subj_paper_date_posted, user_id=user_id
+             , subj_paper_test_id=subj_paper_test_id, marks_asign=marks_asign))
 
 
 @app.route('/all_details', methods=['POST', 'GET'])
 def all_details():
-    get_test_type = request.form['Rtest_type']
-    get_college = request.form['Rcollege']
-    get_semester = request.form['Rsemester']
-    get_subject = request.form['Rsubject']
-    get_branch = request.form['Rbranch']
-    get_section = request.form['Rsection']
-    get_rollno = request.form['Rrollno']
-    get_paper = Paperdetails.query.filter(Paperdetails.testtype.contains(get_test_type),
-                                          Paperdetails.college.contains(get_college),
-                                          Paperdetails.semester.contains(get_semester),
-                                          Paperdetails.subject.contains(get_subject),
-                                          Paperdetails.branch.contains(get_branch),
-                                          Paperdetails.section.contains(get_section),
-                                          Paperdetails.user_id.contains(current_user.id)).all()
-    # print(get_paper)
-    # for i in get_paper:
-    #     get_user = Users.query.filter(Users.college.contains(i.college), Users.semester.contains(i.semester),
-    #                                   Users.branch.contains(i.branch), Users.section.contains(i.section)).all()
-    #     print(get_user)
-    papers = Paperdetails.query.filter(Paperdetails.user_id.contains(current_user.id)).all()
-    # print(papers)
-    return str(papers)
-    # return json.dumps(dict(test_type=get_test_type, college=get_college, semester=get_semester, subject=get_subject, branch=get_branch, section=get_section, rollno=get_rollno))
+    get_test_id = request.form['Rtest']
+    testpaper = Paperdetails.query.filter_by(test_id=get_test_id).all()
+    obj = ""
+    subj = ''
+    obj_testname = ''
+    subj_testname = ''
+    d = ''
+    a = ''
+    c = ''
+    for t in testpaper:
+        if t.testtype == 'objective':
+            obj = 'objective'
+            obj_testname = t.testname
+        else:
+            subj = 'subjective'
+            subj_testname = t.testname
+    ques = Questions.query.filter_by(test_id=get_test_id).all()
+    objects_list = []
+    for row in ques:
+        d = collections.OrderedDict()
+        d['id'] = row.test_id
+        d['User id'] = row.user_id
+        d['Question'] = row.ques_no
+        d['question'] = row.question
+        d['marks_assigned'] = row.marks_assign
+        objects_list.append(d)
+    # j = json.dumps(objects_list)
+    result = Result.query.filter_by(test_id=get_test_id).all()
+    result_list = []
+    user_details = []
+    for r in result:
+        a = collections.OrderedDict()
+        a['Sr No'] = r.result_id
+        a['User'] = r.user_id
+        a['Test-type'] = r.testtype
+        a['Answer'] = r.attempted
+        a['Total_Marks'] = r.total_marks
+        a['Date_Posted'] = r.date_posted
+        a['test_id'] = r.test_id
+        a['result_id'] = r.result_id
+        result_list.append(a)
+        u = Users.query.get(r.user_id)
+        c = collections.OrderedDict()
+        c['rollno'] = u.userid
+        c['name'] = u.username
+        c['stu_user_id'] = u.id
+        c['section'] = u.section
+        user_details.append(c)
+    # k = json.dumps(result_list)
+    # m = json.dumps(user_details)
+    c = json.dumps(dict(result_list=result_list, user=user_details, ques=objects_list, obj=obj, subj=subj,
+                        obj_testname=obj_testname, subj_testname=subj_testname))
+    # return jsonify({"result":result_list, "user":user_details})
+    return c
+
+
+@app.route('/evaluate', methods=['POST', 'GET'])
+def evaluate():
+    c = []
+    n = request.form.get('rollno')
+    g = request.form.get('index')
+    h = request.form.get('user')
+    k = request.form.get('ques_len')
+    ll = request.form.get('test_id')
+    m = request.form.get('result_id')
+    # print(n, g, h, k, ll, m)
+    start = int(g) - int(k)
+    end = int(g)
+    get_res = Result.query.filter_by(user_id=int(n), test_id=int(ll)).all()
+    for i in range(start, end):
+        m = request.form['marks_obt_' + str(i)]
+        c.append(m)
+    j = 0
+    for res in get_res:
+        res.total_marks = c[j]
+        j += 1
+        db.session.commit()
+    return json.dumps(dict(status='ok', data=c))
+
+
+@app.route('/evaluate_by_id', methods=['POST', 'GET'])
+def evaluate_by_id():
+    c = []
+    n = request.form.get('rollno')
+    g = request.form.get('index')
+    h = request.form.get('user')
+    k = request.form.get('ques_len')
+    ll = request.form.get('test_id')
+    # print(n, g, h, k, ll)
+    start = int(g) - int(k)
+    end = int(g)
+    get_res = Result.query.filter_by(user_id=int(n), test_id=int(ll)).all()
+    # print(get_res)
+    for i in range(start, end):
+        m = request.form['eval_marks_obt_' + str(i)]
+        c.append(m)
+    j = 0
+    for res in get_res:
+        res.total_marks = c[j]
+        j += 1
+        db.session.commit()
+    return json.dumps(dict(status='ok', data=c))
 
 
 @app.route('/register')
@@ -836,6 +961,73 @@ def pre_exam():
     # print(paper_get)
     # print(ques)
     return render_template('student/pre-exam.html')
+
+
+@app.route('/get_value', methods=['GET', 'POST'])
+def get_value():
+    d = request.args.get('a')
+    delay = int(d) / 5
+    c = request.args.get('test')
+
+    def TakeImages():
+        face_classifier = cv2.CascadeClassifier(
+            'C:/Users/BPAVA/venv/Lib/site-packages/cv2/data/haarcascade_frontalface_default.xml')
+
+        def face_extractor(img):
+
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            faces = face_classifier.detectMultiScale(gray, 1.3, 5)
+
+            if faces is ():
+                return None
+
+            for (x, y, w, h) in faces:
+                cropped_face = img[y:y + h, x:x + w]
+
+            return cropped_face
+
+        cap = cv2.VideoCapture(0)
+        count = 0
+
+        while True:
+            ret, frame = cap.read()
+            if face_extractor(frame) is not None:
+                count += 1
+
+                face = cv2.resize(face_extractor(frame), (500, 500))
+                face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
+
+                file_name_path = os.getcwd() + "/static" \
+                                               "/student_images/" + c + current_user.username + str(count) + ".jpg "
+                cv2.imwrite(file_name_path, face)
+
+                cv2.putText(face, str(count), (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
+
+                # cv2.imshow('Face cropper', face)
+                print("FACE FOUND", count)
+
+            else:
+                print("Face not Found")
+                pass
+            # t.sleep(delay)
+            if cv2.waitKey(1) == 13 or count == 5:
+                break
+
+        cap.release()
+        cv2.destroyAllWindows()
+        print('Collecting Samples Complete!!!')
+
+    TakeImages()
+    return jsonify({'status': 'ok'})
+
+
+@app.route('/delete_img', methods=['GET', 'POST'])
+def delete_img():
+    get_path = request.args.getlist('host[]')
+    for i in get_path:
+        os.remove(os.getcwd() + i)
+    print("deleted")
+    return json.dumps(dict(status='ok'))
 
 
 @app.route('/faculty')
@@ -885,5 +1077,10 @@ def newpassword(token):
     return render_template('new_password.html')
 
 
+@app.route('/edit_ques', methods=['POST', 'GET'])
+def edit_ques():
+    return render_template('faculty/edit_test.html')
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

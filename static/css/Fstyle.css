@@ -157,14 +157,37 @@ body{
 .form-group{
   text-align: center ;
 }
+.subj-que{
+  padding: 10px 20px 0 20px;
+
+}
 .subj-textarea textarea{
   border: rgb(45, 62, 192) 2px solid ;
   border-radius: 5px ;
-  width: 90% ;
-  padding-left: 10px 0px 0px 10px ;
-  min-height: 320px ;
-  margin-left: 0px ;
+  width: 100% ;
+  padding-left: 10px ;
+  min-height: 180px ;
   outline: none ;
+}
+.subj-textarea{
+  float: left;
+  width: 80%;
+  padding: 0 30px;
+}
+.marks-assigned{
+  float: right;
+  width: 20%;
+  margin-top: 70px;
+}
+.marks-assigned input{
+  width: 60px;
+  border: 1.5px solid rgb(45, 62, 192);
+  border-radius: 2px;
+  text-align: center;
+}
+.clrfloat{
+  clear: both;
+  visibility:hidden;
 }
 
 .left  textarea{
@@ -251,6 +274,22 @@ body{
   #desc-td{
     width:320px;
   }
+  .subj-textarea{
+    float: none;
+    width: 100%;
+    margin: auto;
+    padding: 0 30px;
+  }
+ 
+  .marks-assigned{
+    float: none;
+    width: 100%;
+    margin: auto;
+    margin-top: 5px;
+  }
+  .subj-textarea textarea{
+    margin: 0;
+  }
 
 }
 @media screen and (max-width: 550px){
@@ -261,6 +300,20 @@ body{
   #desc-td{
     width:auto;
   }
+  .subj-textarea{
+    float: none;
+    width: 100%;
+    margin: auto;
+    padding: 0;
+  }
+ 
+  .marks-assigned{
+    float: none;
+    width: 100%;
+    margin: auto;
+    margin-top: 5px;
+  }
+
 
 }
 @media screen and (max-width: 530px){
