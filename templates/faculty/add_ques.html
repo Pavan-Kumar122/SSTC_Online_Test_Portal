@@ -53,8 +53,8 @@
             <input value = "1" type="hidden" name="obj">
 				<tr>
 					<td>Scheduled Date- {{ scheduled_date }}</td>
-					<td ><label><span>Correct answer</span>  <input type="text" class="input-marks" placeholder="???" name="correct_answer"> </label></td>
-					<td> <label><span>Minus Marking</span><input type="text" class="input-marks" placeholder="???" name="minus_mark" > </label></td>
+					<td ><label><span>Correct answer</span>  <input type="text" class="input-marks" placeholder="???" name="correct_answer" required> </label></td>
+					<td> <label><span>Minus Marking</span><input type="text" class="input-marks" placeholder="???" name="minus_mark" required> </label></td>
 				</tr>
 			</table>
 		</div>
@@ -95,9 +95,7 @@
                             <option>D</option>
                         </select>
                     </div>
-
 				</div>
-
 				<hr id="clrfloat">
 				<!-- <hr id="separator"> -->
 			</div>
@@ -121,5 +119,4 @@
     <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
 {% endif %}
 </body>
-
 </html>

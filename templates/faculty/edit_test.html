@@ -36,9 +36,7 @@
            
             <div class="text-center " >
 			   <button class="edit-buttons" data-toggle="modal" data-target="#edit-details-modal">Edit Details</button>
-			   <button class="edit-buttons" data-toggle="modal" data-target=".ques-details-modal">Edit Questions</button>
             </div>
-
 		</div>
 
 		<!-- Modal For Test Details -->
@@ -51,29 +49,31 @@
 					<br>
 					<div id="new_test">
 						<div class="login-container">
-						  <form class="new-form-test " action="/paper_data" method="POST">
-							<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 							<br>
 							<div class="text-center"> <i class=" fa fa-plus fa-3x text-center" style="color:darkslategrey;"></i></div>
-			  
+                        <form class="new-form-test " action="/updateques" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+			            <input type="hidden" name="modal" value="1">
 							<h2 class="mb-3 mt-2 font-weight-light text-uppercase text-center "
 							  style=" font-family: 'Poppins', sans-serif;">Edit Details</h2>
-			  
+
+			                {% for posts in post %}
+                                <input type="hidden" name="test_id" value="{{ posts.test_id }}"/>
 							<div class="form-group ">
 			  
-							  <div><input type="text" class="form-control2 " name="testname" placeholder="Enter Test Name" required></div>
+							  <div><input type="text" class="form-control2 " name="testname" placeholder="" required value="{{ posts.testname }}"></div>
 							</div>
 			  
 							<div class="form-group">
 							  <div>
-								<textarea rows="4" name="description" id="" class="form-control2" placeholder="Description"
-								  style="padding-top: 5px; margin-bottom: 0px;" required ></textarea>
+								<textarea rows="4" name="description" id="" class="form-control2" placeholder=""
+								  style="padding-top: 5px; margin-bottom: 0px;" required >{{ posts.description }}</textarea>
 							  </div>
 							</div>
 			  
 							<div id="left">
 							  <div class="form-group ">
-							  <select class="form-control2 sem " name="college" required>
+							  <select class="form-control2 sem " name="college" required id="college_id">
 								<option value="">College</option>
 								<option value="SSGI (S1)">SSGI (S1)</option>
 								<option value="SSEC (S2)">SSEC (S2)</option>
@@ -81,7 +81,7 @@
 							  </div>
 			  
 							  <div class="form-group ">
-								<select class="form-control2 sem" name="branch" required>
+								<select class="form-control2 sem" name="branch" required id="branch_id">
 								  <option value="">Select Branch</option>
 								  <option value="Computer Science Engineering">Computer Science Engineering</option>
 								  <option value="Electronics and Tele-Communicatiom">Electronics and Tele-Communicatiom</option>
@@ -95,7 +95,7 @@
 								<div>
 								<span class="input-label">Subject</span><br>
 							  <div class="form-group">
-								<input type="text" class="form-control2 " name="subject" placeholder="Subject" required>
+								<input type="text" class="form-control2 " name="subject" placeholder="Subject" required value="{{ posts.subject }}">
 							  </div>
 							</div>
 			  
@@ -134,11 +134,23 @@
 								  </table>
 								</div>
 							  </div>
+                            {% if posts.testtype== 'objective' %}
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <label><span>Correct answer</span>  <input type="text" class="input-marks" placeholder="" name="correct_answer" required value="{{ posts.correct_ans }}"> </label>
+                                        </tr>
+                                        <tr>
+                                           <label><span>Minus Marking</span><input type="text" class="input-marks" placeholder="" name="minus_mark" required value="{{ posts.wrong_ans }}"> </label>
+                                        </tr>
+                                    </table>
+                                </div>
+                            {% endif %}
 							</div>
 			  
 							<div id="right">
 							  <div class="form-group ">
-								<select class="form-control1" name="test_type" required>
+								<select class="form-control1" name="test_type" required id="test_type_id">
 								  <option value="">Test type</option>
 								  <option value="objective">Objective</option>
 								  <option value="subjective">Subjective</option>
@@ -146,26 +158,26 @@
 							  </div>
 			  
 							  <div class="form-group ">
-								<input type="text" class=" form-control2" name="total_ques" placeholder="Total Questions" required>
+								<input type="text" class=" form-control2" name="total_ques" placeholder="Total Questions" required value="{{ posts.totalques }}">
 			  
 							  </div>
 			  
 							  <div>
 								<span class="input-label">Exam Date</span><br>
 								<div class="form-group">
-								  <input type="date" id="examdate" class="form-control2" name="date" required>
+								  <input type="date" id="examdate" class="form-control2" name="date" required value="{{ posts.scheduled_date }}">
 								</div>
 							  </div>
 								<div>
 								<span class="input-label">Start Time:</span><br>
 								<div class="form-group">
-								  <input type="datetime-local" id="" class="form-control2" name="start_time" required>
+								  <input type="datetime-local" id="start_time_id" class="form-control2" name="start_time" required>
 								</div>
 							  </div>
 							  <div><br>
 								<span class="input-label">End Time</span><br>
 								<div class="form-group">
-								  <input type="datetime-local" id="" class="form-control2" name="end_time" required>
+								  <input type="datetime-local" id="end_time_id" class="form-control2" name="end_time" required>
 								</div>
 							  </div>
 			  
@@ -175,9 +187,9 @@
 								<table class="durationtable">
 								  <tr>
 									  <td style="text-align: right;">Hour</td>
-									<td><input type="text" name="hour" id="" required></td>
+									<td><input type="text" name="hour" id="hour" required></td>
 									  <td style="text-align: right;">Minutes</td>
-									<td><input type="text" name="minute" id="" value="0"></td>
+									<td><input type="text" name="minute" id="min" value="0"></td>
 								  </tr>
 								</table>
 							  </div>
@@ -195,83 +207,40 @@
 				</div>
 	        </div>
 		</div>
-		
-		<!-- Modal For Questions Details -->
-		<div class="modal fade ques-details-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content" style="height: auto;padding: 20px;">
-						<button class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
-				  <br>
-				 <div>
-				  <div class="text-center" style="background-color: rgb(226, 226, 226);padding: 20px 10px;">
-					<h2 class="mb-3 mt-2 font-weight-light text-uppercase text-center "
-					style=" font-family: 'Poppins', sans-serif;">Edit Questions</h2>
-					  <form action="">
-						  <div>
-							  <label>Number of questions you want to add</label>
-							  <input type="text" placeholder="5" style="width: 60px; text-align: center; border: 2px solid rebeccapurple ;">
-						  </div>
-						  <div class="ques-list">
-							  <table border="2px">
-								  <tr>
-									  <td>1.</td><td>Question-1</td><td><a href="">Delete</a></td>
-								  </tr>
-								  <tr>
-									<td>2.</td><td>Question-2</td><td><a href="">Delete</a></td>
-								</tr>
-								<tr>
-									<td>3.</td><td>Question-3</td><td><a href="">Delete</a></td>
-								</tr>
-								<tr>
-									<td>4.</td><td>Question-4</td><td><a href="">Delete</a></td>
-								</tr>
-								<tr>
-									<td>5.</td><td>Question-5</td><td><a href="">Delete</a></td>
-								</tr>
-							  </table>
-						  </div>
-						  <div class="text-center">
-							<br>
-							<input type="submit" onclick="return confirm('Do you want to submit?');" class="btn btn-success submit btn3 rounded-pill" value="Update" name="">
-							<input type="submit" onclick="return confirm('Do you want to submit?');" class="btn btn-success submit btn3 rounded-pill" value="Save as new" name=""></div>
-					  </form>
-				  </div>
-				</div>
-				</div>
-	        </div>
-        </div>
 
-
+        {% if posts.testtype == 'objective' %}
 		<!-- Objective type============================================== -->
-		<form class=" text-center" method="POST" action="/add_ques">
+		<form class=" text-center" method="POST" action="/updateques">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <input value = "1" type="hidden" name="obj">
+        <input value = "0" type="hidden" name="obj">
+            {% for question in ques %}
+                <input type="hidden" name="test_id" value="{{ question.test_id }}"/>
 			<div class="ques-group">
 				<br>
 				<div class="left form-group">
-					<h4 id='h1quizform'>Question-{{i}}</h4>
-					<textarea id="" class="text-area" placeholder="Write the question here." name="ques_{{ i }}" required></textarea>
+					<h4 id='h1quizform'>Question-{{ question.ques_no }}</h4>
+					<textarea id="" class="text-area" placeholder="Write the question here." name="ques_{{ question.ques_no }}" required>{{ question.question }}</textarea>
 				</div>
 
 				<div class="right form-group text-center">
 					<h4>Options</h4>
 					<div class="form-group">
-						<input type='text' placeholder='Option 1' class="form-control" name="op1_{{ i }}" required>
+						<input type='text' placeholder='Option 1' class="form-control" name="op1_{{ question.ques_no }}" required value="{{ question.op1 }}">
 					</div>
 
 					<div class="form-group">
-						<input type='text' placeholder='Option 2' class="form-control" name="op2_{{ i }}" required>
+						<input type='text' placeholder='Option 2' class="form-control" name="op2_{{ question.ques_no }}" required value="{{ question.op2 }}">
 					</div>
 
 					<div class="form-group">
-						<input type='text' placeholder='Option 3' class="form-control" name="op3_{{ i }}" required>
+						<input type='text' placeholder='Option 3' class="form-control" name="op3_{{ question.ques_no }}" required value="{{ question.op3 }}">
 					</div>
 
 					<div class="form-group">
-						<input type='text' placeholder='Option 4' class="form-control" name="op4_{{ i }}" required>
+						<input type='text' placeholder='Option 4' class="form-control" name="op4_{{ question.ques_no }}" required value="{{ question.op4 }}">
 					</div>
                     <div class="form-group">
-                        <select class="form-control" name="obj_ans_{{ i }}">
+                        <select class="form-control" name="obj_ans_{{ question.ques_no }}" id="option_id_{{ question.ques_no }}">
                             <option>Correct Answer ?</option>
                             <option>A</option>
                             <option>B</option>
@@ -283,40 +252,119 @@
 				<hr id="clrfloat">
 				<!-- <hr id="separator"> -->
 			</div>
+            {% endfor %}
 			<div id="ques-btn">
 				<br>
 				<input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
-				<input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Update" name="">
+				<input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Update" name="" onclick="return confirm('Do you want to submit?');">
 			</div>
         </form>
+
+            {% else %}
         <!-- Subjective -->
-        <form class=" text-center" method="POST" action="/add_ques">
+        <form class=" text-center" method="POST" action="/updateques">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-               
+        <input value = "11" type="hidden" name="subj">
+                    {% for question in ques %}
+                        <input type="hidden" name="test_id" value="{{ question.test_id }}"/>
                     <div class="ques-group">
-                        <h4>Question-{{ i }}</h4>
+                        <h4>Question-{{ question.ques_no }}</h4>
                         <div class="form-group subj-textarea">
-                        <textarea name="ques_{{ i }}" id="" class="text-area" placeholder="Write the question here." required></textarea>
+                        <textarea name="ques_{{ question.ques_no }}" id="" class="text-area" placeholder="Write the question here." required>{{ question.question }}</textarea>
                         </div>
-                 </div>
-    
-                <div id="ques-btn">
+
+                        <div class="marks-assigned">
+						<h4>Marks Assigned</h4>
+						<input type="text" placeholder="" name="marks_assign_{{ question.ques_no }}" required value="{{ question.marks_assign }}">
+					</div>
+                        </div>
+            {% endfor %}
+            <div id="ques-btn">
                     <br>
                     <input type="reset" class="btn btn-dark  reset btn3 rounded-pill" value="Reset" name="">
-                    <input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Update" name="">
-    
+                    <input type="submit" class="btn btn-success submit btn3 rounded-pill" value="Update" name="" onclick="return confirm('Do you want to submit?');">
                 </div>
-    
      </form>
-        
-
+            {% endif %}
+         {% endfor %}
 	</div>
 	</div>
 	</div>
 	
-<!-- {% else %}
+ {% else %}
     <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
-{% endif %} -->
+{% endif %}
 </body>
+<script type="text/javascript">
+    let get_semester;
+    let get_section ;
+    let gsem;
+    let gsec;
+    {% for posts in post %}
+        let get_college = '{{ posts.college }}';
+        let get_branch = '{{ posts.branch }}';
+        let get_test_type = '{{ posts.testtype }}';
+        get_semester = '{{ posts.semester }}';
+        gsem = get_semester.split(" ");
+        get_section = '{{ posts.section }}';
+        gsec = get_section.split(" ");
+                $('select#college_id').find('option').each(function() {
+                    if (get_college === $(this).val()){
+                         $(this).attr("selected", true);
+                    }
+                });
+                $('select#branch_id').find('option').each(function() {
+                    if (get_branch === $(this).val()){
+                         $(this).attr("selected", true);
+                    }
+                });
 
+                $('select#test_type_id').find('option').each(function() {
+                    if (get_test_type === $(this).val()){
+                         $(this).attr("selected", true);
+                    }
+                });
+
+                $('input:checkbox').each(function() {
+                    var data = $(this).val();
+                    var attr = $(this);
+                    $.each(gsem, function (index,val) {
+                        if (data === val){
+                            attr.prop("checked", true);
+                        }
+                    });
+                });
+
+                $('input:checkbox').each(function() {
+                    var data = $(this).val();
+                    var attr = $(this);
+                    $.each(gsec, function (index,val) {
+                        if (data === val){
+                            attr.prop("checked", true);
+                        }
+                    });
+                });
+                document.getElementById('start_time_id').value = '{{ posts.scheduled_date }}T{{ posts.start_time }}';
+                document.getElementById('end_time_id').value = '{{ posts.scheduled_date }}T{{ posts.end_time }}';
+                let timeInSec= {{ posts.totaltime }};
+                let hour= parseInt(timeInSec/3600);
+                let min= parseInt((timeInSec%3600)/60);
+                document.getElementById('hour').value = hour;
+                document.getElementById('min').value = min;
+    {% endfor %}
+    let obj_ans1;
+    let option_id;
+    {% for question in ques %}
+            obj_ans1 = '{{ question.obj_ans }}';
+            option_id = '{{ question.ques_no }}';
+            $('select#option_id_'+option_id).find('option').each(function() {
+                if (obj_ans1 === $(this).val()){
+                    $(this).attr("selected", true);
+                }
+            });
+    {% endfor %}
+</script>
 </html>
+
+
+

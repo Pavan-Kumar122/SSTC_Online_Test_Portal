@@ -531,16 +531,7 @@ def stud_prof_up():
 @login_required
 def faculty_login():
     global post
-    time = ""
     if request.method == 'POST':
-        # if request.form.get('update_profile', "") == '0':
-        #     current_user.username = request.form['fac_username']
-        #     current_user.college = request.form['fac_college']
-        #     current_user.branch = request.form['fac_branch']
-        #     current_user.userid = request.form['fac_userid']
-        #     current_user.email = request.form['fac_email']
-        #     flash('Updated Successfully', 'info')
-        #     db.session.commit()
         if request.form.get('paper_delete', "") == '1':
             data = request.form['paper_id']
             delete_paper = Paperdetails.query.get(data)
@@ -562,8 +553,8 @@ def faculty_login():
     for i in faculty_post:
         check = True
     if not check:
-        flash("You Haven't Uploaded Any Paper!!", 'danger')
-        return render_template('faculty/faculty_home.html', check=check)
+        error = "You Haven't Uploaded Any Paper!!"
+        return render_template('faculty/faculty_home.html', check=check, error=error)
     else:
         return render_template('faculty/faculty_home.html', post=faculty_post, ques=ques)
 
@@ -576,6 +567,7 @@ def faculty_update():
     current_user.userid = request.form['fac_userid']
     current_user.email = request.form['fac_email']
     db.session.commit()
+    flash('Your profile updated successfully', 'info')
     return redirect(url_for('faculty_login'))
 
 
@@ -617,31 +609,17 @@ def paper_data():
         en_time = parser.parse(end_time)
         st_time = str(st_time.time())
         en_time = str(en_time.time())
-        # print("{0}Hour:{1}minute".format(hour, minute))
-        # i = "{0}Hour:{1}minute".format(hour, minute)
-        # print(i)
         duration = int(((int(hour) * 60) + int(minute)) * 60)
-        # print(duration)
-        # print(name, description, college, semester, subject, branch,
-        #       section, total_ques, test_type, date, hour, minute)
         for sem1 in semester:
             sem.append(sem1)
         for sec1 in section:
             sec.append(sec1)
         semester = str(sem)[1:-1].replace("'",
                                           "").replace(",", "")
-        # print(semester)
         section = str(sec)[1:-1].replace("'",
                                          "").replace(",", "")
         if not section:
             section = str('A B C D')
-        print(section)
-        # semester = str(sem)[1:-1].replace("'",
-        #                                   "").replace(",", "").replace(" ", "")
-        # section = str(sec)[1:-1].replace("'",
-        #                                  "").replace(",", "").replace(" ", "")
-        # for element in range(0, len(section)):
-        #     print(section[element])
         if test_type == 'objective':
             # print(int(total_ques))
             return render_template('faculty/add_ques.html', ques=int(total_ques), branch=branch, semester=semester,
@@ -663,7 +641,6 @@ def add_ques():
         if request.form.get("obj", "") == "1":
             correct_ans = request.form['correct_answer']
             wrong_ans = request.form['minus_mark']
-            print(correct_ans, wrong_ans)
             test_details = Paperdetails(testname=name, description=description, college=college, branch=branch,
                                         semester=semester,
                                         section=section, subject=subject, totalques=total_ques, totaltime=duration,
@@ -1077,9 +1054,94 @@ def newpassword(token):
     return render_template('new_password.html')
 
 
-@app.route('/edit_ques', methods=['POST', 'GET'])
-def edit_ques():
-    return render_template('faculty/edit_test.html')
+@app.route('/edit_ques/<test_id>', methods=['POST', 'GET'])
+def edit_ques(test_id):
+    ques = Questions.query.filter_by(test_id=test_id).all()
+    faculty_post = Paperdetails.query.filter_by(test_id=test_id).all()
+    return render_template('faculty/edit_test.html', post=faculty_post, ques=ques)
+
+
+@app.route('/updateques', methods=['GET', 'POST'])
+def updateques():
+    sem = []
+    sec = []
+    paper_test_id = request.form['test_id']
+    test_detailss = Paperdetails.query.filter_by(test_id=paper_test_id).first()
+    test_question = Questions.query.filter_by(test_id=paper_test_id).all()
+    max_ques = 1
+    if request.method == 'POST':
+        if request.form.get("modal", "") == "1":
+            name = request.form['testname']
+            description = request.form['description']
+            college = request.form['college']
+            semester = request.form.getlist('ques_semester')
+            subject = request.form['subject']
+            branch = request.form['branch']
+            section = request.form.getlist('ques_section')
+            total_ques = request.form['total_ques']
+            test_type = request.form['test_type']
+            scheduled_date = request.form.get('date')
+            hour = request.form['hour']
+            minute = request.form['minute']
+            start_time = request.form.get('start_time')
+            end_time = request.form.get('end_time')
+            st_time = parser.parse(start_time)
+            en_time = parser.parse(end_time)
+            st_time = str(st_time.time())
+            en_time = str(en_time.time())
+            duration = int(((int(hour) * 60) + int(minute)) * 60)
+            for sem1 in semester:
+                sem.append(sem1)
+            for sec1 in section:
+                sec.append(sec1)
+            semester = str(sem)[1:-1].replace("'",
+                                              "").replace(",", "")
+            section = str(sec)[1:-1].replace("'",
+                                             "").replace(",", "")
+            if not section:
+                section = str('A B C D')
+            test_detailss.testname = name
+            test_detailss.description = description
+            test_detailss.college = college
+            test_detailss.branch = branch
+            test_detailss.semester = semester
+            test_detailss.section = section
+            test_detailss.subject = subject
+            test_detailss.totalques = total_ques
+            test_detailss.totaltime = duration
+            test_detailss.testtype = test_type
+            test_detailss.user_id = current_user.id
+            test_detailss.scheduled_date = scheduled_date
+            test_detailss.start_time = st_time
+            test_detailss.end_time = en_time
+            test_detailss.date_posted = datetime.now()
+            if test_type == 'objective':
+                correct_ans = request.form['correct_answer']
+                wrong_ans = request.form['minus_mark']
+                test_detailss.correct_ans = correct_ans
+                test_detailss.wrong_ans = wrong_ans
+            db.session.commit()
+        elif request.form.get("obj", "") == "0":
+            for q in test_question:
+                q.question = request.form['ques_' + str(max_ques)]
+                q.op1 = request.form['op1_'+str(max_ques)]
+                q.op2 = request.form['op2_' + str(max_ques)]
+                q.op3 = request.form['op3_' + str(max_ques)]
+                q.op4 = request.form['op4_' + str(max_ques)]
+                q.obj_ans = request.form['obj_ans_'+str(max_ques)]
+                max_ques += 1
+                db.session.commit()
+            flash('Paper updated successfully', 'primary')
+            return redirect(url_for('faculty_login'))
+        else:
+            for s in test_question:
+                s.question = request.form['ques_'+str(max_ques)]
+                s.marks_assign = request.form['marks_assign_'+str(max_ques)]
+                max_ques += 1
+                db.session.commit()
+            flash('Paper updated successfully', 'primary')
+            return redirect(url_for('faculty_login'))
+        return redirect(url_for('edit_ques', test_id=paper_test_id))
 
 
 if __name__ == '__main__':

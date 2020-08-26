@@ -584,8 +584,7 @@
 
 
         <div id="dashboard">
-        {% if check == false %}
-                    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
                         {% if messages %}
                           {% for category, message in messages %}
                             <div class="col-lg-12 alert alert-{{ category }}">
@@ -593,7 +592,11 @@
                             </div>
                           {% endfor %}
                         {% endif %}
-                      {% endwith %}
+        {% endwith %}
+        {% if check == false %}
+              <div class="col-lg-12 alert alert-danger">
+              {{ error }}
+             </div>
                         {% else %}
             {% for posts in post %}
           <div class="item">
@@ -602,7 +605,7 @@
                         <hr id="item_ruler">
                     {{ posts.description }}
 
-          <div id="show"><button class="btn-show" onclick="window.location.href='{{ url_for('edit_ques') }}'"  disabled>Edit</button><button class="btn-show" data-toggle="modal" data-target="#delete-exam-modal_{{ posts.test_id }}"  >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
+          <div id="show"><button class="btn-show" onclick="window.location.href='{{ url_for('edit_ques', test_id=posts.test_id) }}'"  >Edit</button><button class="btn-show" data-toggle="modal" data-target="#delete-exam-modal_{{ posts.test_id }}"  >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
                                                                                                          id="read-more"></button> </div>
 
 
