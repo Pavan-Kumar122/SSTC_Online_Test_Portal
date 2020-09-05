@@ -17,6 +17,7 @@
   <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc-logo.png" />
     <script src="/static/js/result.js"></script>
     <script src="/static/js/result_by_details.js"></script>
+    <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
     <script>
       function printDiv(){
           var i =0;
@@ -454,6 +455,13 @@
   <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 {% if current_user.is_authenticated %}
   <div class="wrapper">
+  <div id="loader-wrapper">
+			<div id="loader"></div>
+
+			<div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+
+		</div>
     <div class="sidebar">
       <div class="bg_shadow"></div>
       <div class="sidebar__inner">
@@ -587,7 +595,7 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
                         {% if messages %}
                           {% for category, message in messages %}
-                            <div class="col-lg-12 alert alert-{{ category }}">
+                            <div class="col-lg-12 alert alert-{{ category }}" style="z-index: -5">
                               {{ message }}
                             </div>
                           {% endfor %}
@@ -603,7 +611,7 @@
                       <h3>{{ posts.testname }}</h3>
                     <h5>Date Posted:- {{ posts.date_posted.strftime('%a-%Y-%m-%d') }} Time- {{ posts.date_posted.strftime('%I:%M %p') }}<br>Scheduled Date:- {{ posts.scheduled_date }}&nbsp;&nbsp;From- {{ posts.start_time }}&nbsp;To- {{ posts.end_time }}</h5>
                         <hr id="item_ruler">
-                    {{ posts.description }}
+                    <h4 class="test-desc">Description:- {{ posts.description }}</h4>
 
           <div id="show"><button class="btn-show" onclick="window.location.href='{{ url_for('edit_ques', test_id=posts.test_id) }}'"  >Edit</button><button class="btn-show" data-toggle="modal" data-target="#delete-exam-modal_{{ posts.test_id }}"  >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
                                                                                                          id="read-more"></button> </div>
@@ -640,7 +648,7 @@
 
           <div class="dashboard-details" id="ques_content_{{ posts.test_id }}">
               <hr>
-              <h1 class="text-center text" class="qp" style="font-weight: 600; font-size: 15px;">Question Paper</h1>
+              <h1 class="text-center text" class="qp" style="font-weight: 600; font-size: 18px;">Question Paper</h1>
               <table style="width:100%">
                 <tr>
                   <th>College-{{ posts.college }}</th>
@@ -973,6 +981,8 @@
     <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
 {% endif %}
 </body>
+<script src="/static/js/main.js"></script>
+<script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 <script>
   $(document).ready(function () {
       $('.dashboard-details').hide();

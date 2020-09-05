@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="no-js">
 
 <head>
     <meta charset="utf-8">
@@ -9,13 +9,13 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    </head>
 
         <title>SSTC- Test Portal</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc_logo.png" />
-
+        <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
         <link href="/static/css/style_yash.css" rel="stylesheet" />
+
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -381,8 +381,9 @@ canvas {
 
 @media (min-width: 1200px) {
     #content {
-        background-position : inherit;
+        background-position: inherit;
     }
+}
 
 
     </style>
@@ -395,6 +396,13 @@ canvas {
 <body> {#oncontextmenu="return false;"#}
 {% if current_user.is_authenticated and current_user.role == 'Student' %}
     <div class="wrapper">
+    <div id="loader-wrapper">
+			<div id="loader"></div>
+
+			<div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+
+		</div>
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header">
@@ -560,7 +568,7 @@ canvas {
 
 
 
-            <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #ddd;z-index: 1000">
+            <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #ddd;z-index: 100">
                 <div class="container-fluid">
 
                     <button type="button" id="sidebarCollapse" class="btn btn-dark menu">
@@ -646,7 +654,6 @@ canvas {
             </div>
         </div>
     </div>
-    </div>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -655,7 +662,8 @@ canvas {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-
+    <script src="/static/js/main.js"></script>
+    <script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
     <!-- ajax pages connects -->
     <script>
         function pre_exam()
@@ -789,7 +797,6 @@ canvas {
                 T2.style.display = "block";
 
                 /*timer*/
-                // Credit: Mateusz Rybczonec
 
                 const FULL_DASH_ARRAY = 283;
                 const WARNING_THRESHOLD = 10;
@@ -1188,7 +1195,6 @@ $("#imageUpload").change(function() {
     readURL(this);
 });
     </script>
-
     
 {% else %}
     <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>

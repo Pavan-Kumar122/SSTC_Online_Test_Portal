@@ -51,6 +51,7 @@ mail = Mail(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'index'
 login_manager.login_message_category = 'danger'
+cap = cv2.VideoCapture(0)
 
 name = ""
 description = ""
@@ -459,6 +460,8 @@ def showresult():
         session.permanent = True
         get_ques = Questions.query.filter(Questions.test_id.like(test_id))
     if request.method == 'POST':
+        while cap.isOpened():
+            cap.release()
         sub_ans = []
         quesno = 0
         correct = 0
@@ -771,7 +774,7 @@ def show_result():
                             subj_result.append(r)
                             subj_ans.append(r.attempted)
                             subj_stu_marks.append(r.total_marks)
-                            subj_date_posted.append(r.date_posted)
+                            subj_date_posted.append(r.date_posted.strftime('%a-%Y-%m-%d'))
                         total_ques_subj.append(p.totalques)
                         subj_duration = p.totaltime
                         if int(subj_duration) > 3600:
@@ -792,7 +795,7 @@ def show_result():
     # all_paper_op = paper_schema.loads(all_paper)
     stu_roll_no = student_id
     user_id = list(dict.fromkeys(user_id))
-    print(obj_stu_marks)
+    # print(obj_stu_marks)
     return json.dumps(
         dict(status='OK', name=stu_name, college=stu_college, branch=stu_branch, semester=stu_semester,
              section=stu_section, rollno=stu_roll_no, obj_testname=obj_testname, subj_testname=subj_testname,
@@ -945,57 +948,56 @@ def get_value():
     d = request.args.get('a')
     delay = int(d) / 5
     c = request.args.get('test')
-
-    def TakeImages():
-        face_classifier = cv2.CascadeClassifier(
-            'C:/Users/BPAVA/venv/Lib/site-packages/cv2/data/haarcascade_frontalface_default.xml')
-
-        def face_extractor(img):
-
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            faces = face_classifier.detectMultiScale(gray, 1.3, 5)
-
-            if faces is ():
-                return None
-
-            for (x, y, w, h) in faces:
-                cropped_face = img[y:y + h, x:x + w]
-
-            return cropped_face
-
-        cap = cv2.VideoCapture(0)
-        count = 0
-
-        while True:
-            ret, frame = cap.read()
-            if face_extractor(frame) is not None:
-                count += 1
-
-                face = cv2.resize(face_extractor(frame), (500, 500))
-                face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
-
-                file_name_path = os.getcwd() + "/static" \
-                                               "/student_images/" + c + current_user.username + str(count) + ".jpg "
-                cv2.imwrite(file_name_path, face)
-
-                cv2.putText(face, str(count), (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-
-                # cv2.imshow('Face cropper', face)
-                print("FACE FOUND", count)
-
-            else:
-                print("Face not Found")
-                pass
-            # t.sleep(delay)
-            if cv2.waitKey(1) == 13 or count == 5:
-                break
-
-        cap.release()
-        cv2.destroyAllWindows()
-        print('Collecting Samples Complete!!!')
-
-    TakeImages()
+    app.config.setdefault('WTF_CSRF_TIME_LIMIT', int(d) + 3600)
+    TakeImages(delay=delay, c=c, value=9)
     return jsonify({'status': 'ok'})
+
+
+def TakeImages(delay, c, value):
+    face_classifier = cv2.CascadeClassifier(
+        'C:/Users/BPAVA/venv/Lib/site-packages/cv2/data/haarcascade_frontalface_default.xml')
+
+    def face_extractor(img):
+
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        faces = face_classifier.detectMultiScale(gray, 1.3, 5)
+
+        if faces is ():
+            return None
+
+        for (x, y, w, h) in faces:
+            cropped_face = img[y:y + h, x:x + w]
+
+        return cropped_face
+
+    count = 0
+    while True and value:
+        if value == cv2.waitKey(1) & 0xFF == ord('q') or count == 5:
+            break
+        ret, frame = cap.read()
+        if face_extractor(frame) is not None:
+            count += 1
+            face = cv2.resize(face_extractor(frame), (500, 500))
+            face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
+
+            file_name_path = os.getcwd() + "/static" \
+                                           "/student_images/" + c + current_user.username + str(count) + ".jpg "
+            cv2.imwrite(file_name_path, face)
+
+            cv2.putText(face, str(count), (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
+
+            # cv2.imshow('Face cropper', face)
+            print("FACE FOUND", count)
+            t.sleep(delay)
+
+        else:
+            print("Face not Found")
+            pass
+
+    # cam.release()
+    cap.release()
+    cv2.destroyAllWindows()
+    print('Collecting Samples Complete!!!')
 
 
 @app.route('/delete_img', methods=['GET', 'POST'])
@@ -1124,19 +1126,19 @@ def updateques():
         elif request.form.get("obj", "") == "0":
             for q in test_question:
                 q.question = request.form['ques_' + str(max_ques)]
-                q.op1 = request.form['op1_'+str(max_ques)]
+                q.op1 = request.form['op1_' + str(max_ques)]
                 q.op2 = request.form['op2_' + str(max_ques)]
                 q.op3 = request.form['op3_' + str(max_ques)]
                 q.op4 = request.form['op4_' + str(max_ques)]
-                q.obj_ans = request.form['obj_ans_'+str(max_ques)]
+                q.obj_ans = request.form['obj_ans_' + str(max_ques)]
                 max_ques += 1
                 db.session.commit()
             flash('Paper updated successfully', 'primary')
             return redirect(url_for('faculty_login'))
         else:
             for s in test_question:
-                s.question = request.form['ques_'+str(max_ques)]
-                s.marks_assign = request.form['marks_assign_'+str(max_ques)]
+                s.question = request.form['ques_' + str(max_ques)]
+                s.marks_assign = request.form['marks_assign_' + str(max_ques)]
                 max_ques += 1
                 db.session.commit()
             flash('Paper updated successfully', 'primary')

@@ -81,26 +81,35 @@ body{
   width: 85%;
   text-align: center;
   /* background-color: #b8b8b8; */
-  background-image: linear-gradient(#a7b7ff,#b265ff);
+  background-color:#d4dbff;
 }
 .edit-buttons{
-  width: 130px;
-  border-radius: 2px;
+  width: 140px;
   margin: 15px;
-  color: #743bad;
+  color: #fff;
+  background-color: #762acc;
   font-weight: 500;
+  font-size: 18px;
+  border-radius: 20px;
+  outline: none;
+  border: 2px solid rgb(71, 71, 71);
 }
-.ques-list table{
-  width: 90%;
-  margin: 30px auto 10px auto;
+.edit-buttons:hover,.edit-buttons:active, .edit-buttons:focus{
+  outline: none;
 }
-.ques-list table td{
-  padding: 4px;
-  text-align: left;
+
+.input-marks{
+  width: 80px;
+  margin: auto 10px;
+  padding-left: 5px;
 }
-.ques-list table a{
-  color: red;
+
+.marks-cont span{
+  text-align: right;
+  display: inline-block;
+  width: 120px;
 }
+
 .ques-group{
   clear: both;
   margin: auto;
@@ -152,17 +161,24 @@ body{
   border: rgb(45, 62, 192) 2px solid ;
   border-radius: 5px ;
   width: 90% ;
-  padding-left: 10px 0px 0px 10px ;
-  min-height: 320px ;
+  padding: 10px;
+  min-height: 200px ;
   margin-left: 0px ;
   outline: none ;
+}
+.marks-assigned{
+  margin-bottom: 20px;
+}
+.marks-assigned input{
+  width: 80px;
+  text-align: center;
 }
 
 .left textarea{
   border: rgb(45, 62, 192) 2px solid ;
   border-radius: 5px ;
   width: 90% ;
-  padding-left: 10px ;
+  padding: 10px ;
   min-height: 320px ;
   margin-left: 0px;
   outline: none ;
@@ -243,16 +259,16 @@ body{
     margin: 0;
   }
   .test-details .form-group .label1{
-    width: 80px; 
+    width: 80px;
     font-size: 15px;
-    font-weight: 500; 
+    font-weight: 500;
     text-align: center;
   }
   .test-details .form-group input{
     width: 100%;
     margin: auto;
     text-align: center;
-    border: 1.5px solid blueviolet; 
+    border: 1.5px solid blueviolet;
   }
   .test-details .form-group .date-time{
       width: 82%;
@@ -279,6 +295,7 @@ body{
  .form-group textarea{
    width: 90%;
    min-height: 130px;
+
  }
  .form-control{
    margin: auto;

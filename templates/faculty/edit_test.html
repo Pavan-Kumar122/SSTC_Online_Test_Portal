@@ -20,20 +20,17 @@
 	<div class="main">
 		<div class="header">
 			<div class="header-content" id="backbtn"><span><i class="fa fa-arrow-left" style="color: #3958E4;"></i>
-				</span><span><a href="">
+				</span><span><a href="{{ url_for('faculty_login') }}">
 						Back</a></span>
 			</div>
 			<div class=" header-content" id="title">
-				<h3 class="text-center text-uppercase head-title">Edit Test</h3>
+				<h3 class="text-center text-uppercase head-title" style="margin-top: 10px;">Edit Test</h3>
 			</div>
-			<div class="header-content" id="homebtn"><span><i class="fas fa-home " style="color: #3958E4;"></i>
-				</span><span><a href="faculty_home.html">
-						Home</a></span> </div>
 			<hr id="clrfloat">
 		</div>
 
 		<div class="test-details">
-           
+
             <div class="text-center " >
 			   <button class="edit-buttons" data-toggle="modal" data-target="#edit-details-modal">Edit Details</button>
             </div>
@@ -49,28 +46,27 @@
 					<br>
 					<div id="new_test">
 						<div class="login-container">
-							<br>
-							<div class="text-center"> <i class=" fa fa-plus fa-3x text-center" style="color:darkslategrey;"></i></div>
-                        <form class="new-form-test " action="/updateques" method="POST">
+                        <form class="new-form-test " action="/updateques" method="POST" style="height: auto;">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-			            <input type="hidden" name="modal" value="1">
+						<input type="hidden" name="modal" value="1">
+						<div class="text-center" style="margin: 0;align-content: center;"><br> <i class=" fa fa-plus fa-3x text-center" style="margin-top: 5px;"></i></div>
 							<h2 class="mb-3 mt-2 font-weight-light text-uppercase text-center "
-							  style=" font-family: 'Poppins', sans-serif;">Edit Details</h2>
+							  style=" font-family: 'Poppins', sans-serif;margin-top: 20px;">Edit Details</h2>
 
 			                {% for posts in post %}
                                 <input type="hidden" name="test_id" value="{{ posts.test_id }}"/>
 							<div class="form-group ">
-			  
+
 							  <div><input type="text" class="form-control2 " name="testname" placeholder="" required value="{{ posts.testname }}"></div>
 							</div>
-			  
+
 							<div class="form-group">
 							  <div>
 								<textarea rows="4" name="description" id="" class="form-control2" placeholder=""
 								  style="padding-top: 5px; margin-bottom: 0px;" required >{{ posts.description }}</textarea>
 							  </div>
 							</div>
-			  
+
 							<div id="left">
 							  <div class="form-group ">
 							  <select class="form-control2 sem " name="college" required id="college_id">
@@ -79,7 +75,7 @@
 								<option value="SSEC (S2)">SSEC (S2)</option>
 							  </select>
 							  </div>
-			  
+
 							  <div class="form-group ">
 								<select class="form-control2 sem" name="branch" required id="branch_id">
 								  <option value="">Select Branch</option>
@@ -98,7 +94,7 @@
 								<input type="text" class="form-control2 " name="subject" placeholder="Subject" required value="{{ posts.subject }}">
 							  </div>
 							</div>
-			  
+
 							  <div>
 								<span class="input-label">Semester</span><br>
 								<div class="form-group checkbox-container"  required>
@@ -120,7 +116,7 @@
 								  </table>
 								</div>
 							  </div>
-			  
+
 							  <div>
 								<span class="input-label">Section</span><br>
 								<div class="form-group checkbox-container ">
@@ -134,20 +130,24 @@
 								  </table>
 								</div>
 							  </div>
-                            {% if posts.testtype== 'objective' %}
-                                <div>
-                                    <table>
+							{% if posts.testtype== 'objective' %}
+							<div>
+							<span class="input-label">Marks Assigned</span><br>
+							<div class="form-group checkbox-container" style="padding-top: 5px;">
+
+                                    <table class="marks-cont"></table>
                                         <tr>
-                                            <label><span>Correct answer</span>  <input type="text" class="input-marks" placeholder="" name="correct_answer" required value="{{ posts.correct_ans }}"> </label>
+                                            <label><span>Correct answer</span><input type="text" class="input-marks" placeholder="" name="correct_answer" required value="{{ posts.correct_ans }}"> </label>
                                         </tr>
                                         <tr>
-                                           <label><span>Minus Marking</span><input type="text" class="input-marks" placeholder="" name="minus_mark" required value="{{ posts.wrong_ans }}"> </label>
+                                           <label><span>Minus  Marking</span><input type="text" class="input-marks" placeholder="" name="minus_mark" required value="{{ posts.wrong_ans }}"> </label>
                                         </tr>
                                     </table>
-                                </div>
+								</div>
+							</div>
                             {% endif %}
 							</div>
-			  
+
 							<div id="right">
 							  <div class="form-group ">
 								<select class="form-control1" name="test_type" required id="test_type_id">
@@ -156,12 +156,12 @@
 								  <option value="subjective">Subjective</option>
 								</select>
 							  </div>
-			  
+
 							  <div class="form-group ">
 								<input type="text" class=" form-control2" name="total_ques" placeholder="Total Questions" required value="{{ posts.totalques }}">
-			  
+
 							  </div>
-			  
+
 							  <div>
 								<span class="input-label">Exam Date</span><br>
 								<div class="form-group">
@@ -180,7 +180,7 @@
 								  <input type="datetime-local" id="end_time_id" class="form-control2" name="end_time" required>
 								</div>
 							  </div>
-			  
+
 							  <div>
 							  <span class="input-label">Duration</span><br>
 							  <div class="form-group duration-container ">
@@ -290,7 +290,7 @@
 	</div>
 	</div>
 	</div>
-	
+
  {% else %}
     <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
 {% endif %}
