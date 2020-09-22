@@ -470,7 +470,7 @@
         </div>
         <div class="profile_info">
           <div class="profile_img">
-            <img class="rounded-circle article-img" src="{{ url_for('static', filename='Profile_pics/'+ current_user.image_file) }}" alt="profile_img" />
+            <img class="rounded-circle article-img" src="/static/Profile_pics/default.jpg" alt="profile_img" />
           </div>
           <div class="profile_data">
             <p class="name">{{ current_user.username }}</p>
@@ -540,7 +540,7 @@
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                                     <input type="hidden" name="update_profile" value="0">
                                     <div class="img-container">
-                                        <div class="text-center"><img src="{{ url_for('static', filename='Profile_pics/'+ current_user.image_file) }}" alt="" id="update-img"><br>
+                                        <div class="text-center"><img src="/static/Profile_pics/default.jpg" alt="" id="update-img"><br>
 
                                             <!-- <label class="custom-file-upload">
                             <input type="file" onchange="readURL(this);">
@@ -804,13 +804,13 @@
                   <div>
                   <span class="input-label">Start Time:</span><br>
                   <div class="form-group">
-                    <input type="datetime-local" id="" class="form-control2" name="start_time" required>
+                    <input type="time" id="" class="form-control2" name="start_time" required>
                   </div>
                 </div>
                 <div><br>
                   <span class="input-label">End Time</span><br>
                   <div class="form-group">
-                    <input type="datetime-local" id="" class="form-control2" name="end_time" required>
+                    <input type="time" id="" class="form-control2" name="end_time" required>
                   </div>
                 </div>
 
@@ -1004,9 +1004,9 @@
       $(".wrapper").removeClass("active");
     });
 
-    // $('body').click(function () {
-    //   $('.wrapper').removeClass('active');
-    // });
+     $(".bg-shadow").click(function () {
+       $(".wrapper").removeClass("active");
+     });
 
     //It will change the active tab on click.
     $(".siderbar_menu li a").click(function (ev) {
@@ -1253,21 +1253,19 @@
 
 <script type="text/javascript">
     function delete_img(para1,para2) {
-        var start = 0;
-        var end  = 0;
         let imagegarray = [];
         let img;
         if (para1 === 0) {
             img = 1;
             for (img; img <= 5; img++) {
                 imagegarray.push(localStorage.getItem("img" + img));
-                {#localStorage.removeItem("img"+img);#}
+                localStorage.removeItem("img"+img);
             }
         }
         else {
             for (img=para2-5; img <= para2; img++) {
                 imagegarray.push(localStorage.getItem("img" + img));
-                {#localStorage.removeItem("img"+img);#}
+                localStorage.removeItem("img"+img);
             }
         }
         {#console.log(imagegarray,para1,para2);#}
@@ -1282,8 +1280,6 @@
 				console.log(error);
 			}
 		});
-
-
     }
 </script>
 
