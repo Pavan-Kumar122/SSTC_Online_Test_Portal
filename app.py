@@ -1,6 +1,5 @@
 import os
 import re
-import cv2
 import collections
 import time as t
 from datetime import datetime, date, timedelta
@@ -14,6 +13,7 @@ from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+import base64
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
@@ -43,6 +43,7 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('Email_ADD')
 app.config['MAIL_PASSWORD'] = 'equiqhpzpegsdnzl'
+app.config['WTF_CSRF_TIME_LIMIT'] = None
 app.static_folder = 'static'
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
@@ -51,7 +52,7 @@ mail = Mail(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'index'
 login_manager.login_message_category = 'danger'
-cap = cv2.VideoCapture(0)
+
 
 name = ""
 description = ""
@@ -176,6 +177,16 @@ class Result(db.Model, UserMixin):
     def __repr__(self):
         return f"Result('{self.result_id}','{self.test_id}','{self.test_given}','{self.user_id}','{self.testtype}', '{self.attempted}', '{self.correct}', '{self.total_marks}'," \
                f" '{self.date_posted}') "
+
+
+class image_data(db.Model, UserMixin):
+    img_id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String(1000))
+    user_id = db.Column(db.Integer)
+    test_id = db.Column(db.Integer)
+
+    def __repr__(self):
+        return f"image_data('{self.img_id}','{self.image}','{self.user_id}','{self.test_id}') "
 
 
 class SaveFeedBack(db.Model, UserMixin):
@@ -460,8 +471,6 @@ def showresult():
         session.permanent = True
         get_ques = Questions.query.filter(Questions.test_id.like(test_id))
     if request.method == 'POST':
-        while cap.isOpened():
-            cap.release()
         sub_ans = []
         quesno = 0
         correct = 0
@@ -818,6 +827,7 @@ def all_details():
     d = ''
     a = ''
     c = ''
+    stu_user_id = 0
     for t in testpaper:
         if t.testtype == 'objective':
             obj = 'objective'
@@ -859,8 +869,23 @@ def all_details():
         user_details.append(c)
     # k = json.dumps(result_list)
     # m = json.dumps(user_details)
+    get_image = image_data.query.filter_by(test_id=get_test_id).all()  # remove duplicate
+    image_details = []
+    image_stu_id = []
+
+    for img in get_image:  # 1 2 -> Array 2 pic-> 4pic-> 1-1,2,, 2-3,4
+        image = collections.OrderedDict()
+        image['image_data'] = img.image
+        image['id'] = img.img_id
+        image['user_id'] = img.user_id
+        image_stu_id.append(img.user_id)
+        image_details.append(image)
+    image_stu_id = list(dict.fromkeys(image_stu_id))
+    # if not image_details:
+    #     print('none')
     c = json.dumps(dict(result_list=result_list, user=user_details, ques=objects_list, obj=obj, subj=subj,
-                        obj_testname=obj_testname, subj_testname=subj_testname))
+                        obj_testname=obj_testname, subj_testname=subj_testname,
+                        image=image_details, image_stu_id=image_stu_id))
     # return jsonify({"result":result_list, "user":user_details})
     return c
 
@@ -943,61 +968,27 @@ def pre_exam():
     return render_template('student/pre-exam.html')
 
 
-@app.route('/get_value', methods=['GET', 'POST'])
-def get_value():
-    d = request.args.get('a')
-    delay = int(d) / 5
-    c = request.args.get('test')
-    app.config.setdefault('WTF_CSRF_TIME_LIMIT', int(d) + 3600)
-    TakeImages(delay=delay, c=c, value=9)
-    return jsonify({'status': 'ok'})
+# @app.route('/get_value', methods=['GET', 'POST'])
+# def get_value():
+#     d = request.args.get('a')
+#     delay = int(d) / 5
+#     c = request.args.get('test')
+#     app.config.setdefault('WTF_CSRF_TIME_LIMIT', int(d) + 3600)
+#     # TakeImages(cap, delay)
+#     return jsonify({'status': 'ok'})
 
 
-def TakeImages(delay, c, value):
-    face_classifier = cv2.CascadeClassifier(
-        'C:/Users/BPAVA/venv/Lib/site-packages/cv2/data/haarcascade_frontalface_default.xml')
-
-    def face_extractor(img):
-
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        faces = face_classifier.detectMultiScale(gray, 1.3, 5)
-
-        if faces is ():
-            return None
-
-        for (x, y, w, h) in faces:
-            cropped_face = img[y:y + h, x:x + w]
-
-        return cropped_face
-
-    count = 0
-    while True and value:
-        if value == cv2.waitKey(1) & 0xFF == ord('q') or count == 5:
-            break
-        ret, frame = cap.read()
-        if face_extractor(frame) is not None:
-            count += 1
-            face = cv2.resize(face_extractor(frame), (500, 500))
-            face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
-
-            file_name_path = os.getcwd() + "/static" \
-                                           "/student_images/" + c + current_user.username + str(count) + ".jpg "
-            cv2.imwrite(file_name_path, face)
-
-            cv2.putText(face, str(count), (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-
-            # cv2.imshow('Face cropper', face)
-            print("FACE FOUND", count)
-            t.sleep(delay)
-
-        else:
-            print("Face not Found")
-            pass
-
-    # cam.release()
-    cap.release()
-    cv2.destroyAllWindows()
-    print('Collecting Samples Complete!!!')
+@app.route('/camera', methods=['POST', 'GET'])
+def camera():
+    datauri = request.args.getlist('datauri[]')
+    test_id = request.args.get('test_id')
+    for i in datauri:
+        i = base64.b64decode(i)
+        img = image_data(image=i, user_id=current_user.id, test_id=test_id)
+        db.session.add(img)
+        db.session.commit()
+        # print(i)
+    return 'Ok', 200
 
 
 @app.route('/delete_img', methods=['GET', 'POST'])
@@ -1147,4 +1138,4 @@ def updateques():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(threaded=True)

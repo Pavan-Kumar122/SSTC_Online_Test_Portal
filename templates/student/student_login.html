@@ -13,13 +13,14 @@
         <title>SSTC- Test Portal</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc_logo.png" />
+        <script defer src="/static/js/face-api.min.js"></script>
         <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
         <link href="/static/css/style_yash.css" rel="stylesheet" />
 
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <!--
     <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet"/>
@@ -291,7 +292,7 @@ a.article:hover {
     }
 }
 canvas {
-  max-width  : 200px; 
+  max-width  : 200px;
   height : 200px;
   border : 1px solid #c3c3c3;
   background-color: white;
@@ -385,6 +386,17 @@ canvas {
     }
 }
 
+        #video{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 500;
+        }
+        canvas {
+      position: absolute;
+      height: 240;
+      width: 297;
+    }
 
     </style>
     <!-- Font Awesome JS -->
@@ -403,6 +415,10 @@ canvas {
             <div class="loader-section section-right"></div>
 
 		</div>
+
+        <!-- Cam  -->
+    <img src="" alt="" id="video_img">
+        <video id="video" width="100" height="100" autoplay muted ></video>
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header">
@@ -597,7 +613,7 @@ canvas {
                             {% for paper in paper1 %}
                                 <div style="float: left; margin-left: 0px; margin-top: 10px;"><h3><span>Exam-{{ paper.testname }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Time Limit:{{ time }}</span></h3><div>Description-{{ paper.description }} Test Type-{{ paper.testtype }}</div></div><!-- for Exam Name -->
                                     <input type="hidden" value="{{ time_limit }}" id="time_limit">
-                                    <input type="hidden" value="{{ paper.testname }}" id="exam_name">
+                                    <input type="hidden" value="{{ paper.test_id }}" id="exam_id">
                                     <div class="exam_start">
                                         <input type="button" class="btn btn-info" value="Start" name="" id="start/submit" onclick="examFunction()" style="margin-top: 21%;">
                                     </div><!-- Button for Showing the Exam Paper -->
@@ -609,7 +625,7 @@ canvas {
                                 </div>
 
                             <form method="POST" action="/showresult" style="margin-top: inherit;" id="form_id">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" id="csrf" />
                                 {% for ques in get_ques %}
                                 {% if paper.testtype == 'objective' %}
                                 <input value = "objective" type="hidden" name="objective">
@@ -749,13 +765,21 @@ canvas {
             var retVal = confirm("Do you want to start the exam ?");
             if( retVal === true )
             {
-                $.ajax({
-                    url: '/get_value',
-                    data: "&a=" + {{ time_limit }}+"&test=" + $('#exam_name').val(),
-                    success: function (data) {
-                        console.log(data)
-                    }
+
+                var get_face_script = '/static/js/face_script.js';
+                $.getScript(get_face_script, function () {
+                    $(document).ready(function () {
+                            console.log('gotcha');
+
+                    });
                 });
+                //$.ajax({
+                  //  url: '/get_value',
+                   // data: "&a=" + {{ time_limit }}+"&test=" + $('#exam_name').val(),
+                    //success: function (data) {
+                      //  console.log(data)
+                    //}
+                //});
 
                 $(function () {
                         $(document).keydown(function (e) {

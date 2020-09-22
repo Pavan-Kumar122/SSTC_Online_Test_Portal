@@ -9,8 +9,9 @@ $(function(){
 				var question = response.ques;
 				var result = response.result_list;
 				var user_details =  response.user;
-				console.log(response);
-
+				var image_data = response.image;
+				// console.log(image_data);
+				// console.log(response.image_stu_id);
 				  var data1 = [];
 				  function removeDup(obj, index) {
 					if (data1.map(function(e) {
@@ -41,7 +42,6 @@ $(function(){
 				else {
 					let k = 0;
 					let h =0;
-					let s = 1;
 					let index = 1;
 					let a = [];
 					let sum;
@@ -58,7 +58,17 @@ $(function(){
 						}
 					}
 					set_marks();
-					console.log(a);
+					function getCount(group) {
+							var count = 0;
+							for (var i = 0; i < image_data.length; i++) {
+								if (image_data[i].user_id === group) {
+									count++;
+								}
+							}
+							return count;
+						}
+					let image_val = 0;
+					let ijk = 0;
 					$('.student-list').remove();
 					for (let i = 0; i < data1.length; i++) {
 						student_data += '<div class="student-list">';
@@ -116,10 +126,34 @@ $(function(){
 						//img cap. start
 						student_data += '<div id="student_result_div2_'+i+'" style="display: none;" class="res-image">';
 						student_data += '<ul>';
-						for (let img=1;img<=5;img++) {
-							student_data += '<li><img src="/static/student_images/'+response.subj_testname+data1[i]["name"]+img+'.jpg?'+Math.random()+'" id="img_id_'+img+'" onerror="this.src=\'/static/student_images/default.png\';"></li>';
-							localStorage.setItem("img"+s, "/static/student_images/"+response.subj_testname+data1[i]["name"]+img+".jpg");
-							s += 1;
+						let s = 0;
+						if (image_data.length > 0) {
+							if (data1[i]['stu_user_id'] === response.image_stu_id[ijk]) {
+								for (let img = 0; img <getCount(data1[i].stu_user_id); img++) {
+									student_data += '<li><img src="' + image_data[image_val]["image_data"] + '" id="img_id_' + img + '" onerror="this.src=\'/static/student_images/default.png\';"></li>';
+									//localStorage.setItem("img"+s, "/static/student_images/"+response.subj_testname+data1[i]["name"]+img+".jpg");
+									s += 1;
+									image_val += 1;
+								}
+								if ((5 - s) > 0) {
+									for (let img = s; img <5; img++) {
+										student_data += '<li><img src="/static/student_images/default.png"></li>';
+									}
+								}
+								ijk++;
+							}
+							// else {
+							// 	for (let img = 0; img <= 4; img++) {
+							// 		student_data += '<li><img src="/static/student_images/default.png" id="img_id_' + img + '"></li>';
+							// 		//localStorage.setItem("img"+s, "/static/student_images/"+response.subj_testname+data1[i]["name"]+img+".jpg");
+							// 	}
+							// }
+						}
+						else {
+							for (let img = 0; img <= 4; img++) {
+									student_data += '<li><img src="/static/student_images/default.png" id="img_id_' + img + '"></li>';
+									//localStorage.setItem("img"+s, "/static/student_images/"+response.subj_testname+data1[i]["name"]+img+".jpg");
+								}
 						}
 						student_data += '</ul> <hr class="clr-float"> ';
 						student_data += '<h1 class="text-center"><input type="button" class="btn btn-danger"  value="Delete" id="delete_btn_'+i+'" onclick="delete_img('+i+', '+s+')"></h1>';
