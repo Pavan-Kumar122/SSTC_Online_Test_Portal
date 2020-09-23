@@ -433,7 +433,7 @@ padding-top: 12px;
     margin: auto;
     width: 95%;
     overflow: scroll;
-  }
+  } 
 
 }
 @media screen and (max-width: 948px){
@@ -498,7 +498,7 @@ padding-top: 12px;
     text-align: center;
   }
 
-
+ 
   .new-form-test{
     width: 80%;
   }

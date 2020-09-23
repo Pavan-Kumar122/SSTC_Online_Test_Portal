@@ -983,7 +983,6 @@ def camera():
     datauri = request.args.getlist('datauri[]')
     test_id = request.args.get('test_id')
     for i in datauri:
-        i = base64.b64decode(i)
         img = image_data(image=i, user_id=current_user.id, test_id=test_id)
         db.session.add(img)
         db.session.commit()
@@ -1138,4 +1137,4 @@ def updateques():
 
 
 if __name__ == '__main__':
-    app.run(threaded=True)
+     app.run(debug=True, threaded=True)
