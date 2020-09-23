@@ -53,7 +53,6 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'index'
 login_manager.login_message_category = 'danger'
 
-
 name = ""
 description = ""
 college = ""
@@ -175,8 +174,7 @@ class Result(db.Model, UserMixin):
     test_given = db.Column(db.String(20))
 
     def __repr__(self):
-        return f"Result('{self.result_id}','{self.test_id}','{self.test_given}','{self.user_id}','{self.testtype}', '{self.attempted}', '{self.correct}', '{self.total_marks}'," \
-               f" '{self.date_posted}') "
+        return f"Result('{self.result_id}','{self.test_id}','{self.test_given}','{self.user_id}','{self.testtype}', '{self.attempted}', '{self.correct}', '{self.total_marks}','{self.date_posted}') "
 
 
 class image_data(db.Model, UserMixin):
@@ -980,14 +978,15 @@ def pre_exam():
 
 @app.route('/camera', methods=['POST', 'GET'])
 def camera():
-    datauri = request.args.getlist('datauri[]')
-    test_id = request.args.get('test_id')
-    for i in datauri:
-        img = image_data(image=i, user_id=current_user.id, test_id=test_id)
+    if request.method == 'POST':
+        datauri = request.form['datauri'].replace(" ", "+")
+        print(datauri)
+        test_id = request.form.get('test_id')
+        img = image_data(image=datauri, user_id=current_user.id, test_id=test_id)
         db.session.add(img)
         db.session.commit()
         # print(i)
-    return 'Ok', 200
+    return 'Ok'
 
 
 @app.route('/delete_img', methods=['GET', 'POST'])

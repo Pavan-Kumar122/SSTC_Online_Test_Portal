@@ -50,16 +50,28 @@ video.addEventListener('play', () => {
       const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions());
       if (detections.length === 1) {
           clearphoto();
-          $.get({
-       url: '/camera',
-       data: {datauri: imagearr, test_id: $('#exam_id').val()},
-        success: function (data) {
-           console.log('ok');
-        },
-        error: function (data) {
-            console.log('no');
-        }
-    });
+          var request = $.ajax({
+              url: "/camera",
+              method: "POST",
+              data: $('form').serialize() + "&datauri="+(imagearr)+ "&test_id="+$('#exam_id').val(),
+            });
+          request.done(function (data) {
+                console.log('ok');
+          });
+          request.fail(function (data) {
+                console.log('err');
+          });
+    //       $.ajax({
+    //    method: 'POST',
+    //    url: '/camera',
+    //    data: {datauri: imagearr, test_id: $('#exam_id').val()},
+    //     success: function (data) {
+    //        console.log('ok');
+    //     },
+    //     error: function (data) {
+    //         console.log('no');
+    //     }
+    // });
           imagearr = [];
       }
       console.log(detections.length);
@@ -72,6 +84,7 @@ video.addEventListener('play', () => {
 function clearphoto() {
   canva.getContext('2d').drawImage(video,0,0, 200,200);
   var data = canva.toDataURL('image/png');
+  console.log(data);
   imagearr.push(data);//// <----
   //photo.src = data;
   count++;
