@@ -226,7 +226,12 @@ body{
   margin-left: 15px;
   margin-right: 15px;
 }
-
+@media screen and (max-width: 675px){
+  .modal-content{
+    padding-bottom: 20px;
+  }
+  
+}
 @media screen and (max-width: 530px){
   .main{
     margin: 0px;
