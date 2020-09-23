@@ -65,27 +65,27 @@ $(function(){
 					paper_list += '<tr><td colspan="2">NAME- ' + response.name + '</td><td colspan="2">ROLL NO- ' + response.rollno + '</td></tr>';
 					paper_list += '<tr>';
 					paper_list += '<th>College- ' + response.college + '</th>';
-					paper_list += '<th>Branch- ' + response.branch + '</th>';
+					paper_list += '<th><span class="block-element">Branch-</span> ' + response.branch + '</th>';
 					paper_list += '<th>Sem/Sec - ' + response.semester + '/' + response.section + '</th>';
 					paper_list += '<th>Sub- ' + response.subj_subject[i] + '</th>';
 					paper_list += '</tr>';
 					paper_list += '<tr>';
-					paper_list += '<th>Marks Obtained-'+a[i] +' </th>';
+					paper_list += '<th><span class="block-element">Marks Obtained-</span'+a[i] +' </th>';
 					paper_list += '<th>Total Que- '+response.subj_ques_count[i]+'</th>';
-					paper_list += '<th>Duration- '+response.subj_duration[i]+'</th>';
-					paper_list += '<th>Date Submitted- '+response.subj_date_posted[i]+'</th>';
+					paper_list += '<th><span class="block-element">Duration-</span> '+response.subj_duration[i]+'</th>';
+					paper_list += '<th>Date Submitted-<br> '+response.subj_date_posted[i]+'</th>';
 					paper_list += '</tr>';
 					for(let j =0;j<response.subj_ques_count[i];j++) {
 						if (count === 0) {
 							paper_list += '<tr>';
 							paper_list += '<td colspan="4" style="text-align: left; padding:10px 15px 0 15px;">';
-							paper_list += ' <div class="que-ans"> <p><b >Question-' + ques_no + '</b>' + ' ' + response.subj_ques[j] + ' <br> <br>';
+							paper_list += ' <div class="que-ans"> <p style="font-weight:500;"><b >Question-' + ques_no + '</b>' + ' ' + response.subj_ques[j] + ' <br> <br>';
 							paper_list += '<b>Answer- </b>' + response.subj_ans[j] + '  <span></span></p></div></td></tr>';
 						}
 						else {
 							paper_list += '<tr>';
 							paper_list += '<td colspan="4" style="text-align: left; padding:10px 15px 0 15px;">';
-							paper_list += ' <div class="que-ans"> <p><b >Question-' + ques_no + '</b>' + ' ' + response.subj_ques[count] + ' <br> <br>';
+							paper_list += ' <div class="que-ans"> <p style="font-weight:500;"><b >Question-' + ques_no + '</b>' + ' ' + response.subj_ques[count] + ' <br> <br>';
 							paper_list += '<b>Answer- </b>' + response.subj_ans[count] + '  <span></span></p></div></td></tr>';
 						}
 						count +=1;
@@ -104,33 +104,33 @@ $(function(){
 					paper_list += '<input type="hidden" name="eval_question_length'+i+'" value="'+response.subj_ques_count[i]+'" id="eval_question_len'+i+'">';
 					paper_list += '<table border="2px" style="width:90%; margin-top: 50px;" class="text-center  rl-table-details" id="subj_table">';
 					paper_list += '<tr>';
-					paper_list += '<td colspan="4"><h4 class="text-center text" style="font-weight: 700; margin: 15px auto 10px auto;">Answer Sheet</h4></td>';
+					paper_list += '<td colspan="4"><h4 class="text-center text" style="font-weight: 600; margin: 15px auto 10px auto;">Answer Sheet</h4></td>';
 					paper_list += '</tr>';
 					paper_list += '<tr><td colspan="2">NAME- ' + response.name + '</td><td colspan="2">ROLL NO- ' + response.rollno + '</td></tr>';
 					paper_list += '<tr>';
-					paper_list += '<th>College- ' + response.college + '</th>';
-					paper_list += '<th>Branch- ' + response.branch + '</th>';
+					paper_list += '<th><span class="block-element">College-</span> ' + response.college + '</th>';
+					paper_list += '<th><span class="block-element">Branch-</span> ' + response.branch + '</th>';
 					paper_list += '<th>Sem/Sec - ' + response.semester + '/' + response.section + '</th>';
 					paper_list += '<th>Sub- ' + response.subj_subject[i] + '</th>';
 					paper_list += '</tr>';
 					paper_list += '<tr>';
-					paper_list += '<th>Marks Obtained-'+response.subj_marks[i] +' </th>';
+					paper_list += '<th><span class="block-element">Marks Obtained-</span>'+response.subj_marks[i] +' </th>';
 					paper_list += '<th>Total Que- '+response.subj_ques_count[i]+'</th>';
 					paper_list += '<th>Duration- '+response.subj_duration[i]+'</th>';
-					paper_list += '<th>Date Submitted- '+response.subj_date_posted[i]+'</th>';
+					paper_list += '<th>Date Submitted-<br> '+response.subj_date_posted[i]+'</th>';
 					paper_list += '</tr>';
 					for(let j =0;j<response.subj_ques_count[i];j++) {
 						if (count_1 === 0) {
 							paper_list += '<tr>';
 							paper_list += '<td colspan="3" style="text-align: left; padding:10px 15px 0 15px;">';
-							paper_list += ' <div class="que-ans"> <p><b >Question-' + ques_no_eval + '</b>' + ' ' + response.subj_ques[j] + ' <br> <br>';
-							paper_list += '<b>Answer- </b>' + response.subj_ans[j] + '  <span></span></p></div></td><td id="eval_marks_div_'+c+'">Marks Assigned <br> <input type="text" placeholder="'+response.marks_asign[j]+'" disabled> <br>Marks Obtained <br> <input type="text" name="eval_marks_obt_'+c+'" id="eval_marks_'+c+'" class="eval_enable_disable_'+i+'" value="'+response.subj_marks[j]+'"> </td></tr>';
+							paper_list += ' <div class="que-ans"> <p style="font-weight:500;"><b >Question-' + ques_no_eval + '</b>' + ' ' + response.subj_ques[j] + ' <br> <br>';
+							paper_list += '<b>Answer- </b>' + response.subj_ans[j] + '  <span></span></p></div></td><td id="eval_marks_div_'+c+'" style="min-width:170px;">Marks Assigned <br> <input type="text" placeholder="'+response.marks_asign[j]+'" disabled> <br>Marks Obtained <br> <input type="text" name="eval_marks_obt_'+c+'" id="eval_marks_'+c+'" class="eval_enable_disable_'+i+'" value="'+response.subj_marks[j]+'"> </td></tr>';
 							c += 1;
 						}
 						else {
 							paper_list += '<tr>';
 							paper_list += '<td colspan="3" style="text-align: left; padding:10px 15px 0 15px;">';
-							paper_list += ' <div class="que-ans"> <p><b >Question-' + ques_no_eval + '</b>' + ' ' + response.subj_ques[count_1] + ' <br> <br>';
+							paper_list += ' <div class="que-ans"> <p style="font-weight:500;"><b>Question-' + ques_no_eval + '</b>' + ' ' + response.subj_ques[count_1] + ' <br> <br>';
 							paper_list += '<b>Answer- </b>' + response.subj_ans[count_1] + '  <span></span></p></div></td><td id="eval_marks_div_'+c+'">Marks Assigned <br> <input type="text" placeholder="'+response.marks_asign[j]+'" disabled> <br>Marks Obtained <br> <input type="text" name="eval_marks_obt_'+c+'" id="eval_marks_'+c+'" class="eval_enable_disable_'+i+'" value="'+response.subj_marks[j]+'"> </td></tr>';
 							c += 1;
 						}

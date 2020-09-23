@@ -268,6 +268,7 @@ body{
   border-radius: 5px;
 }
 .res-image{
+
   padding: 0;
   min-width: 600px;
 }
@@ -275,15 +276,21 @@ body{
   box-sizing: border-box;
   margin: auto;
 }
-.res-image ul li{
+.res-image li{
   float: left;
   width: 18%;
-  border: 2px rgb(85, 0, 141) solid;
+  padding: auto 10px;
+  /* border: 2px rgb(85, 0, 141) solid; */
   margin: 1%;
+  margin-top: 15px;
+  overflow: hidden;
 }
+
 .res-image img{
   width: 100%;
+  margin: auto;
 }
+
 .clr-float{
   visibility: hidden;
   clear: both;

@@ -232,6 +232,13 @@ body {
   font-family: 'Poppins', sans-serif;
   text-align: left;
 }
+.dashboard-details th{
+  padding:10px 2px ;
+  font-weight: 500;
+}
+.dashboard-details td{
+  padding: 10px 15px;
+}
 #show{
   font-size: 15px;
   font-weight: 600;
@@ -422,6 +429,11 @@ padding-top: 12px;
     margin: auto;
     margin-left: 55%;  
   }
+  .dashboard-details{
+    margin: auto;
+    width: 95%;
+    overflow: scroll;
+  }
 
 }
 @media screen and (max-width: 948px){
@@ -485,6 +497,8 @@ padding-top: 12px;
     margin: 2px;
     text-align: center;
   }
+
+
   .new-form-test{
     width: 80%;
   }

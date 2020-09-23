@@ -41,6 +41,10 @@
     </script>
 <style>
 @import "https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway:300,400";
+*{
+  word-wrap: break-word;
+  word-break: break-all;
+}
 .tabs {
   left: 50%;
   font-family: "Raleway";
@@ -211,7 +215,9 @@
   min-height: 50px;
   justify-content: center;
   font-weight: 700;
+
 }
+
 .rl-table{
   width: 100%;
 }
@@ -233,6 +239,7 @@
   font-weight: 500;
   font-size: 18px;
 }
+
 
 /* =============================================================== */
 @media (max-width: 300px) {
@@ -292,78 +299,29 @@
   }
 }
 @media (max-width: 1265px){
-  .result-list table,.result-list thead,.result-list tbody,.result-list th,.result-list td,.result-list tr { 
-    display: block;
-    text-align: center; 
-  }
-  .result-list .rl-number{
-    border-radius: 500px;
-    width: 30px;
-    padding-top: 2px;
-    height: 30px;
-    margin:1px auto 5px auto;
-    border: 2px solid black;
-  }
-	
-	/* Hide table headers (but not display: none;, for accessibility) */
-	.result-list thead tr { 
-		position: absolute;
-		top: -9999px;
-		left: -9999px;
-  }
-  .result-list .rl-table tr{
-    margin-bottom: 3px;
+  .result-list{
+    overflow: scroll;
   }
 
+  .rl-table, #obj_table{
+  width: 100%;
+  min-width: 900px;
+  overflow: scroll;
 }
-@media (max-width: 948px){
-  .result-list table,.result-list thead,.result-list tbody,.result-list th,.result-list td,.result-list tr { 
-    display: block;
-    text-align: center; 
-  }
-  .result-list .rl-number{
-    border-radius: 500px;
-    width: 30px;
-    padding-top: 2px;
-    height: 30px;
-    margin:1px auto 5px auto;
-    border: 2px solid black;
-  }
-	
-	/* Hide table headers (but not display: none;, for accessibility) */
-	.result-list thead tr { 
-		position: absolute;
-		top: -9999px;
-		left: -9999px;
-  }
-  .result-list .rl-table tr{
-    margin-bottom: 3px;
-  }
+.rl-table-details{
+  width: 90%;
+  min-width: 860px;
+  margin: auto;
+}
+.block-element2{
+  display: block;
+}
 }
 
-@media (max-width: 768px){
-  .result-list table,.result-list thead,.result-list tbody,.result-list th,.result-list td,.result-list tr { 
-    display: block;
-    text-align: center; 
-  }
-  .result-list .rl-number{
-    border-radius: 500px;
-    width: 30px;
-    padding-top: 2px;
-    height: 30px;
-    margin:1px auto 5px auto;
-    border: 2px solid black;
-  }
-	
-	/* Hide table headers (but not display: none;, for accessibility) */
-	.result-list thead tr { 
-		position: absolute;
-		top: -9999px;
-		left: -9999px;
-  }
-  .result-list .rl-table tr{
-    margin-bottom: 3px;
-  }
+@media (max-width: 800px){
+.block-element{
+  display: block;
+}
 }
 
 @media (max-width: 530px) {
@@ -389,7 +347,10 @@
 .btn-result{
   margin: 5px auto;
 }
-  /* .result-list table,.result-list thead,.result-list tbody,.result-list th,.result-list td,.result-list tr { 
+.block-element{
+  display: block;
+}
+  /* .result-list table,.result-list thead,.result-list tbody,.result-list th,.result-list td,.result-list tr {
     display: block;
     text-align: center; 
   }
@@ -424,7 +385,8 @@
   border: 2px solid gray;
   min-height: 50px;
   justify-content: center;
-  font-weight: 700;
+  font-weight: 600;
+  font-size: 16px;
   overflow: scroll;
 } 
 }
@@ -649,18 +611,18 @@
           <div class="dashboard-details" id="ques_content_{{ posts.test_id }}">
               <hr>
               <h1 class="text-center text" class="qp" style="font-weight: 600; font-size: 18px;">Question Paper</h1>
-              <table style="width:100%">
+              <table style="width:100%;min-width: 750px;">
                 <tr>
-                  <th>College-{{ posts.college }}</th>
-                  <th>Branch-{{ posts.branch }}</th>
-                  <th>Semester-{{ posts.semester }}</th>
-                  <th>Section-{{ posts.section }}</th>
+                  <th><span class="block-element">College-</span>{{ posts.college }}</th>
+                  <th><span class="block-element block-element2">Branch-</span>{{ posts.branch }}</th>
+                  <th>Sem-{{ posts.semester }}</th>
+                  <th>Sec-{{ posts.section }}</th>
                 </tr>
                 <tr>
-                  <th>Subject-{{ posts.subject }}</th>
+                  <th><span class="block-element">Subject-</span>{{ posts.subject }}</th>
                   <th>Total Question-{{ posts.totalques }}</th>
-                  <th>Test type-{{ posts.testtype }}</th>
-                  <th>Duration-{{ posts.totaltime }}</th>
+                  <th><span class="block-element">Test type-</span>{{ posts.testtype }}</th>
+                  <th><span class="block-element block-element2">Duration-</span>{{ posts.totaltime }}</th>
                 </tr>
                   {% for question in ques %}
                       {% if question.test_id == posts.test_id %}
@@ -669,7 +631,7 @@
                     <div class="dash-questions">
                       <p>
                         {% if posts.testtype == 'objective' %}
-                        <h4 class="dash-ques">Question-{{ question.ques_no }}</h4>
+                        <h4 style="font-size: 18px; font-weight: 600;" class="dash-ques">Question-{{ question.ques_no }}</h4>
                        {{ question.question }}
                         <ol>
                           <li>{{ question.op1 }}</li>
@@ -678,7 +640,7 @@
                           <li>{{ question.op4 }}</li>
                         </ol>
                             {% else %}
-                            <h4 class="dash-ques">Question-{{ question.ques_no }}</h4>
+                            <h4 style="font-size: 18px;font-weight: 600;" class="dash-ques">Question-{{ question.ques_no }}</h4>
                             {{ question.question }}
                             {% endif %}
                       </p>
