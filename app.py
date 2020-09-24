@@ -966,21 +966,10 @@ def pre_exam():
     return render_template('student/pre-exam.html')
 
 
-# @app.route('/get_value', methods=['GET', 'POST'])
-# def get_value():
-#     d = request.args.get('a')
-#     delay = int(d) / 5
-#     c = request.args.get('test')
-#     app.config.setdefault('WTF_CSRF_TIME_LIMIT', int(d) + 3600)
-#     # TakeImages(cap, delay)
-#     return jsonify({'status': 'ok'})
-
-
 @app.route('/camera', methods=['POST', 'GET'])
 def camera():
     if request.method == 'POST':
         datauri = request.form['datauri'].replace(" ", "+")
-        print(datauri)
         test_id = request.form.get('test_id')
         img = image_data(image=datauri, user_id=current_user.id, test_id=test_id)
         db.session.add(img)
@@ -1136,4 +1125,4 @@ def updateques():
 
 
 if __name__ == '__main__':
-     app.run(debug=True, threaded=True)
+    app.run(debug=True, threaded=True)
