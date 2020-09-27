@@ -1,7 +1,6 @@
 import os
 import re
 import collections
-import time as t
 from datetime import datetime, date, timedelta
 from dateutil import parser
 from flask import Flask, render_template, redirect, request, url_for, flash, json, session, jsonify
@@ -9,11 +8,9 @@ from flask_assets import Bundle, Environment
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required, UserMixin
 from flask_mail import Mail, Message
-from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-import base64
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
@@ -46,7 +43,6 @@ app.config['MAIL_PASSWORD'] = 'equiqhpzpegsdnzl'
 app.config['WTF_CSRF_TIME_LIMIT'] = None
 app.static_folder = 'static'
 db = SQLAlchemy(app)
-ma = Marshmallow(app)
 bcrypt = Bcrypt(app)
 mail = Mail(app)
 login_manager = LoginManager(app)
@@ -192,59 +188,6 @@ class SaveFeedBack(db.Model, UserMixin):
     username = db.Column(db.String(20))
     feedback = db.Column(db.String(20))
     date_posted = db.Column(db.DateTime, default=datetime.now())
-
-
-class QuestionSchema(ma.SQLAlchemySchema):
-    class Meta:
-        model = Questions
-
-    ques_id = ma.auto_field()
-    test_id = ma.auto_field()
-    user_id = ma.auto_field()
-    question = ma.auto_field()
-    op1 = ma.auto_field()
-    op2 = ma.auto_field()
-    op3 = ma.auto_field()
-    op4 = ma.auto_field()
-    obj_ans = ma.auto_field()
-    ques_no = ma.auto_field()
-
-
-class ResultSchema(ma.SQLAlchemySchema):
-    class Meta:
-        model = Result
-
-    result_id = ma.auto_field()
-    test_id = ma.auto_field()
-    user_id = ma.auto_field()
-    testtype = ma.auto_field()
-    attempted = ma.auto_field()
-    correct = ma.auto_field()
-    total_marks = ma.auto_field()
-    date_posted = ma.auto_field()
-    test_given = ma.auto_field()
-
-
-class PaperSchema(ma.SQLAlchemySchema):
-    class Meta:
-        model = Paperdetails
-
-    test_id = ma.auto_field()
-    testname = ma.auto_field()
-    description = ma.auto_field()
-    college = ma.auto_field()
-    branch = ma.auto_field()
-    semester = ma.auto_field()
-    section = ma.auto_field()
-    subject = ma.auto_field()
-    totalques = ma.auto_field()
-    totaltime = ma.auto_field()
-    testtype = ma.auto_field()
-    date_posted = ma.auto_field()
-    user_id = ma.auto_field()
-    scheduled_date = ma.auto_field()
-    start_time = ma.auto_field()
-    end_time = ma.auto_field()
 
 
 def validate_username(username):
@@ -797,9 +740,6 @@ def show_result():
                             marks_asign.append(q.marks_assign)
                             subj_ques.append(q.question)
                             subj_q.append(q)
-    # paper_schema = PaperSchema(many=True)
-    # all_paper = paper_schema.dumps(all_papers)
-    # all_paper_op = paper_schema.loads(all_paper)
     stu_roll_no = student_id
     user_id = list(dict.fromkeys(user_id))
     # print(obj_stu_marks)
