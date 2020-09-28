@@ -239,6 +239,13 @@
   font-weight: 500;
   font-size: 18px;
 }
+#sec-obj{
+  width: 100%;
+}
+#obj_table{
+  width: 100%;
+  min-width: 900px;
+}
 
 
 /* =============================================================== */
@@ -302,11 +309,13 @@
   .result-list{
     overflow: scroll;
   }
-
+  
+  #sec-obj{
+    overflow: scroll;
+  }
   .rl-table, #obj_table{
   width: 100%;
   min-width: 900px;
-  overflow: scroll;
 }
 .rl-table-details{
   width: 90%;
@@ -505,10 +514,10 @@
                                         <div class="text-center"><img src="/static/Profile_pics/default.jpg" alt="" id="update-img"><br>
 
                                             <!-- <label class="custom-file-upload">
-                            <input type="file" onchange="readURL(this);">
-                            Choose New
-                        </label>
-                        -->
+                                            <input type="file" onchange="readURL(this);">
+                                                   Choose New
+                                                 </label>
+                                            -->
                                             <h4 class="text-center">{{ current_user.username }}</h4>
                                             <h5 class="text-center">{{ current_user.role }}</h5>
                                         </div>
@@ -547,11 +556,9 @@
                                     </div>
                                 </form>
                             </div>
-                        </div>
-                    </div>
+                      </div>
                 </div>
-
-
+        </div>
 
         <div id="dashboard">
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -567,14 +574,13 @@
               <div class="col-lg-12 alert alert-danger">
               {{ error }}
              </div>
-                        {% else %}
+            {% else %}
             {% for posts in post %}
           <div class="item">
-                      <h3>{{ posts.testname }}</h3>
+                    <h3>{{ posts.testname }}</h3>
                     <h5>Date Posted:- {{ posts.date_posted.strftime('%a-%Y-%m-%d') }} Time- {{ posts.date_posted.strftime('%I:%M %p') }}<br>Scheduled Date:- {{ posts.scheduled_date }}&nbsp;&nbsp;From- {{ posts.start_time }}&nbsp;To- {{ posts.end_time }}</h5>
-                        <hr id="item_ruler">
+                    <hr id="item_ruler">
                     <h4 class="test-desc">Description:- {{ posts.description }}</h4>
-
           <div id="show"><button class="btn-show" onclick="window.location.href='{{ url_for('edit_ques', test_id=posts.test_id) }}'"  >Edit</button><button class="btn-show" data-toggle="modal" data-target="#delete-exam-modal_{{ posts.test_id }}"  >Delete</button><button class="btn-show" onclick="toggle_ques111({{ posts.test_id }})">Show<img src="/static/assets/img/down-arrow2.png" alt=""
                                                                                                          id="read-more"></button> </div>
 
@@ -702,7 +708,14 @@
                   <div>
                   <span class="input-label">Subject</span><br>
                 <div class="form-group">
-                  <input type="text" class="form-control2 " name="subject" placeholder="Subject" required>
+                  <input type="text" list="subj" class="form-control2 " name="subject" placeholder="Subject" required>
+                  <datalist id="subj">
+                    <option value="Java">
+                    <option value="C++">
+                    <option value="Python">
+                    <option value="Javascript">
+                    <option value="Html">
+                  </datalist>
                 </div>
               </div>
 
@@ -783,7 +796,7 @@
                     <tr>
                         <td style="text-align: right;">Hour</td>
                       <td><input type="text" name="hour" id="" required></td>
-                        <td style="text-align: right;">Minutes</td>
+                        <td style="text-align: right;">Min</td>
                       <td><input type="text" name="minute" id="" value="0"></td>
                     </tr>
                   </table>
@@ -900,7 +913,7 @@
                   </ul>
                   <div class="slider"><div class="indicator"></div></div>
                   <div class="content">
-                    <section style="font-family: Arial, Helvetica, sans-serif;">
+                    <section id="sec-obj" style="font-family: Arial, Helvetica, sans-serif;">
                       <h2>Objective</h2>
                     <table border="1px" cellpadding="5px" cellspacing="0px" width="100%" class="text-center" id="obj_table">
                     </table>
