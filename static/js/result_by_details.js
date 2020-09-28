@@ -103,13 +103,13 @@ $(function(){
 						student_data += '<table style="min-width:800px;">';
 						student_data += '<tr >';
 						student_data += '<td class="sr-no" style="height:40px; padding-left:8px;">' + index + '.</td>';
-						student_data += '<td style="width: 27%; padding-left:8px;">' + data1[i]["name"] + '</td><td class="text-center subj_section" style="width: 12%;">Section- ' + data1[i]["section"] + '</td><td class="text-center subj_semester" style="width: 12%;">Semester- ' + data1[i]["semester"] + '</td> <td style="width: 22%;" class="text-center"><span class="block-element">Roll No:-</span> ' + data1[i]["rollno"] + '</td><td class="text-center" style="width: 12%;">';
+						student_data += '<td style="width: 27%; padding-left:8px;">' + data1[i]["name"] + '</td><td class="text-center subj_section" style="width: 12%;">Section- ' + data1[i]["section"] + '</td><td class="text-center subj_semester" style="width: 12%;">Semester- ' + data1[i]["semester"] + '</td> <td style="width: 24%;" class="text-center"><span class="block-element">Roll No:-</span> ' + data1[i]["rollno"] + '</td><td class="text-center" style="width: 10%;">';
 						student_data += '<button onclick="toggle_resultbytest(' + i + ')">Show</button></td>';
 						student_data += '<td class="text-center" style="width: 15%;"><button onclick="toggle_evaluate(' + i + ')" >Evaluate</button></td><td style="width: 12%;" class="text-center"><button onclick="toggle_img(' + i + ')">Image</button></td></tr>';
 						student_data += '</table>';
 						student_data += '<div id="student_result_div_' + i + '" style="display: none;">';
 						student_data += '<div class="result-subj" id="result-subj-details">';
-						student_data += '<br><div id="print-res_' + i + '"><table border="2px"><tr id="hidden-details_' + i + '" style="height: 25px;" ><td style="width:50%;padding-left:8px;" >Name- ' + data1[i]["name"] + '</td><td colspan="2" class="text-center">Roll No- ' + data1[i]["rollno"] + '</td></tr><tr style="height: 25px;"><td style="width:50%;padding-left:8px;">Testname:- ' + response.subj_testname + '</td>';
+						student_data += '<br><div id="print-res_' + i + '"><table border="2px" style="min-width:800px;"><tr id="hidden-details_' + i + '" style="height: 25px;" ><td style="width:50%;padding-left:8px;" >Name- ' + data1[i]["name"] + '</td><td colspan="2" class="text-center">Roll No- ' + data1[i]["rollno"] + '</td></tr><tr style="height: 25px;"><td style="width:50%;padding-left:8px;">Testname:- ' + response.subj_testname + '</td>';
 						student_data += '<td style="width:25%; text-align:center;">Total Ques- ' + question.length + '</td><td style="width:25%; text-align:center;">Marks Obtained:- ' + a[i] + '</td></tr>';
 						for (let j = 0; j < question.length; j++) {
 							if (user_details[k]["stu_user_id"] === result[k]["User"]) {
@@ -128,7 +128,7 @@ $(function(){
 						student_data += '<input type="hidden" name="result_id_' + i + '" value="' + result[i]["result_id"] + '" id="resultid_' + i + '">';
 						student_data += '<input type="hidden" name="question_length' + i + '" value="' + question.length + '" id="question_len' + i + '">';
 						student_data += '<div class="result-subj" id="result-subj-details">';
-						student_data += '<br><table border="2px" id="table_' + i + '"><tr style="height: 35px; font-weight: 500;"><td style="width:50%;padding-left:8px;">Testname:- ' + response.subj_testname + '</td>';
+						student_data += '<br><table border="2px" id="table_' + i + '" style="min-width:800px;"><tr style="height: 35px; font-weight: 500;"><td style="width:50%;padding-left:8px;">Testname:- ' + response.subj_testname + '</td>';
 						student_data += '<td class="text-center">Total Ques- ' + question.length + '</td><td class="text-center"><span class="block-element">Marks Obtained:-</span> ' + a[i] + '</td></tr>';
 						for (let j = 0; j < question.length; j++) {
 							if (user_details[h]["stu_user_id"] === result[h]["User"]) {
