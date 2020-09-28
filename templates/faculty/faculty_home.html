@@ -241,6 +241,7 @@
 }
 
 
+
 /* =============================================================== */
 @media (max-width: 300px) {
   .tabs input[name="tab-control"]:nth-of-type(1):checked ~ ul > li:nth-child(1) > label {
@@ -818,16 +819,16 @@
 
                 <div class="left-result">              
                   <div class="form-group ">
-                    <select class="form-control" name="Rsemester" disabled>
-                      <option>Semester</option>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                      <option>6</option>
-                      <option>7</option>
-                      <option>8</option>
+                    <select class="form-control" name="Rsemester" id="Rsemester">
+                      <option value="0">Semester</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
                     </select>
                   </div>
                 </div>
@@ -835,11 +836,11 @@
                 <div class="right-result">
                   
                   <div class="form-group ">
-                    <select class="form-control" name="Rsection" disabled>
-                      <option>Section</option>
-                      <option>A</option>
-                      <option>B</option>
-                      <option>C</option>
+                    <select class="form-control" name="Rsection" id="Rsection">
+                      <option value="0">Section</option>
+                      <option value="A">A</option>
+                      <option value="B">B</option>
+                      <option value="C">C</option>
                     </select>
                   </div>
                 </div>
@@ -871,21 +872,6 @@
           <div id="error" style="display: none"></div>
           
           <div class="results-by-test" id="results_by_test">
-{#            <div class="student-list">#}
-{#              <table border="2px"><tr><td>Siddheshwar Chandra</td><td>303030303030</td><td><button onclick="toggle_resultbytest()">Show</button></td><td><button >Evaluate</button></td></tr></table>#}
-{#              <div id="student_result_div">#}
-{#               <div class="result-obj" id="result-obj-details">#}
-{#              <table border="2px"><tr><td>Test Name</td><td>Date</td><td>Attempted</td><td>Marks</td></tr></table>#}
-{#              </div>#}
-{#              <div class="result-subj" id="result-subj-details">#}
-{#                <table border="2px"><tr><td>Java Unit-5 </td><td>20/2/2020</td><td>Attempted-17</td><td>Marks-85</td></tr>#}
-{#                                    <tr><td colspan="4" style="text-align: left; padding-left: 8px;">Question- What?????????????<br>#}
-{#                                      Answer- Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores cumque quo esse quis, consequuntur nisi libero dolores iusto saepe modi placeat eligendi excepturi dolore ex tempora enim explicabo laborum?  </td> </tr>#}
-{#                </table>#}
-{#              </div>#}
-{#                  </div>#}
-{#            </div>#}
-           
           </div>
 
           <div id="show-results">
@@ -1125,7 +1111,6 @@
 			type: 'POST',
 			success: function(data){
 				var response = JSON.parse(data);
-                console.log(response.valueOf());
                 if (response.empty) {
                     $('.clear').val('');
                 $('#feed').empty();
@@ -1164,7 +1149,6 @@
 			type: 'POST',
 			success: function(data){
 				var response = JSON.parse(data);
-				console.log(response);
 			},
 			error: function(error){
 				console.log(error);
@@ -1202,7 +1186,6 @@
 			type: 'POST',
 			success: function(data){
 				var response = JSON.parse(data);
-				console.log(response);
 			},
 			error: function(error){
 				console.log(error);
@@ -1236,7 +1219,6 @@
 			data: {host: imagegarray},
 			success: function(data){
 				var response = JSON.parse(data);
-				console.log(response);
 			},
 			error: function(error){
 				console.log(error);

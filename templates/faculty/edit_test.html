@@ -344,8 +344,8 @@
                         }
                     });
                 });
-                document.getElementById('start_time_id').value = '{{ posts.scheduled_date }}T{{ posts.start_time }}';
-                document.getElementById('end_time_id').value = '{{ posts.scheduled_date }}T{{ posts.end_time }}';
+                document.getElementById('start_time_id').value = '{{ posts.start_time }}';
+                document.getElementById('end_time_id').value = '{{ posts.end_time }}';
                 let timeInSec= {{ posts.totaltime }};
                 let hour= parseInt(timeInSec/3600);
                 let min= parseInt((timeInSec%3600)/60);

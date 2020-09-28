@@ -514,13 +514,33 @@ def faculty_login():
 
 @app.route('/faculty_update', methods=['POST', 'GET'])
 def faculty_update():
-    current_user.username = request.form['fac_username']
-    current_user.college = request.form['fac_college']
-    current_user.branch = request.form['fac_branch']
-    current_user.userid = request.form['fac_userid']
-    current_user.email = request.form['fac_email']
-    db.session.commit()
-    flash('Your profile updated successfully', 'info')
+    fname = validate_username(username=request.form['fac_username'])
+    fuserid = validate_user_id(user_id=request.form['fac_userid'])
+    femail = validate_email(email=request.form['fac_email'])
+    up = 0
+    if len(str(request.form['fac_userid'])) == 6:
+        if fname is None:
+            current_user.username = request.form['fac_username']
+            up += 1
+        if femail is None:
+            current_user.email = request.form['fac_email']
+            up += 1
+        if fuserid is None:
+            current_user.userid = request.form['fac_userid']
+            up += 1
+        current_user.college = request.form['fac_college']
+        current_user.branch = request.form['fac_branch']
+        db.session.commit()
+    else:
+        flash('Please enter a digit UserId!', 'danger')
+    if up >= 1:
+        flash('Profile updated successfully', 'info')
+    # current_user.username = request.form['fac_username']
+    # current_user.college = request.form['fac_college']
+    # current_user.branch = request.form['fac_branch']
+    # current_user.userid = request.form['fac_userid']
+    # current_user.email = request.form['fac_email']
+    # db.session.commit()
     return redirect(url_for('faculty_login'))
 
 
@@ -783,7 +803,6 @@ def all_details():
         d['question'] = row.question
         d['marks_assigned'] = row.marks_assign
         objects_list.append(d)
-    # j = json.dumps(objects_list)
     result = Result.query.filter_by(test_id=get_test_id).all()
     result_list = []
     user_details = []
@@ -804,14 +823,13 @@ def all_details():
         c['name'] = u.username
         c['stu_user_id'] = u.id
         c['section'] = u.section
+        c['semester'] = u.semester
         user_details.append(c)
-    # k = json.dumps(result_list)
-    # m = json.dumps(user_details)
-    get_image = image_data.query.filter_by(test_id=get_test_id).all()  # remove duplicate
+    get_image = image_data.query.filter_by(test_id=get_test_id).all()
     image_details = []
     image_stu_id = []
 
-    for img in get_image:  # 1 2 -> Array 2 pic-> 4pic-> 1-1,2,, 2-3,4
+    for img in get_image:
         image = collections.OrderedDict()
         image['image_data'] = img.image
         image['id'] = img.img_id
@@ -819,8 +837,6 @@ def all_details():
         image_stu_id.append(img.user_id)
         image_details.append(image)
     image_stu_id = list(dict.fromkeys(image_stu_id))
-    # if not image_details:
-    #     print('none')
     c = json.dumps(dict(result_list=result_list, user=user_details, ques=objects_list, obj=obj, subj=subj,
                         obj_testname=obj_testname, subj_testname=subj_testname,
                         image=image_details, image_stu_id=image_stu_id))
