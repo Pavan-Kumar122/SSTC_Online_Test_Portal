@@ -100,12 +100,12 @@ $(function(){
 					$('.student-list').remove();
 					for (let i = 0; i < data1.length; i++) {
 						student_data += '<div class="student-list">';
-						student_data += '<table style="min-width:800px;">';
+						student_data += '<table style="min-width:830px;">';
 						student_data += '<tr >';
 						student_data += '<td class="sr-no" style="height:40px; padding-left:8px;">' + index + '.</td>';
-						student_data += '<td style="width: 27%; padding-left:8px;">' + data1[i]["name"] + '</td><td class="text-center subj_section" style="width: 12%;">Section- ' + data1[i]["section"] + '</td><td class="text-center subj_semester" style="width: 12%;">Semester- ' + data1[i]["semester"] + '</td> <td style="width: 24%;" class="text-center"><span class="block-element">Roll No:-</span> ' + data1[i]["rollno"] + '</td><td class="text-center" style="width: 10%;">';
+						student_data += '<td style="width: 27%; padding-left:8px;">' + data1[i]["name"] + '</td><td class="text-center subj_section" style="width: 11%;">Section- ' + data1[i]["section"] + '</td><td class="text-center subj_semester" style="width: 9%;">Sem- ' + data1[i]["semester"] + '</td> <td style="width: 18%;" class="text-center">' + data1[i]["rollno"] + '</td><td class="text-center" style="width: 10%;">';
 						student_data += '<button onclick="toggle_resultbytest(' + i + ')">Show</button></td>';
-						student_data += '<td class="text-center" style="width: 15%;"><button onclick="toggle_evaluate(' + i + ')" >Evaluate</button></td><td style="width: 12%;" class="text-center"><button onclick="toggle_img(' + i + ')">Image</button></td></tr>';
+						student_data += '<td class="text-center" style="width: 15%;"><button onclick="toggle_evaluate(' + i + ')" >Evaluate</button></td><td style="width: 10%;" class="text-center"><button onclick="toggle_img(' + i + ')">Image</button></td></tr>';
 						student_data += '</table>';
 						student_data += '<div id="student_result_div_' + i + '" style="display: none;">';
 						student_data += '<div class="result-subj" id="result-subj-details">';

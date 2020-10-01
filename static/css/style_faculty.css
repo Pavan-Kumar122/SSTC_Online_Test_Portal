@@ -779,7 +779,7 @@ padding-top: 12px;
 @media screen and (max-width: 1265px){
   .modal-content{
     width: 90%;
-    height: 920px;
+    height: 930px;
     margin: auto;
   }
   .close-modal{
@@ -790,16 +790,20 @@ padding-top: 12px;
   }
 
 }
+@media only screen and (max-width: 1000px){
+  .modal-content{
+    width: 90%;
+    height: 1000px;
+    margin: auto;
+    margin-top: 30px;
+  }
+}
 @media only screen and (max-width: 948px) {
   
   .main-profile .form-group .label1{
    text-align: center; 
   }
-  .modal-content{
-    width: 90%;
-    height: 960px;
-    margin: auto;
-  }
+  
   .close-modal{
     margin-top: 10px;
     width: 60px;
@@ -808,11 +812,7 @@ padding-top: 12px;
   }
 }
 @media screen and (max-width: 768px){
-  .modal-content{
-    width: 90%;
-    height: 960px;
-    margin: auto;
-  }
+
   .close-modal{
     margin-top: 10px;
     width: 60px;
@@ -824,8 +824,9 @@ padding-top: 12px;
 @media screen and (max-width: 530px){
   .modal-content{
     width: 90%;
-    height: 850px;
+    height: 840px;
     margin: auto;
+    margin-top: 25px;
   }
   .close-modal{
     margin-top: 10px;

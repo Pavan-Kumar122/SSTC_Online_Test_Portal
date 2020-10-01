@@ -530,11 +530,24 @@
                                         </div>
 
                                         <div class="form-group text-center">
-                                            <label><span class="label1">College</span> <input type="text" value="{{ current_user.college }}" name="fac_college"></label>
+                                            <label><span class="label1">College</span> <input type="text" list="college" value="{{ current_user.college }}" name="fac_college"></label>
+                                            <datalist id="college">
+                                              <option value="SSGI (S1)">
+                                              <option value="SSGI (S2)"> 
+                                            </datalist>
                                         </div>
 
                                         <div class="form-group text-center">
-                                            <label><span class="label1">Branch</span> <input type="text" value="{{ current_user.branch }}" name="fac_branch"></label>
+                                            <label><span class="label1">Branch</span> <input type="text" list="branch" value="{{ current_user.branch }}" name="fac_branch"></label>
+                                            <datalist id="branch">
+                                              <option value="Computer Science Engineering">
+                                              <option value="Electronics and Tele-Communicatiom">
+                                              <option value="Information Technology">
+                                              <option value="Electrical and Electronics Engineering">
+                                              <option value="Electrical engineering">
+                                              <option value="Civil Engineering">              
+                                              <option value="Mechanical Engineering">
+                                            </datalist>
                                         </div>
                                     </div>
 
@@ -711,11 +724,297 @@
                 <div class="form-group">
                   <input type="text" list="subj" class="form-control2 " name="subject" placeholder="Subject" required>
                   <datalist id="subj">
-                    <option value="Java">
-                    <option value="C++">
-                    <option value="Python">
-                    <option value="Javascript">
-                    <option value="Html">
+                    <option value="Mathematics-I">
+                    <option value="Physics-I">
+                    <option value="Basic Electrical & Electronics Engg.">
+                    <option value="Engineering Graphics & Design">
+                    <option value="Fundamentals of Computer">
+                    <option value="Mathematics-II">
+                    <option value="Chemistry-I">
+                    <option value="Programming for Problem Solving">
+                    <option value="English">
+                    <option value="Basic Civil Engineering & Mechanics">
+                    <option value="Mathematics-I">
+                    <option value="Chemistry-I">
+                    <option value="Programming for Problem Solving">
+                    
+                    <!-- CSE -->
+                    <option value="Mathematics-III">
+                    <option value="Basic Electronics">
+                    <option value="Computational Science">
+                    <option value="Problem Solving & Login Buliding Using C">
+                    <option value="Computer Concept & Web Technology">
+                    <option value="Digital Electronics & Login Design">
+
+                    <option value="Computational Mathematics">
+                    <option value="Discrete Structures">
+                    <option value="Data Structures">
+                    <option value="Computer Systems Architecture">
+                    <option value="Operating System">
+                    <option value="Object Oriented Concepts & Programming Using C++">
+
+                    <option value="Microprocessor & Interfaces">
+                    <option value="Analysis & Design Of Algorithms">
+                    <option value="Programming In Java">
+                    <option value="Theory Of Computation">
+                    <option value="Unix & Shell Programming">
+                    <option value="Database Management System">
+
+                    <option value="Computer Networks">
+                    <option value="Compiler Design">
+                    <option value="Enterprise Resource Planning">
+                    <option value="Computer Graphics">
+                    <option value="Management Information Systems">
+                    <option value="Software Eng & Project Management">
+
+                    <option value="Mobile Computing & Application">
+                    <option value="Parallel Processing & Computing">
+                    <option value="Network Programming">
+                    <option value="Cryptography & Network Security">
+                    <option value="E-Commerce & Strategic IT">
+                    <option value="Cloud Computing">
+
+                    <option value="Artificial Intelligence & Expert Systems">
+                    <option value="Data Mining & Warehousing">
+                    <option value="Cyber Security">
+                    <option value="Internet & Multimedia Technology">
+                    <option value="Software Technology">
+
+                    <!-- ETC -->
+                    <option value="Mathematics-III">
+                    <option value="Probability and Random Variables">
+                    <option value="Electronic Devices and Circuits">
+                    <option value="Network Analysis& Synthesis">
+                    <option value="Industrial Instrumentation">
+                    <option value="Digital Logic Design">
+
+                    <option value="Numerical Analysis Using C">
+                    <option value="Analog Communication">
+                    <option value="Analog Electronics">
+                    <option value="Microprocessor and Interfaces">
+                    <option value="Signals and Systems">
+                    <option value="Electromagnetic Fields & Transmission Lines">
+
+                    <option value="Linear Integrated Circuits & Applications">
+                    <option value="Data Structures and Programming with C++">
+                    <option value="Antennas and Wave Propagation">
+                    <option value="Digital Communication">
+                    <option value="Advanced Microprocessor and Interfacing">
+                    <option value="Automatic Control System">
+
+                    <option value="Electronic Circuit DesignDigital Signal Processing">
+                    <option value="Microcontroller & Embedded">
+                    <option value="VLSI Design">
+                    <option value="Information Theory & Coding">
+                    <option value="Professional Elective -I">
+
+                    <option value="Microwave Communication and Engineering">
+                    <option value="Computer Networks">
+                    <option value="Wireless Communications">
+                    <option value="Management Concepts & Techniques">
+                    <option value="Professional Elective-II">
+
+                    <option value="Advanced Communication Systems">
+                    <option value="Consumer Electronics">
+                    <option value="Power Electronics">
+                    <option value="Professional Elective -III">
+                    <option value="Open Elective-IV">
+
+                    <!-- EEE -->
+                    <option value="Numerical Analysis">
+                    <option value="Electric Circuits">
+                    <option value="Electrical Power Generation">
+                    <option value="Electrical Machines-I">
+
+                    <option value="Network Analysis & Synthesis">
+                    <option value="Electromagnetic Theory">
+                    <option value="Electrical Measurements & Measuring Instruments">
+                    <option value="Electrical Power Systems">
+                    <option value="Analog Electronics">
+                    <option value="Digital Electronics & Logic Design">
+
+                    <option value="Microprocessor & Peripherals">
+                    <option value="Linear Control Systems">
+                    <option value="Electrical Machines-II">
+                    <option value="Communication Systems">
+
+                    <option value="Modern Instrumentation Techniques">
+                    <option value="Advanced Microprocessors & Peripherals">
+                    <option value="Power Electronics Devices & Circuits">
+                    <option value="Digital Signal Processing">
+                    <option value="Professional Elective-I">
+                    <option value="Electrical Power System -II">
+
+                    <option value="Switchgear & Protection">
+                    <option value="Soft Computing & its Applications">
+                    <option value="Electrical Drives">
+                    <option value="Microcontrollers & Applications">
+                    <option value="Professional Elective -II">
+
+                    <option value="High Voltage Engg.">
+                    <option value="Management Concepts & Techniques">
+                    <option value="Computer Aided Power System">
+                    <option value="Professional Elective -III">
+                    <option value="Open Elective - IV">
+
+                    <!-- EE -->
+                    <option value="Mathematics-III">
+                    <option value="Electrical Machines -I">
+                    <option value="Basic Electronics">
+                    <option value="Electric Circuits">
+                    <option value="Electrical Engg. Material">
+                    <option value="Electrical Power Generation">
+
+                    <option value="Analog Electronics">
+                    <option value="Electro Magnetic Theory">
+                    <option value="Network Analysis & Synthesis">
+                    <option value="Digital Electronics & Logic Design">
+                    <option value="Electrical Power Systems">
+                    <option value="Electrical Measurements & Measuring Instruments">
+
+                    <option value="Electrical Machines-II">
+                    <option value="Microprocessor & Interfacing">
+                    <option value="Applied Numerical Analysis">
+                    <option value="Integrated Circuits">
+                    <option value="Control System Engg">
+                    <option value="Communication Theory">
+
+                    <option value="Power System Analysis">
+                    <option value="Electrical Machines -III">
+                    <option value="Power Electronics">
+                    <option value="Instrumentation TechniquesPrinciples of Digital Signal Processing">
+                    <option value="Professional Elective- I">
+
+                    <option value="Switchgear & Protection">
+                    <option value="Modern Control System">
+                    <option value="Electrical Drives">
+                    <option value="Energy Auditing & Management">
+                    <option value="Professional Elective-II">
+
+                    <option value="Management Concepts & Techniques">
+                    <option value="Installation Maintenance & Testing of Electrical Equipments">
+                    <option value="Elective-III">
+                    <option value="Open Elective-IV">
+
+                    <!-- Civil   -->
+                    <option value="Fluid Mechanics – I">
+                    <option value="Surveying – I">
+                    <option value="Mechanics of Solids">
+                    <option value="Building Materials">
+                    <option value="Engineering Geology">
+
+                    <option value="Structural Analysis I">
+                    <option value="Fluid Mechanics II">
+                    <option value="Surveying II">
+                    <option value="Civil Engineering Drawing">
+                    <option value="Building Construction">
+                    <option value="Transportation Engineering-I">
+
+                    <option value="Structural Analysis – II">
+                    <option value="Structural Engineering Design – I">
+                    <option value="Geotech Engineering - I">
+                    <option value="Transportation Engineering – II">
+                    <option value="Numerical Methods & Computer Programming">
+                    <option value="Engineering Hydrology">
+
+                    <option value="Structural Engineering Design-II">
+                    <option value="Geotech Engineering-II">
+                    <option value="Environmental Engineering-I">
+                    <option value="Concrete Technology">
+                    <option value="Construction Planning">
+                    <option value="Professional Elective-I">
+
+                    <option value="Structural Engineering Design - III">
+                    <option value="Water Resources Engineering - I">
+                    <option value="Environmental Engineering - II">
+                    <option value="Quantity Surveying & Cost Evaluation">
+                    <option value="Professional Elective- II">
+
+                    <option value="Structural Engineering Design - IV">
+                    <option value="Water Resources Engineering - II">
+                    <option value="Structural Analysis-III">
+                    <option value="Professional Elective - III">
+                    <option value="Open Elective - IV">
+
+                    <!-- IT   -->
+                    <option value="Discrete Structures">
+                    <option value="Basic Electronics & Network Theory">
+                    <option value="Concepts of IT & Web Technology">
+                    <option value="Problem Solving & Logic Building using C">
+                    <option value="Digital Electronics & Logic Design">
+
+                    <option value="Computational Mathematics">
+                    <option value="Telecom Switching & Computer Networks">
+                    <option value="Data Structures and Algorithm Analysis">
+                    <option value="Analog Electronics Circuits">
+                    <option value="Object Oriented Concepts & Programming using C++">
+                    <option value="Computer Organization and Architecture">
+
+                    <option value="Microprocessor & Interfaces">
+                    <option value="Principles of Communication System">
+                    <option value="Database Management System">
+                    <option value="Operating System">
+                    <option value="Programming in Java">
+                    <option value="Theory of Computation">
+
+                    <option value="Web Application Development">
+                    <option value="Information Theory & Coding">
+                    <option value="Software Engineering & Project Management">
+                    <option value="Computer Graphics & Animation">
+                    <option value="Professional Elctives-1">
+
+                    <option value="Data Mining & Warehousing">
+                    <option value="Management Information System & IT">
+                    <option value="Artificial Intelligence & Expert Systems">
+                    <option value="Cryptography & Network Security">
+                    <option value="Professional Elective-2">
+
+                    <option value="Enterprise Resource Planning">
+                    <option value="Mobile Computing and Application">
+                    <option value="Cyber Security">
+                    <option value="Professional Elective-III">
+                    <option value="Open Elective – 4">
+
+                    <!-- Mech   -->
+                    <option value="Machine Drawing">
+                    <option value="Material Science & Metallurgy">
+                    <option value="Mechanics of Solids-I">
+                    <option value="Engineering Thermodynamics">
+                    <option value="Mechanical Measurements & Metrology">
+
+                    <option value="Fluid Mechanics">
+                    <option value="Mechanics of Solids-II">
+                    <option value="Applied Thermodynamics">
+                    <option value="Kinematics of Machines">
+                    <option value="Numerical Analysis & Computer Programming (C & C++)">
+                    <option value="Manufacturing Science-I">
+
+                    <option value="Machine Design – I">
+                    <option value="Turbo Machinery">
+                    <option value="Dynamics of Machines">
+                    <option value="Fluid Machinery">
+                    <option value="Manufacturing Science - II">
+                    <option value="Operations Research">
+
+                    <option value="Machine Design – II">
+                    <option value="Energy Systems">
+                    <option value="Internal Combustion Engines">
+                    <option value="Heat & Mass Transfer">
+                    <option value="Production Management">
+                    <option value="Professional Elective-I">
+
+                    <option value="Automobile Engineering">
+                    <option value="Refrigeration & Air-conditioning">
+                    <option value="Computer Aided Design & Manufacturing">
+                    <option value="Machine Tool Technology">
+                    <option value="Professional Elective-II">
+
+                    <option value="Robotics">
+                    <option value="Finite Element Methods">
+                    <option value="Industrial Engineering & Management">
+                    <option value="Professional Elective-III">
+                    <option value="Open Elective-IV">
+                           
                   </datalist>
                 </div>
               </div>

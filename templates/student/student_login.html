@@ -2,405 +2,407 @@
 <html lang="en" class="no-js">
 
 <head>
-  
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>SSTC- Test Portal</title>
-        <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc_logo.png" />
         <script defer src="/static/js/face-api.min.js"></script>
         <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
         <link href="/static/css/style_yash.css" rel="stylesheet" />
-
-
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<!--
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script> -->
-    <style type="text/css">
-        /*
-    DEMO STYLE
-*/
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-body {
-    font-family: 'Poppins', sans-serif;
-    background: #fafafa;
-}
-
-p {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1.7em;
-    color: #999;
-}
-
-a,
-a:hover,
-a:focus {
-    color: inherit;
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
-.navbar {
-    padding: 10px 10px;
-    background: #fff;
-    border: none;
-    border-radius: 0;
-    margin-bottom: -25px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-    margin-top: -10px;
-}
-
-.navbar-btn {
-    box-shadow: none;
-    outline: none !important;
-    border: none;
-}
-
-.line {
-    width: 100%;
-    height: 1px;
-    border-bottom: 1px dashed #ddd;
-    margin: 40px 0;
-}
-
-i,
-span {
-    display: inline-block;
-}
-
-/* ---------------------------------------------------
-    SIDEBAR STYLE
------------------------------------------------------ */
-
-.wrapper {
-    display: flex;
-    align-items: stretch;
-}
-
-#sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    background: #00002d;
-    color: #fff;
-    transition: all 0.3s;
-}
-
-#sidebar.active {
-    min-width: 80px;
-    max-width: 80px;
-    text-align: center;
-}
-
-#sidebar.active .sidebar-header h3,
-#sidebar.active .CTAs {
-    display: none;
-}
-
-#sidebar.active .sidebar-header strong {
-    display: block;
-}
-
-#sidebar ul li a {
-    text-align: left;
-}
-
-#sidebar div {
-    text-align: left;
-    margin-left: 26px;
-}
-
-#sidebar.active ul li a {
-    padding: 20px 10px;
-    text-align: center;
-    font-size: 0.90em;
-}
-
-#sidebar.active div {
-    text-align: center;
-    width: 80px;
-    height: auto;
-    padding-left: 6px;
-    font-size: 9px;
-    margin-left: -3px;
-}
-
-#sidebar.active ul li a i {
-    margin-right: 0;
-    display: block;
-    font-size: 1.8em;
-    margin-bottom: 5px;
-}
-
-#sidebar.active ul ul a {
-    padding: 10px !important;
-}
-
-#sidebar.active .dropdown-toggle::after {
-    top: auto;
-    bottom: 10px;
-    right: 50%;
-    -webkit-transform: translateX(50%);
-    -ms-transform: translateX(50%);
-    transform: translateX(50%);
-}
-
-#sidebar .sidebar-header {
-    padding: 20px;
-    background: #00002d;
-}
-
-#sidebar .sidebar-header strong {
-    display: none;
-    font-size: 3.8em;
-}
-
-#sidebar ul.components {
-    padding: 20px 0;
-    border-bottom: 1px solid #4b4276;
-}
-
-#sidebar ul li a {
-    padding: 30px;
-    font-size: 20px;
-    display: block;
-    height: 90px;
-}
-
-#sidebar ul li a i {
-    margin-right: 10px;
-}
-
-#sidebar ul li.active>a,
-a[aria-expanded="true"] {
-    color: #fff;
-    background: #4b4276;
-}
-
-a[data-toggle="collapse"] {
-    position: relative;
-}
-
-.dropdown-toggle::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-}
-
-ul ul a {
-    font-size: 0.9em !important;
-    padding-left: 30px !important;
-    background: #4b4276;
-}
-
-ul.CTAs {
-    padding: 20px;
-}
-
-ul.CTAs a {
-    text-align: center;
-    font-size: 0.9em !important;
-    display: block;
-    border-radius: 5px;
-    margin-bottom: 5px;
-}
-
-a.download {
-    background: #fff;
-    color: #4b4276;
-}
-
-a.article,
-a.article:hover {
-    background: #4b4276 !important;
-    color: #fff !important;
-}
-
-/* ---------------------------------------------------
-    CONTENT STYLE
------------------------------------------------------ */
-
-#content {
-    width: 100%;
-    padding: 20px;
-    min-height: 100vh;
-    transition: all 0.3s;
-}
-
-/* ---------------------------------------------------
-    MEDIAQUERIES
------------------------------------------------------ */
-
-@media (max-width: 768px) {
-    #sidebar {
-        min-width: 80px;
-        max-width: 80px;
-        text-align: center;
-        margin-left: -80px !important;
-    }
-    .dropdown-toggle::after {
-        top: auto;
-        bottom: 10px;
-        right: 50%;
-        -webkit-transform: translateX(50%);
-        -ms-transform: translateX(50%);
-        transform: translateX(50%);
-    }
-    #sidebar.active {
-        margin-left: 0 !important;
-    }
-    #sidebar .sidebar-header h3,
-    #sidebar .CTAs {
-        display: none;
-    }
-    #sidebar .sidebar-header strong h1 {
-        display: block;
-    }
-    #sidebar ul li a {
-        padding: 20px 10px;
-    }
-    #sidebar ul li a span {
-        font-size: 0.85em;
-    }
-    #sidebar ul li a i {
-        margin-right: 0;
-        display: block;
-    }
-    #sidebar ul ul a {
-        padding: 10px !important;
-    }
-    #sidebar ul li a i {
-        font-size: 1.3em;
-    }
-    #sidebar {
-        margin-left: 0;
-    }
-    #sidebarCollapse span {
-        display: none;
-    }
-}
-canvas {
-  max-width  : 200px;
-  height : 200px;
-  border : 1px solid #c3c3c3;
-  background-color: white;
-  margin-top: 10px;
-  margin-right: 1%;
-  border-radius: 100px;
-  background-image: url(/static/Profile_pics/default.jpg);
-}
-
-.textbox {
-    border-color: black;
-    text-align: center;
-}
-
-.update-profile {
-    border-color: white;
-    border-radius: 100px;
-    border-width: 2px;
-}
-
-.avatar-upload {
-  position: relative;
-  max-width: 205px;
-  margin: 50px auto;
-}
-.avatar-upload .avatar-edit {
-  position: absolute;
-  right: 12px;
-  z-index: 1;
-  top: 10px;
-}
-.avatar-upload .avatar-edit input {
-  display: none;
-}
-.avatar-upload .avatar-edit input + label {
-  display: inline-block;
-  width: 34px;
-  height: 34px;
-  margin-bottom: 0;
-  border-radius: 100%;
-  background: #ececec;
-  border: 1px solid transparent;
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
-  cursor: pointer;
-  font-weight: normal;
-  transition: all 0.2s ease-in-out;
-}
-.avatar-upload .avatar-edit input + label:hover {
-  background: #f1f1f1;
-  border-color: #d6d6d6;
-}
-.avatar-upload .avatar-edit input + label:after {
-  content: "\f040";
-  font-family: "FontAwesome";
-  color: #757575;
-  position: absolute;
-  top: 10px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  margin: auto;
-}
-.avatar-upload .avatar-preview {
-  width: 192px;
-  height: 192px;
-  position: relative;
-  border-radius: 100%;
-  border: 6px solid #c4c4c4;
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
-}
-.avatar-upload .avatar-preview > div {
-  width: 100%;
-  height: 100%;
-  border-radius: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-        @media (min-width: 320px) {
-    #content {
-        background-position : center;
-    }
-}
-
-@media (min-width: 1200px) {
-    #content {
-        background-position: inherit;
-    }
-}
-
-        #video{
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            z-index: 500;
-        }
-        canvas {
-      position: absolute;
-      height: 240;
-      width: 297;
-    }
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+        <style type="text/css">
+            @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+            body {
+                font-family: 'Poppins', sans-serif;
+                background: #fafafa;
+            }
+            
+            p {
+                font-family: 'Poppins', sans-serif;
+                font-size: 1.1em;
+                font-weight: 300;
+                line-height: 1.7em;
+                color: #999;
+            }
+            
+            a,
+            a:hover,
+            a:focus {
+                color: inherit;
+                text-decoration: none;
+                transition: all 0.3s;
+            }
+            
+            .navbar {
+                padding: 10px 10px;
+                background: #fff;
+                border: none;
+                border-radius: 0;
+                margin-bottom: -25px;
+                box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+                margin-top: -10px;
+            }
+            
+            .navbar-btn {
+                box-shadow: none;
+                outline: none !important;
+                border: none;
+            }
+            
+            .line {
+                width: 100%;
+                height: 1px;
+                border-bottom: 1px dashed #ddd;
+                margin: 40px 0;
+            }
+            
+            i,
+            span {
+                display: inline-block;
+                 }
+            
+            /* ---SIDEBAR STYLE --- */
+            
+            .wrapper {
+                display: flex;
+                align-items: stretch;
+            }
+            
+            #sidebar {
+                min-width: 250px;
+                max-width: 250px;
+                position: sticky;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                background: #00002d;
+                color: rgb(240, 240, 240);
+                transition: all 0.3s;    
+            }
+            
+            #sidebar.active {
+                /* min-width: 80px;
+                max-width: 80px; */
+                display: none;
+                text-align: center;
+            }
+            
+            #sidebar.active .sidebar-header h3,
+            #sidebar.active .CTAs {
+                display: none;
+            }
+            
+            #sidebar.active .sidebar-header strong {
+                display: block;
+            }
+            
+            #sidebar ul li a {
+                text-align: left;
+            }
+            
+            #sidebar div {
+                text-align: left;
+                margin-left: 26px;
+            }
+            
+            #sidebar.active ul li a {
+                padding: 20px 10px;
+                text-align: center;
+                font-size: 0.90em;
+            }
+            
+            #sidebar.active div {
+                text-align: center;
+                width: 80px;
+                height: auto;
+                padding-left: 6px;
+                font-size: 9px;
+                margin-left: -3px;
+            }
+            
+            #sidebar.active ul li a i {
+                margin-right: 0;
+                display: block;
+                font-size: 1.8em;
+                margin-bottom: 5px;
+            }
+            
+            #sidebar.active ul ul a {
+                padding: 10px !important;
+            }
+            
+            /* #sidebar.active .dropdown-toggle::after {
+                top: auto;
+                bottom: 10px;
+                right: 50%;
+                -webkit-transform: translateX(50%);
+                -ms-transform: translateX(50%);
+                transform: translateX(50%);
+            } */
+            
+            #sidebar .sidebar-header {
+                padding: 20px;
+                background: #00002d;
+            }
+            
+            #sidebar .sidebar-header strong {
+                display: none;
+                font-size: 3.8em;
+            }
+            
+            #sidebar ul.components {
+                padding: 20px 0;
+                border-bottom: 1px solid #4b4276;
+            }
+            
+            #sidebar ul li a {
+                padding: 30px;
+                font-size: 20px;
+                display: block;
+                height: 90px;
+            }
+            
+            #sidebar ul li a i {
+                margin-right: 10px;
+            }
+            
+            #sidebar ul li.active>a,
+            a[aria-expanded="true"] {
+                color: #fff;
+                background: #4b4276;
+            }
+            
+            a[data-toggle="collapse"] {
+                position: relative;
+            }
+            
+            /* .dropdown-toggle::after {
+                display: block;
+                position: absolute;
+                top: 50%;
+                right: 20px;
+                transform: translateY(-50%);
+            } */
+            
+            ul ul a {
+                font-size: 0.9em !important;
+                padding-left: 30px !important;
+                background: #4b4276;
+            }
+            
+            ul.CTAs {
+                padding: 20px;
+            }
+            
+            ul.CTAs a {
+                text-align: center;
+                font-size: 0.9em !important;
+                display: block;
+                border-radius: 5px;
+                margin-bottom: 5px;
+            }
+            
+            a.download {
+                background: #fff;
+                color: #4b4276;
+            }
+            
+            a.article,
+            a.article:hover {
+                background: #4b4276 !important;
+                color: #fff !important;
+            }
+            #content {
+                   width: 100%;
+                   margin: auto;
+                   padding: 20px;
+                   min-height: 100vh;
+                   transition: all 0.3s;
+            }
+            
+            /* ---------------------------------------------------
+                MEDIAQUERIES
+            ----------------------------------------------------- */
+            
+            @media (max-width: 768px) {
+                #sidebar {
+                    position: unset;
+                    min-width: 80px;
+                    max-width: 80px;
+                    text-align: center;
+                    margin-left: -80px !important;
+                }
+                #sidebar.active {
+                display: block;
+                min-height: 100vh;
+                position: sticky;
+                top: 0;
+                left: 0;
+                min-width: 80px;
+                max-width: 80px;
+                text-align: center;
+            }
+                /* .dropdown-toggle::after {
+                    top: auto;
+                    bottom: 10px;
+                    right: 50%;
+                    -webkit-transform: translateX(50%);
+                    -ms-transform: translateX(50%);
+                    transform: translateX(50%);
+                } */
+                #sidebar.active {
+                    margin-left: 0 !important;
+                }
+                #sidebar .sidebar-header h3,
+                #sidebar .CTAs {
+                    display: none;
+                }
+                #sidebar .sidebar-header strong h1 {
+                    display: block;
+                }
+                #sidebar ul li a {
+                    padding: 20px 10px;
+                }
+                #sidebar ul li a span {
+                    font-size: 0.85em;
+                }
+                #sidebar ul li a i {
+                    margin-right: 0;
+                    display: block;
+                }
+                #sidebar ul ul a {
+                    padding: 10px !important;
+                }
+                #sidebar ul li a i {
+                    font-size: 1.3em;
+                }
+                #sidebar {
+                    margin-left: 0;
+                }
+                #sidebarCollapse span {
+                    display: none;
+                }
+            }
+            canvas {
+              max-width  : 200px;
+              height : 200px;
+              border : 1px solid #c3c3c3;
+              background-color: white;
+              margin-top: 10px;
+              margin-right: 1%;
+              border-radius: 100px;
+              background-image: url(/static/Profile_pics/default.jpg);
+            }
+            
+            .textbox {
+                border-color: black;
+                text-align: center;
+            }
+            
+            .update-profile {
+                border-color: white;
+                border-radius: 100px;
+                border-width: 2px;
+            }
+            
+            .avatar-upload {
+              position: relative;
+              max-width: 205px;
+              margin: 50px auto;
+            }
+            .avatar-upload .avatar-edit {
+              position: absolute;
+              right: 12px;
+              z-index: 1;
+              top: 10px;
+            }
+            .avatar-upload .avatar-edit input {
+              display: none;
+            }
+            .avatar-upload .avatar-edit input + label {
+              display: inline-block;
+              width: 34px;
+              height: 34px;
+              margin-bottom: 0;
+              border-radius: 100%;
+              background: #ececec;
+              border: 1px solid transparent;
+              box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+              cursor: pointer;
+              font-weight: normal;
+              transition: all 0.2s ease-in-out;
+            }
+            .avatar-upload .avatar-edit input + label:hover {
+              background: #f1f1f1;
+              border-color: #d6d6d6;
+            }
+            .avatar-upload .avatar-edit input + label:after {
+              content: "\f040";
+              font-family: "FontAwesome";
+              color: #757575;
+              position: absolute;
+              top: 10px;
+              left: 0;
+              right: 0;
+              text-align: center;
+              margin: auto;
+            }
+            .avatar-upload .avatar-preview {
+              width: 192px;
+              height: 192px;
+              position: relative;
+              border-radius: 100%;
+              border: 6px solid #c4c4c4;
+              box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+            }
+            .avatar-upload .avatar-preview > div {
+              width: 100%;
+              height: 100%;
+              border-radius: 100%;
+              background-size: cover;
+              background-repeat: no-repeat;
+              background-position: center;
+            }
+                    @media (min-width: 320px) {
+                #content {
+                    background-position : center;
+                }
+            }
+            
+            @media (min-width: 1200px) {
+                #content {
+                    background-position: inherit;
+                }
+            }
+            
+            
+              /* Video Screen */
+                #video{
+                        position: fixed;
+                        bottom: 10px;
+                        right: 10px;
+                        z-index: 500;   
+                    }
+                    
+                canvas {
+                  position: absolute;
+                  height: 240;
+                  width: 297;
+                }
+                @media (max-width: 768px){
+                    #video{
+                        top: 7px;
+                    }
+                }
 
     </style>
-    <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-
 </head>
 
 <body> {#oncontextmenu="return false;"#}
@@ -430,8 +432,8 @@ canvas {
                         <svg class="bi bi-pen" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M5.707 13.707a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391L10.086 2.5a2 2 0 0 1 2.828 0l.586.586a2 2 0 0 1 0 2.828l-7.793 7.793zM3 11l7.793-7.793a1 1 0 0 1 1.414 0l.586.586a1 1 0 0 1 0 1.414L5 13l-3 1 1-3z"/>
                         <path fill-rule="evenodd" d="M9.854 2.56a.5.5 0 0 0-.708 0L5.854 5.855a.5.5 0 0 1-.708-.708L8.44 1.854a1.5 1.5 0 0 1 2.122 0l.293.292a.5.5 0 0 1-.707.708l-.293-.293z"/>
-  <path d="M13.293 1.207a1 1 0 0 1 1.414 0l.03.03a1 1 0 0 1 .03 1.383L13.5 4 12 2.5l1.293-1.293z"/>
-</svg> Exam
+                        <path d="M13.293 1.207a1 1 0 0 1 1.414 0l.03.03a1 1 0 0 1 .03 1.383L13.5 4 12 2.5l1.293-1.293z"/>
+                         </svg> Exam
                     </a>
                 </li>
                 <li>
@@ -442,15 +444,7 @@ canvas {
                         </svg> FeedBack
                     </a>
                 </li>
-{#                <li>#}
-{#                    <a href="#" id="pre_exam" onclick="pre_exam()">#}
-{#                        <svg class="bi bi-folder" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">#}
-{#                            <path d="M9.828 4a3 3 0 01-2.12-.879l-.83-.828A1 1 0 006.173 2H2.5a1 1 0 00-1 .981L1.546 4h-1L.5 3a2 2 0 012-2h3.672a2 2 0 011.414.586l.828.828A2 2 0 009.828 3v1z"></path>#}
-{#                            <path fill-rule="evenodd" d="M13.81 4H2.19a1 1 0 00-.996 1.09l.637 7a1 1 0 00.995.91h10.348a1 1 0 00.995-.91l.637-7A1 1 0 0013.81 4zM2.19 3A2 2 0 00.198 5.181l.637 7A2 2 0 002.826 14h10.348a2 2 0 001.991-1.819l.637-7A2 2 0 0013.81 3H2.19z" clip-rule="evenodd"></path>#}
-{#                        </svg>#}
-{#                        Previous Exams#}
-{#                    </a>#}
-{#                </li>#}
+
                 <li>
                     <a href="{{ url_for('logout') }}">
                         <svg class="bi bi-box-arrow-in-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -460,17 +454,7 @@ canvas {
                         </svg>
                         Logout
                     </a>
-                </li><!--
-                <li>
-                    <a href="#" id="profile">
-                        <svg class="bi bi-person-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-                            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                            <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-                        </svg>
-                        <div class="btn update-profile" data-toggle="modal" data-target=".bd-example-modal-lg">Update Profile</div>
-                    </a>
-                </li> -->
+                </li>
             </ul>
                     <div class="profile_data" id="profile">
                         <div class="btn update-profile" data-toggle="modal" data-target=".bd-example-modal-lg">Update Profile</div>
@@ -593,6 +577,7 @@ canvas {
                         <span>Menu</span>
                     </button>
                 </div>
+                
             </nav>
 
             <div id="exam_details"  class="container align-items-center flex-column">
@@ -611,8 +596,10 @@ canvas {
                         {% endif %}
                       {% endwith %}
                         {% else %}
-                            <div class="col-lg-12" id="header" style="border-radius: 5px;background-color:  rgb(182, 183, 255);">
+                           
+                            <div class="col-lg-12" id="header" style="border-radius: 5px;background-color: rgb(195, 196, 255);">
                             {% for paper in paper1 %}
+                                
                                 <div style="float: left; margin-left: 0px; margin-top: 10px;padding-bottom: 10px;"><h3><span>Exam- {{ paper.testname }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Time Limit: {{ time }}</span></h3><div>Description-{{ paper.description }} <br>Test Type-{{ paper.testtype }}</div></div><!-- for Exam Name -->
                                     <input type="hidden" value="{{ time_limit }}" id="time_limit">
                                     <input type="hidden" value="{{ paper.test_id }}" id="exam_id">
@@ -622,7 +609,7 @@ canvas {
                             </div>
                         <div class="col-lg-12 unselectable" style="margin-top: 20px; width: 100%; color: black; display: none;" id="ExamDiv">
 
-                                <div id="timer_section" class="align-items-center" style="">
+                                <div id="timer_section" class="align-items-center">
                                     <div id="app"></div>
                                 </div>
 
@@ -661,37 +648,88 @@ canvas {
                         </div>
                         {% endif %}
 
-                                 <!-- Exam rules -->
-             <div class="exam-rules col-lg-12" style="margin: 50px 0;
-             padding: 20px 10px;
-             background-color: rgb(182, 183, 255);
-             width: 100%;
-             border-radius: 5px;">
-                <h4 style="font-size: 1.5rem; padding-left: 5px;" >Rules and Requirements-</h4>
-                <p></p>
-                    <ul>
-                        <li>Rules are meant to be broken man.</li>
-                        <li>Rules are meant to be broken man.</li>
-                        <li>Rules are meant to be broken man.</li>
-                        <li>Rules are meant to be broken man.</li>
-                        <li>Rules are meant to be broken man.</li>
-                        <li>Rules are meant to be broken man.</li>
-                        <li>Rules are meant to be broken man.</li>
-                        <li>Rules are meant to be broken man.</li>
-                    </ul> 
-                </p>
-            </div>
+                        <!-- Exam rules -->
+                        <style>
+                            .exam-rules{
+                                margin: 50px 0;
+                                padding: 20px 10px;
+                                color: rgb(7, 0, 22);
+                                /* background-color: rgb(182, 183, 255); */
+                                background-color: rgb(195, 196, 255);
+                                width: 100%;
+                                border-radius: 5px;
+                                }
+                            .exam-rules h4{
+                                font-size: 24px;
+                                margin-top: 5px;
+                            }
+                            .exam-rules li{
+                                margin-top: 5px;
+                            }
+                            .exam-rules h5{
+                                margin-left: 20px;
+                            }
+                            .marked{
+                                background-color:  rgb(154, 156, 255);
+                                border-radius: 3px;
+                                padding: 2px;
+                                font-weight: 600;
+                            }
+                       
+                            @media (max-width: 768px){
+                            .exam-rules h4{
+                                font-size: 20px;
+                            }
+                            .exam-rules li{
+                                font-size: 12px;
+                            }
+                        }
+                        </style>
+                        <div class="exam-rules col-lg-12">
+                           <h4 style="" >Rules and Requirements-</h4><hr>
+                           <p>
+                               <h5>Test environment rules</h5>
+                               <ul>
+                                  
+                                   <li>The desk or walls around you must not have any writing.</li>
+                                   <li>No other person is allowed to enter the room while you are taking the proctored exam.</li>
+                                   <li>The lighting in the room must be bright enough to be considered “daylight” quality. Overhead lighting is preferred. If overhead lighting is not available, the source of light must not be behind you.</li>
+                                   <li ><span class="marked">Once exam is started, you can't leave the exam.</span></li>
+                                   <li ><span class="marked">Once you start the exam dont reload the page.</span></li>
+                                   <li>The following items must not be on your desk or used during your proctored exam, unless posted rules for the exam specifically permit these materials:
+                                       <ul>
+                                           <li>Books</li>
+                                           <li>Phones</li>
+                                           <li>Notebook</li>
+                                           <li>Calculators</li>
+                                       </ul>
+                                   </li>
+                               </ul> 
+                               <hr>
+                               <h5>The device you use to take the test</h5>
+                               <ul>
+                                   <li>Use Chrome Browser to avoid any technical issues. </li>
+                                   <li>The computer you are using to take the exam must not have more than one display or monitor.</li>
+                                   <li>You must close all other programs or windows on your testing computer before you begin the exam.</li>
+                                   <li>You must not use the following tools:
+                                       <ul>
+                                           <li>Programs such as Excel, Word, or PowerPoint</li>
+                                           <li>Communication programs such as Skype</li>       
+                                       </ul>
+                                   </li>
+                                   <li>If you encounter any problem, reach us at <u>sstconlineportal@gmail.com</u></li>
+                               </ul><hr>
+                           </p>
+                        </div>
                     </div>
 
                 </div>
             </div>
 
             <div id="pre_exam_details"  class="container align-items-center flex-column">
-
             </div>
 
             <div id="feedback_details"  class="container align-items-center flex-column">
-
             </div>
         </div>
     </div>
@@ -740,7 +778,9 @@ canvas {
     <!-- sidebar -->
     <script>
         $(document).ready(function ()
+
         {
+            
             $('#sidebarCollapse').on('click', function ()
             {
                 $('#sidebar').toggleClass('active');
@@ -749,7 +789,7 @@ canvas {
     </script>
 
 
-    <!-- for profile image-->
+    <!-- for profile image -->
     <!-- <script>
         var image;
         function upload()
@@ -789,7 +829,17 @@ canvas {
             
             var retVal = confirm("Do you want to start the exam ?");
             if( retVal === true )
-            {
+            { 
+
+                // To hide sidebar in device width>768
+                var x = window.matchMedia("(min-width: 768px)");
+                if(x.matches){
+                    $('#sidebar').toggleClass('active');
+                }
+                
+                $('#video').css({"border": "2px solid #222222" , "border-radius": "10px", "background":"#222222"});
+                // {"background-color": "yellow", "font-size": "200%"}
+
                 $('.exam-rules').hide();
                 var get_face_script = '/static/js/face_script.js';
                 $.getScript(get_face_script, function () {
@@ -798,14 +848,7 @@ canvas {
 
                     });
                 });
-                //$.ajax({
-                  //  url: '/get_value',
-                   // data: "&a=" + {{ time_limit }}+"&test=" + $('#exam_name').val(),
-                    //success: function (data) {
-                      //  console.log(data)
-                    //}
-                //});
-
+               
                 $(function () {
                         $(document).keydown(function (e) {
                             return (e.which || e.keyCode) !== 116;
@@ -1051,8 +1094,6 @@ canvas {
 
         $("#exam").on('click', function()
         {
-            // document.getElementById("pre_exam").style.background = "#00002d";
-            // document.getElementById("pre_exam").style.color = "white";
 
             document.getElementById("exam").style.background = "#ddd";
             document.getElementById("exam").style.color = "black";
@@ -1060,16 +1101,12 @@ canvas {
             document.getElementById("feedback").style.background = "#00002d";
             document.getElementById("feedback").style.color = "white";
 
-
            $("#exam_details").show();
            $("#feedback_details,#pre_exam_details").hide();
         });
 
         $("#pre_exam").on('click', function()
         {
-            // document.getElementById("pre_exam").style.background = "#ddd";
-            // document.getElementById("pre_exam").style.color = "black";
-
             document.getElementById("exam").style.background = "#00002d";
             document.getElementById("exam").style.color = "white";
 
@@ -1082,15 +1119,12 @@ canvas {
 
         $("#feedback").on('click', function()
         {
-            // document.getElementById("pre_exam").style.background = "#00002d";
-            // document.getElementById("pre_exam").style.color = "white";
 
             document.getElementById("exam").style.background = "#00002d";
             document.getElementById("exam").style.color = "white";
 
             document.getElementById("feedback").style.background = "#ddd";
             document.getElementById("feedback").style.color = "black";
-
 
            $("#feedback_details").show();
            $("#exam_details,#pre_exam_details").hide();
