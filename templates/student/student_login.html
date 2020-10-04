@@ -850,10 +850,10 @@
         navigator.mediaDevices.getUserMedia({video: true}).then(function (stream){
             video_obj.srcObject = stream;
         $('#homescreen-video').css({"border": "3px solid #F05B5B" , "border-radius": "8px"});
-        video_obj.play();
-        }).catch(function (err) {
-      alert('Please give camera permission !!');
-      window.location.reload();
+                video_obj.play();
+                }).catch(function (err) {
+              alert('Please give camera permission !!');
+              window.location.reload();
     });
         }
         function examFunction()
@@ -861,7 +861,8 @@
            
             var retVal = confirm("Do you want to start the exam ?");
             if( retVal === true )
-            { 
+            {
+                document.documentElement.requestFullscreen();
                 $('.exam-rules').hide();
                 $('#content').css({"background":"#c2c2c2"});
                 var x = window.matchMedia("(min-width: 768px)");
