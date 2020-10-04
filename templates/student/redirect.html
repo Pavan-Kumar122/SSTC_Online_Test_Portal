@@ -5,25 +5,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    </head>
 
-        <title>SSTC- Test Portal</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc_logo.png" />
 
-        <link href="/static/css/style_yash.css" rel="stylesheet" />
-         
-        <script src = 'http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js'></script>
+    <title>SSTC- Test Portal</title>
+    
+    <link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc_logo.png" />
+    <link href="/static/css/style_yash.css" rel="stylesheet" />
+     
+    <script src = 'http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js'></script>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-<script src = 'http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js'></script>
+    <script src = 'http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js'></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 
         <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
@@ -31,58 +29,55 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
     <style type="text/css">
-        /*
-    DEMO STYLE
-*/
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+          @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 body {
     font-family: 'Poppins', sans-serif;
 }
-.navbar {
-    padding: 10px 10px;
-    background: #fff;
-    border: none;
-    border-radius: 0;
-    margin-bottom: -25px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-    margin-top: -10px;
-}
-
-.navbar-btn {
-    box-shadow: none;
-    outline: none !important;
-    border: none;
-}
-
-/* ---------------------------------------------------
-    SIDEBAR STYLE
------------------------------------------------------ */
 
 .wrapper {
     display: flex;
     align-items: stretch;
+    min-height: 100vh;
 }
-
-/* ---------------------------------------------------
-    CONTENT STYLE
------------------------------------------------------ */
 
 #content {
     width: 100%;
     padding: 20px;
+    padding-top: 70px;
     min-height: 100vh;
     transition: all 0.3s;
 }
 
-
-@media only screen and (min-width: 600px) {
- .result_header {
-    width: 100%;
-    margin-top: 20px;
-    height: 95px;
-    background-color: #f7f7f7;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+.result_table{
+    width: 50%;
+    min-width: 350px;
+    background-color: #d8d8d8;
+    border-radius: 10px;
+    border: 2px solid #f05b5b;
+}
+.result_table td{
+    border-top: 1px solid #777777;
+    padding-left: 25px;
+}
+thead tr{
+    text-align: center;
+    background: #F05B5B;
  }
+ #table-head{
+     font-size: 25px;
+     font-weight: 600;
+ }
+
+ tbody {
+	 		font-size: 18px;
+}
+     
+@media only screen and (min-width: 1200px){
+    .result_table{
+        width: 30% ;
+    }
+}
+@media only screen and (min-width: 600px) {
 
  .result_timer {
     font-family: 'Oswald', sans-serif; font-size: 40px;
@@ -91,13 +86,9 @@ body {
  }
 
  .result_table {
-    width: 30%;
     height: auto; 
+    margin: auto;
     margin-top: 50px;
-    background-color: #f7f7f7;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); 
-    margin-left: 35%;
-    border-radius: 15px;
  }
 
  .result_title {
@@ -106,17 +97,11 @@ body {
  	 margin-top: 25px;
  	 font-family: 'Yanone Kaffeesatz', sans-serif;
  }
+ 
 }
 
 @media only screen and (max-width: 600px) {
- 	.result_header {
-    	width: 100%;
-	    margin-top: 20px;
-	    height: 95px;
-	    background-color: #f7f7f7;
-	    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-	 }
-
+ 	
 	 .result_timer {
 	    font-family: 'Oswald', sans-serif; font-size: 30px;
 	    margin-top: 30px; 
@@ -124,13 +109,10 @@ body {
 	 }
 
 	 .result_table {
-	    width: 30%;
+	    width: 80%;
 	    height: auto; 
+        margin: auto;
 	    margin-top: 30px;
-	    background-color: #f7f7f7;
-	    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); 
-	    margin-left: 35%;
-	    border-radius: 15px;
 	 }
 
 	 .result_title {
@@ -141,45 +123,26 @@ body {
 	 }
 
 	 tbody {
-	 		font-size: x-small;
+	 		font-size: 15px;
 	 }
-	 thead {
-	 	font-size: medium;
-	 }
- }
+   }
 
- .sstc-icon {
- 	float: left;
- }
- 
     </style>
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-
 </head>
 
 <body>
 
-    <div class="wrapper">
-
-        <!-- Page Content  -->
-        <div id="content" style="background-color:#ddd">
-
-            <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #b7b7b7;z-index: 1000">
-                <div class="container-fluid">
-					<div style="float: left;">
-                		<img src="/static/assets/img/logo/sstc_logo.png" class="sstc-icon">
-              			<div class="result_title">Online Test Portal</div>
-            		</div>
-                </div>
-            </nav>
-			<div class="result_timer">You will be redirected to home page in 10 seconds.</div>
+    <div class="wrapper">      
+        <div id="content">
+			<div class="result_timer"> Thankyou! <br> You will be redirected to home page in 10 seconds.</div>
 			<div class="table-responsive result_table">
-				<table class="table table-bordered">
-					<thead class="thead-dark" style="text-align: center;font-size: 30px">
+				<table class="table ">
+					<thead class="text-center">
 						<tr>
-							<th>Test Result</th>
+							<th id="table-head">Test Result</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -210,7 +173,7 @@ body {
 <script>
     setTimeout(function(){
        window.location.href = '{{ url_for('student_login') }}';
-    }, 10000);
+    }, 100002);
 </script>
  
 </body>
