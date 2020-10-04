@@ -530,6 +530,7 @@ def faculty_update():
             up += 1
         current_user.college = request.form['fac_college']
         current_user.branch = request.form['fac_branch']
+        up += 1
         db.session.commit()
     else:
         flash('Please enter a digit UserId!', 'danger')

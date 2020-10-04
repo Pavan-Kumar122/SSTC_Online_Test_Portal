@@ -186,8 +186,8 @@ $(function(){
 					for (let kk = 0;kk<section.length;kk++){
 						 // let cardTxt = element.getElementsByTagName("p")[0].innerText;
 						if (flag === 1) {
-							if ('Semester- ' + $('#Rsemester').val() !== 'Semester- 0') {
-								if (semester[kk].innerHTML === ('Semester- ' + semester_drop)) {
+							if ('Semester- ' + $('#Rsemester').val() !== 'Sem- 0') {
+								if (semester[kk].innerHTML === ('Sem- ' + semester_drop)) {
 
 								} else {
 									var parentNode1 = semester[kk].parentNode.parentNode.parentNode.parentNode;
@@ -207,7 +207,7 @@ $(function(){
 						}
 						else {
 							if ('Semester- ' + $('#Rsemester').val() !== 'Semester- 0'  && 'Section- ' + $('#Rsection').val() !== 'Section- 0') {
-								if (semester[kk].innerHTML === ('Semester- ' + semester_drop) && section[kk].innerHTML === ('Section- ' + section_drop)) {
+								if (semester[kk].innerHTML === ('Sem- ' + semester_drop) && section[kk].innerHTML === ('Section- ' + section_drop)) {
 
 								} else {
 									var parentNode3 = semester[kk].parentNode.parentNode.parentNode.parentNode;
