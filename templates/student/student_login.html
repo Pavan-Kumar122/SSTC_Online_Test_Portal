@@ -11,8 +11,8 @@
         <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
         <link href="/static/css/style_yash.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
@@ -82,8 +82,8 @@
                 top: 0;
                 left: 0;
                 height: 100vh;
-                background: #00002d;
-                color: rgb(240, 240, 240);
+                background: #2D2D2D;
+                color: rgb(255, 255, 255);
                 transition: all 0.3s;    
             }
             
@@ -149,7 +149,6 @@
             
             #sidebar .sidebar-header {
                 padding: 20px;
-                background: #00002d;
             }
             
             #sidebar .sidebar-header strong {
@@ -176,7 +175,7 @@
             #sidebar ul li.active>a,
             a[aria-expanded="true"] {
                 color: #fff;
-                background: #4b4276;
+                background: #F05B5B;
             }
             
             a[data-toggle="collapse"] {
@@ -194,7 +193,7 @@
             ul ul a {
                 font-size: 0.9em !important;
                 padding-left: 30px !important;
-                background: #4b4276;
+                
             }
             
             ul.CTAs {
@@ -211,7 +210,7 @@
             
             a.download {
                 background: #fff;
-                color: #4b4276;
+            
             }
             
             a.article,
@@ -384,6 +383,14 @@
             
             
               /* Video Screen */
+                #homescreen-video{
+                    position: fixed;
+                    bottom: 10px;
+                    width: 180px;
+                    left: 35px;
+                    z-index: 506;
+                
+                }
                 #video{
                         position: fixed;
                         bottom: 10px;
@@ -399,7 +406,17 @@
                 @media (max-width: 768px){
                     #video{
                         top: 7px;
+                        right: 10px;
+                        position: absolute;
                     }
+                    #homescreen-video{
+                    position: absolute;
+                    left: unset;
+                    top: 7px;
+                    width: 120px;
+                    right: 10px;
+                    z-index: 506;
+                }
                 }
 
     </style>
@@ -569,7 +586,7 @@
                 <video id="video" width="100" height="100" autoplay muted ></video>
             </form>
 
-            <nav class="navbar navbar-expand-lg navbar-light " style="background-color:rgb(177, 177, 177);  z-index: 100; border-radius: 5px;">
+            <nav class="navbar navbar-expand-lg navbar-light " style="background-color:#F05B5B;  z-index: 100; border-radius: 5px;">
                 <div class="container-fluid">
 
                     <button type="button" id="sidebarCollapse" class="btn btn-dark menu">
@@ -596,15 +613,16 @@
                         {% endif %}
                       {% endwith %}
                         {% else %}
-                           
-                            <div class="col-lg-12" id="header" style="border-radius: 5px;background-color: rgb(195, 196, 255);">
+                            <video id="homescreen-video" autoplay muted></video>
+                            <div class="col-lg-12" id="header" style="border-radius: 5px;background-color: #DEEFFF;">
                             {% for paper in paper1 %}
                                 
                                 <div style="float: left; margin-left: 0px; margin-top: 10px;padding-bottom: 10px;"><h3><span>Exam- {{ paper.testname }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Time Limit: {{ time }}</span></h3><div>Description-{{ paper.description }} <br>Test Type-{{ paper.testtype }}</div></div><!-- for Exam Name -->
                                     <input type="hidden" value="{{ time_limit }}" id="time_limit">
+                                    <input type="hidden" value="{{ paper.testtype }}" id="paper_type">
                                     <input type="hidden" value="{{ paper.test_id }}" id="exam_id">
                                     <div class="exam_start">
-                                        <input type="button" class="btn btn-danger" value="Start" name="" id="start/submit" onclick="examFunction()" style="margin-top: 21%;">
+                                        <input type="button" class="btn btn-dark" value="Start" name="" id="start/submit" onclick="examFunction()" style="margin-top: 21%;">
                                     </div><!-- Button for Showing the Exam Paper -->
                             </div>
                         <div class="col-lg-12 unselectable" style="margin-top: 20px; width: 100%; color: black; display: none;" id="ExamDiv">
@@ -655,7 +673,9 @@
                                 padding: 20px 10px;
                                 color: rgb(7, 0, 22);
                                 /* background-color: rgb(182, 183, 255); */
-                                background-color: rgb(195, 196, 255);
+                                /* background-color: #DEEFFF; */
+                                background-color: #cce5ff;
+                                color: rgb(27, 27, 27);
                                 width: 100%;
                                 border-radius: 5px;
                                 }
@@ -670,7 +690,6 @@
                                 margin-left: 20px;
                             }
                             .marked{
-                                background-color:  rgb(154, 156, 255);
                                 border-radius: 3px;
                                 padding: 2px;
                                 font-weight: 600;
@@ -743,6 +762,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script src="/static/js/main.js"></script>
     <script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+    
+
+
     <!-- ajax pages connects -->
     <script>
         function pre_exam()
@@ -780,7 +802,7 @@
         $(document).ready(function ()
 
         {
-            
+            document.getElementById("exam").style.background = "#515151";
             $('#sidebarCollapse').on('click', function ()
             {
                 $('#sidebar').toggleClass('active');
@@ -823,24 +845,39 @@
 
     <!-- reference question list -->
     <script>
-
+        if ($('#paper_type').val() === 'subjective'){
+        var video_obj = document.getElementById('homescreen-video');
+        navigator.mediaDevices.getUserMedia({video: true}).then(function (stream){
+            video_obj.srcObject = stream;
+        $('#homescreen-video').css({"border": "3px solid #F05B5B" , "border-radius": "8px"});
+        video_obj.play();
+        }).catch(function (err) {
+      alert('Please give camera permission !!');
+      window.location.reload();
+    });
+        }
         function examFunction()
         {   
-            
+           
             var retVal = confirm("Do you want to start the exam ?");
             if( retVal === true )
             { 
-
-                // To hide sidebar in device width>768
+                $('.exam-rules').hide();
+                $('#content').css({"background":"#c2c2c2"});
                 var x = window.matchMedia("(min-width: 768px)");
                 if(x.matches){
                     $('#sidebar').toggleClass('active');
                 }
+                if ($('#paper_type').val() === 'subjective'){
+                // video_obj.srcObject.getVideoTracks()[0].stop();
+                $('#homescreen-video').remove();
+                // To hide sidebar in device width>768
+                
                 
                 $('#video').css({"border": "2px solid #222222" , "border-radius": "10px", "background":"#222222"});
                 // {"background-color": "yellow", "font-size": "200%"}
 
-                $('.exam-rules').hide();
+                
                 var get_face_script = '/static/js/face_script.js';
                 $.getScript(get_face_script, function () {
                     $(document).ready(function () {
@@ -848,7 +885,7 @@
 
                     });
                 });
-               
+               }
                 $(function () {
                         $(document).keydown(function (e) {
                             return (e.which || e.keyCode) !== 116;
@@ -869,7 +906,6 @@
                             }
                     }
                 }
-
 
                 var target = window; // this can be any scrollable element
                 var last_y = 0;
@@ -1002,8 +1038,6 @@
                     .setAttribute("stroke-dasharray", circleDasharray);
                 }
 
-
-
                 document.getElementById("start/submit").style.display = "none";
                   return true;
 
@@ -1033,15 +1067,12 @@
                         }
                     }
                 });
-
-
             }
         };
-
     </script>
 
-    <!-- show hide functions -->
-{#    <script>#}
+     <!-- show hide functions -->
+{#   <script>#}
 {##}
 {#        $("#exam").on('click', function()#}
 {#        {#}
@@ -1090,44 +1121,22 @@
 {#        //    $("#pre_exam_details,#exam_details").hide();#}
 {#        // });#}
 {#    </script>#}
-    <script>
 
+    <script>
         $("#exam").on('click', function()
         {
-
-            document.getElementById("exam").style.background = "#ddd";
-            document.getElementById("exam").style.color = "black";
-
-            document.getElementById("feedback").style.background = "#00002d";
-            document.getElementById("feedback").style.color = "white";
-
-           $("#exam_details").show();
-           $("#feedback_details,#pre_exam_details").hide();
-        });
-
-        $("#pre_exam").on('click', function()
-        {
-            document.getElementById("exam").style.background = "#00002d";
-            document.getElementById("exam").style.color = "white";
-
-            document.getElementById("feedback").style.background = "#00002d";
-            document.getElementById("feedback").style.color = "white";
-
-           $("#pre_exam_details").show();
-           $("#feedback_details,#exam_details").hide();
+            document.getElementById("exam").style.background = "#515151";
+            document.getElementById("feedback").style.background = "#2D2D2D";
+            $("#exam_details").show();
+            $("#feedback_details").hide();
         });
 
         $("#feedback").on('click', function()
         {
-
-            document.getElementById("exam").style.background = "#00002d";
-            document.getElementById("exam").style.color = "white";
-
-            document.getElementById("feedback").style.background = "#ddd";
-            document.getElementById("feedback").style.color = "black";
-
-           $("#feedback_details").show();
-           $("#exam_details,#pre_exam_details").hide();
+            document.getElementById("exam").style.background = "#2D2D2D";
+            document.getElementById("feedback").style.background = "#515151";
+            $("#feedback_details").show();
+            $("#exam_details").hide();
         });
     </script>
 
@@ -1137,8 +1146,9 @@
     e.preventDefault(); //disable cut,copy,paste
     });
     </script>
-  <script type="text/javascript">
-    function toggle_ques111() {
+
+    <script type="text/javascript">
+      function toggle_ques111() {
           var i = 0;
           var x = document.getElementById("collapseExample_"+arguments[i]);
           if (x.style.display === "none") {
@@ -1147,8 +1157,9 @@
             x.style.display = "none";
           }
         }
-</script>
-<!-- console -->
+    </script>
+    
+    <!-- console -->
     <!-- <script language="JavaScript">
       /**
         * Disable right-click of mouse, F12 key, and save key combinations on page
@@ -1232,7 +1243,6 @@
     function dragEnd(e) {
       initialX = currentX;
       initialY = currentY;
-
       active = false;
     }
 
@@ -1251,7 +1261,6 @@
 
         xOffset = currentX;
         yOffset = currentY;
-
         setTranslate(currentX, currentY, dragItem);
       }
     }
@@ -1259,9 +1268,9 @@
     function setTranslate(xPos, yPos, el) {
       el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
     }
-  </script>
+    </script>
 
-      <!-- profile photo -->
+    <!-- profile photo -->
     <script>
     function readURL(input) {
     if (input.files && input.files[0]) {
@@ -1274,15 +1283,15 @@
         reader.readAsDataURL(input.files[0]);
     }
 }
-$("#imageUpload").change(function() {
-    readURL(this);
-});
-    </script>
-    
-{% else %}
-    <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
-{% endif %}
-</body>
+    $("#imageUpload").change(function() {
+        readURL(this);
+    });
+        </script>
+        
+    {% else %}
+        <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
+    {% endif %}
+  </body>
 
 </html>
 
