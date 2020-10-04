@@ -11,8 +11,8 @@
         <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
         <link href="/static/css/style_yash.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
@@ -398,7 +398,10 @@
                 }
                 @media (max-width: 768px){
                     #video{
+                        position: absolute;
                         top: 7px;
+                        right: 10px;
+                        z-index: 600;
                     }
                 }
 
@@ -596,7 +599,7 @@
                         {% endif %}
                       {% endwith %}
                         {% else %}
-                           
+
                             <div class="col-lg-12" id="header" style="border-radius: 5px;background-color: rgb(195, 196, 255);">
                             {% for paper in paper1 %}
                                 
@@ -690,8 +693,7 @@
                            <p>
                                <h5>Test environment rules</h5>
                                <ul>
-                                  
-                                   <li>The desk or walls around you must not have any writing.</li>
+                                   <li><span style="background-color: #ff8f73"> *Allow the camera during the Exam !!</span></li>
                                    <li>No other person is allowed to enter the room while you are taking the proctored exam.</li>
                                    <li>The lighting in the room must be bright enough to be considered “daylight” quality. Overhead lighting is preferred. If overhead lighting is not available, the source of light must not be behind you.</li>
                                    <li ><span class="marked">Once exam is started, you can't leave the exam.</span></li>
@@ -714,10 +716,10 @@
                                    <li>You must not use the following tools:
                                        <ul>
                                            <li>Programs such as Excel, Word, or PowerPoint</li>
-                                           <li>Communication programs such as Skype</li>       
+                                           <li>Communication programs such as Skype, google meet etc.</li>
                                        </ul>
                                    </li>
-                                   <li>If you encounter any problem, reach us at <u>sstconlineportal@gmail.com</u></li>
+                                   <li>If you encounter any problem, reach us at <u><a href = "mailto: sstconlineportal@gmail.com">sstconlineportal@gmail.com</a></u></li>
                                </ul><hr>
                            </p>
                         </div>
@@ -825,12 +827,12 @@
     <script>
 
         function examFunction()
-        {   
-            
+        {
             var retVal = confirm("Do you want to start the exam ?");
             if( retVal === true )
-            { 
-
+            {
+                //for fullscreen
+                document.documentElement.requestFullscreen();
                 // To hide sidebar in device width>768
                 var x = window.matchMedia("(min-width: 768px)");
                 if(x.matches){
@@ -844,7 +846,7 @@
                 var get_face_script = '/static/js/face_script.js';
                 $.getScript(get_face_script, function () {
                     $(document).ready(function () {
-                            console.log('gotcha');
+                            console.log('ok');
 
                     });
                 });
