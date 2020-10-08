@@ -11,6 +11,7 @@ from flask_mail import Mail, Message
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+import base64
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
@@ -926,12 +927,15 @@ def pre_exam():
 @app.route('/camera', methods=['POST', 'GET'])
 def camera():
     if request.method == 'POST':
-        datauri = request.form['datauri'].replace(" ", "+")
+        print(request.form.getlist('datauri'))
+        datauri = request.form.getlist('datauri')
+        # for d in datauri:
+        #     print(base64.b64decode(d))
         test_id = request.form.get('test_id')
-        img = image_data(image=datauri, user_id=current_user.id, test_id=test_id)
-        db.session.add(img)
-        db.session.commit()
-        # print(i)
+        for img_data in datauri:
+            img = image_data(image=img_data, user_id=current_user.id, test_id=test_id)
+            db.session.add(img)
+            db.session.commit()
     return 'Ok'
 
 

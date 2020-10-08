@@ -146,7 +146,7 @@ $(function(){
 						if (image_data.length > 0) {
 							if (data1[i]['stu_user_id'] === response.image_stu_id[ijk]) {
 								for (let img = 0; img < getCount(data1[i].stu_user_id); img++) {
-									student_data += '<li><img src="' + image_data[image_val]["image_data"] + '" id="img_id_' + img + '" onerror="this.src=\'/static/student_images/default.png\';"></li>';
+									student_data += '<li><img src="' + atob(image_data[image_val]["image_data"]) + '" id="img_id_' + img + '" onerror="this.src=\'/static/student_images/default.png\';"></li>';
 									//localStorage.setItem("img"+s, "/static/student_images/"+response.subj_testname+data1[i]["name"]+img+".jpg");
 									//image_data[image_data[image_val]['id']]["image_data"]
 									s += 1;
@@ -179,6 +179,7 @@ $(function(){
 						index += 1;
 				}
 					$('.results-by-test').append(student_data);
+					//for manipulating the results in terms of semester and section
 					let section = document.getElementsByClassName('subj_section');
 					let semester = document.getElementsByClassName('subj_semester');
 					let semester_drop = $('#Rsemester').val();

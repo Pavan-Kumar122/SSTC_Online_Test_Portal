@@ -83,9 +83,9 @@ video.addEventListener('play', () => {
 
 function clearphoto() {
   canva.getContext('2d').drawImage(video,0,0, 200,200);
-  var data = canva.toDataURL('image/png');
-  console.log(data);
-  imagearr.push(data);//// <----
+  var data = canva.toDataURL('image/jpeg', 0.5);
+  console.log(btoa(data));
+  imagearr.push(btoa(data));//// <----
   //photo.src = data;
   count++;
   if (count === 5){
