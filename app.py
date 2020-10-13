@@ -33,7 +33,8 @@ app.config["MYSQL_HOST"] = os.environ.get('MYSQL_HOST')
 app.config["MYSQL_USER"] = os.environ.get('MYSQL_USER')
 app.config["MYSQL_PASSWORD"] = os.environ.get('MYSQL_PASSWORD')
 app.config["MYSQL_DB"] = os.environ.get('MYSQL_DB')
-DATABASE_URL = 'sqlite:///data.db'
+# DATABASE_URL = 'sqlite:///data.db'
+DATABASE_URL = 'mysql://root:P@van122@localhost/otp'
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
@@ -85,7 +86,7 @@ def load_user(user_id):
 class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
-    userid = db.Column(db.Integer, unique=True, nullable=False)
+    userid = db.Column(db.BIGINT, unique=True, nullable=False)
     rollno = db.Column(db.Integer)
     email = db.Column(db.String(80), unique=True, nullable=False)
     branch = db.Column(db.String(80), nullable=False)
@@ -125,11 +126,11 @@ class Paperdetails(db.Model, UserMixin):
     semester = db.Column(db.String(50))
     section = db.Column(db.String(50), nullable=False)
     subject = db.Column(db.String(80), nullable=False)
-    totalques = db.Column(db.Integer, nullable=False)
+    totalques = db.Column(db.String(80), nullable=False)
     totaltime = db.Column(db.String(50), nullable=False)
     testtype = db.Column(db.String(50), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now())
-    user_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     scheduled_date = db.Column(db.String(60))
     start_time = db.Column(db.String(60), nullable=False)
     end_time = db.Column(db.String(60), nullable=False)
@@ -143,7 +144,7 @@ class Paperdetails(db.Model, UserMixin):
 
 class Questions(db.Model, UserMixin):
     ques_id = db.Column(db.Integer, primary_key=True)
-    test_id = db.Column(db.Integer, nullable=False)
+    test_id = db.Column(db.Integer, db.ForeignKey('paperdetails.test_id'), nullable=False)
     user_id = db.Column(db.Integer, nullable=False)
     question = db.Column(db.String(900), nullable=False)
     op1 = db.Column(db.String(100))
@@ -161,7 +162,7 @@ class Questions(db.Model, UserMixin):
 
 class Result(db.Model, UserMixin):
     result_id = db.Column(db.Integer, primary_key=True)
-    test_id = db.Column(db.Integer, nullable=False)
+    test_id = db.Column(db.Integer, db.ForeignKey('paperdetails.test_id'), nullable=False)
     user_id = db.Column(db.Integer, nullable=False)
     testtype = db.Column(db.String(900), nullable=False)
     attempted = db.Column(db.String(100))
@@ -176,9 +177,9 @@ class Result(db.Model, UserMixin):
 
 class image_data(db.Model, UserMixin):
     img_id = db.Column(db.Integer, primary_key=True)
-    image = db.Column(db.String(1000))
+    image = db.Column(db.TEXT)
     user_id = db.Column(db.Integer)
-    test_id = db.Column(db.Integer)
+    test_id = db.Column(db.Integer, db.ForeignKey('paperdetails.test_id'))
 
     def __repr__(self):
         return f"image_data('{self.img_id}','{self.image}','{self.user_id}','{self.test_id}') "
@@ -213,9 +214,12 @@ def validate_user_id(user_id):
 
 
 def findid(user_id):
-    if user_id[0] == '3035' or user_id[0] == '3014' or user_id[0] == '3036':
-        return 1
-    else:
+    try:
+        if user_id[0] == '3035' or user_id[0] == '3014' or user_id[0] == '3036':
+            return 1
+        else:
+            return 0
+    except:
         return 0
 
 
@@ -654,6 +658,12 @@ def add_ques():
     return redirect(url_for('paper_data'))
 
 
+def json_serial(obj1):
+    if isinstance(obj1, (datetime, date)):
+        return obj1.isoformat()
+    raise TypeError("Type %s not serializable" % type(obj1))
+
+
 @app.route('/show_result', methods=['POST'])
 def show_result():
     global stu_id, stu_marks, stu_section, stu_semester, stu_name, stu_college, stu_branch, \
@@ -773,13 +783,14 @@ def show_result():
              obj_date_posted=obj_date_posted, subj_ques=subj_ques, subj_duration=duration, obj_duration=obj_duration,
              obj_count=obj_type, subj_count=subj_type, subjective=subj, objective=obj, subj_ques_count=total_ques_subj,
              paper_date=subj_paper_date_posted, user_id=user_id
-             , subj_paper_test_id=subj_paper_test_id, marks_asign=marks_asign))
+             , subj_paper_test_id=subj_paper_test_id, marks_asign=marks_asign), default=json_serial)
 
 
 @app.route('/all_details', methods=['POST', 'GET'])
 def all_details():
     get_test_id = request.form['Rtest']
-    testpaper = Paperdetails.query.filter_by(test_id=get_test_id).all()
+    # testpaper = Paperdetails.query.filter_by(test_id=get_test_id).all()
+    testname = db.session.execute(f'call get_test_name({get_test_id})')
     obj = ""
     subj = ''
     obj_testname = ''
@@ -788,24 +799,26 @@ def all_details():
     a = ''
     c = ''
     stu_user_id = 0
-    for t in testpaper:
-        if t.testtype == 'objective':
+    for t in testname:
+        if t == 'objective':
             obj = 'objective'
-            obj_testname = t.testname
+            obj_testname = t.__str__().strip('()').strip(',').replace("'", "")
         else:
             subj = 'subjective'
-            subj_testname = t.testname
-    ques = Questions.query.filter_by(test_id=get_test_id).all()
+            subj_testname = t.__str__().strip('()').strip(',').replace("'", "")
+    # ques = Questions.query.filter_by(test_id=get_test_id).all()
+    ques = db.session.execute(f'call get_ques_details({get_test_id})')
     objects_list = []
     for row in ques:
         d = collections.OrderedDict()
-        d['id'] = row.test_id
-        d['User id'] = row.user_id
-        d['Question'] = row.ques_no
-        d['question'] = row.question
+        d['id'] = row.__getitem__('test_id')
+        d['User id'] = row.__getitem__('user_id')
+        d['Question'] = row.__getitem__('ques_no')
+        d['question'] = row.__getitem__('question')
         d['marks_assigned'] = row.marks_assign
         objects_list.append(d)
-    result = Result.query.filter_by(test_id=get_test_id).all()
+    # result = Result.query.filter_by(test_id=get_test_id).all()
+    result = db.session.execute(f'call get_result({get_test_id})')
     result_list = []
     user_details = []
     for r in result:
@@ -827,7 +840,8 @@ def all_details():
         c['section'] = u.section
         c['semester'] = u.semester
         user_details.append(c)
-    get_image = image_data.query.filter_by(test_id=get_test_id).all()
+    # get_image = image_data.query.filter_by(test_id=get_test_id).all()
+    get_image = db.session.execute(f'call get_image({get_test_id})')
     image_details = []
     image_stu_id = []
 
@@ -841,7 +855,7 @@ def all_details():
     image_stu_id = list(dict.fromkeys(image_stu_id))
     c = json.dumps(dict(result_list=result_list, user=user_details, ques=objects_list, obj=obj, subj=subj,
                         obj_testname=obj_testname, subj_testname=subj_testname,
-                        image=image_details, image_stu_id=image_stu_id))
+                        image=image_details, image_stu_id=image_stu_id), default=json_serial)
     # return jsonify({"result":result_list, "user":user_details})
     return c
 

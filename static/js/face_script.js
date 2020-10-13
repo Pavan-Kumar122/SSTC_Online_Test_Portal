@@ -3,7 +3,7 @@ let detectAllFaces;
 let count = 0;
 var imagearr = [];
 var canva;
-var photo = document.getElementById('video_img');
+var photo = document.getElementById('img_tag');
 var getstream;
 const time_limit = $('#time_limit').val();
 var delay = time_limit/5;
@@ -82,11 +82,11 @@ video.addEventListener('play', () => {
   });
 
 function clearphoto() {
-  canva.getContext('2d').drawImage(video,0,0, 200,200);
+  canva.getContext('2d').drawImage(video,0,0, 240,297);
   var data = canva.toDataURL('image/jpeg', 0.5);
   console.log(btoa(data));
   imagearr.push(btoa(data));//// <----
-  //photo.src = data;
+  // photo.src = data;
   count++;
   if (count === 5){
     getstream.getVideoTracks()[0].stop();
