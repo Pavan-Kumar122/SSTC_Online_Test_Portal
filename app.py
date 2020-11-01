@@ -130,7 +130,7 @@ class Paperdetails(db.Model, UserMixin):
     totaltime = db.Column(db.String(50), nullable=False)
     testtype = db.Column(db.String(50), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
     scheduled_date = db.Column(db.String(60))
     start_time = db.Column(db.String(60), nullable=False)
     end_time = db.Column(db.String(60), nullable=False)
@@ -144,7 +144,7 @@ class Paperdetails(db.Model, UserMixin):
 
 class Questions(db.Model, UserMixin):
     ques_id = db.Column(db.Integer, primary_key=True)
-    test_id = db.Column(db.Integer, db.ForeignKey('paperdetails.test_id'), nullable=False)
+    test_id = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, nullable=False)
     question = db.Column(db.String(900), nullable=False)
     op1 = db.Column(db.String(100))
@@ -162,7 +162,7 @@ class Questions(db.Model, UserMixin):
 
 class Result(db.Model, UserMixin):
     result_id = db.Column(db.Integer, primary_key=True)
-    test_id = db.Column(db.Integer, db.ForeignKey('paperdetails.test_id'), nullable=False)
+    test_id = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, nullable=False)
     testtype = db.Column(db.String(900), nullable=False)
     attempted = db.Column(db.String(100))
@@ -179,7 +179,7 @@ class image_data(db.Model, UserMixin):
     img_id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.TEXT)
     user_id = db.Column(db.Integer)
-    test_id = db.Column(db.Integer, db.ForeignKey('paperdetails.test_id'))
+    test_id = db.Column(db.Integer)
 
     def __repr__(self):
         return f"image_data('{self.img_id}','{self.image}','{self.user_id}','{self.test_id}') "

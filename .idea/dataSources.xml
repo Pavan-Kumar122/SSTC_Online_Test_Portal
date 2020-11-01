@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="data" uuid="26d40d85-db77-4a5f-ad8c-58273162434b">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>f69bcb8b-ba1b-4b6e-92dd-b9ad18444554</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\BPAVA\OneDrive\Desktop\OTP\data.db</jdbc-url>
@@ -14,6 +14,15 @@
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/sqlite-jdbc-3.25.1.jar</url>
         </library>
       </libraries>
+    </data-source>
+    <data-source source="LOCAL" name="mysql_data" uuid="589aa8c7-03fb-4532-8405-ff8ef7dd4431">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
+      <driver-properties>
+        <property name="allowMultiQueries" value="TRUE" />
+      </driver-properties>
     </data-source>
   </component>
 </project>

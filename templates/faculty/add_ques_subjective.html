@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="icon" type="image/x-icon" href="/static/assets/img/logo/sstc-logo.png" />
+    <script src="/static/js/ckeditor_4.15.0_standard/ckeditor/ckeditor.js"></script>
     {% assets "main_css" %}
         <link type="text/css" rel="stylesheet" href="{{ ASSET_URL }}">
     {% endassets %}
@@ -63,6 +64,9 @@
                     <div class="form-group subj-textarea">
 						<h4>Question-{{ i }}</h4>
 					<textarea name="ques_{{ i }}" id="" class="text-area" placeholder="Write the question here." required></textarea>
+                        <script>
+                        CKEDITOR.replace("ques_{{ i }}");
+                    </script>
 					</div>
 					
 					<div class="marks-assigned">

@@ -638,7 +638,7 @@
                                 {% if paper.testtype == 'objective' %}
                                 <input value = "objective" type="hidden" name="objective">
                                 <div class="questions">
-                                    <div><li class="ques"><span>{{ ques.ques_no }}-{{ ques.question }}</span></li></div>
+                                    <div><li class="ques"><span>{{ ques.ques_no }}-{{ ques.question | safe }}</span></li></div>
                                     <input value = "{{ ques.ques_id }}" type="hidden" name="id_{{ ques.ques_id }}">
                                     <div><input type="radio" name="Obj_option_{{ ques.ques_no }}" value="A">{{ ques.op1 }}</div>
                                     <div><input type="radio" name="Obj_option_{{ ques.ques_no }}" value="B">{{ ques.op2 }}</div>
@@ -647,7 +647,7 @@
                                 </div>
                                 {% else %}
                                 <div class="questions">
-                                    <div><li class="ques"><span>{{ ques.ques_no }}-{{ ques.question }}</span></li></div>
+                                    <div><li class="ques"><span>{{ ques.ques_no }}-{{ ques.question | safe }}</span></li></div>
                                     <div>
                                         <p>
                                           <button class="btn btn-dark" type="button" onclick="toggle_ques111({{ ques.ques_no }})" aria-expanded="false" style="font-size: 12px; margin-top: 10px;">
@@ -1293,6 +1293,17 @@
         <h2>Unauthorised Please. <a href="/logout">Log In</a></h2>
     {% endif %}
   </body>
-
+<script type="text/javascript">
+    var txt;
+    txt = "<note>" +
+            {% for ques in get_ques %}
+"<to>{{ ques.ques_no }} {{ ques.question }}</to>" +
+        {% endfor %}
+"<from>Jani</from>"+
+"</note>";
+parser = new DOMParser();
+xmlDoc = parser.parseFromString(txt,"text/xml");
+console.log(xmlDoc);
+</script>
 </html>
 

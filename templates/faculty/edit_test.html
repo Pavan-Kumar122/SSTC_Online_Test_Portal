@@ -11,6 +11,7 @@
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="/static/js/ckeditor_4.15.0_standard/ckeditor/ckeditor.js"></script>
     <title>SSTC Online Portal</title>
 </head>
 
@@ -64,6 +65,7 @@
 							  <div>
 								<textarea rows="4" name="description" id="" class="form-control2" placeholder=""
 								  style="padding-top: 5px; margin-bottom: 0px;" required >{{ posts.description }}</textarea>
+
 							  </div>
 							</div>
 
@@ -512,7 +514,10 @@
 				<br>
 				<div class="left form-group">
 					<h4 id='h1quizform'>Question-{{ question.ques_no }}</h4>
-					<textarea id="" class="text-area" placeholder="Write the question here." name="ques_{{ question.ques_no }}" required>{{ question.question }}</textarea>
+					<textarea id="" class="text-area" placeholder="Write the question here." name="ques_{{ question.ques_no }}" required>{{ question.question | safe }}</textarea>
+                    <script>
+                        CKEDITOR.replace("ques_{{ question.ques_no }}");
+                    </script>
 				</div>
 
 				<div class="right form-group text-center">
@@ -563,7 +568,10 @@
                     <div class="ques-group">
                         <h4>Question-{{ question.ques_no }}</h4>
                         <div class="form-group subj-textarea">
-                        <textarea name="ques_{{ question.ques_no }}" id="" class="text-area" placeholder="Write the question here." required>{{ question.question }}</textarea>
+                        <textarea name="ques_{{ question.ques_no }}" id="" class="text-area" placeholder="Write the question here." required>{{ question.question | safe }}</textarea>
+                            <script>
+                        CKEDITOR.replace("ques_{{ question.ques_no }}");
+                    </script>
                         </div>
 
                         <div class="marks-assigned">

@@ -648,7 +648,7 @@
                       <p>
                         {% if posts.testtype == 'objective' %}
                         <h4 style="font-size: 18px; font-weight: 600;" class="dash-ques">Question-{{ question.ques_no }}</h4>
-                       {{ question.question }}
+                       {{ question.question | safe }}
                         <ol>
                           <li>{{ question.op1 }}</li>
                           <li>{{ question.op2 }}</li>
@@ -657,7 +657,7 @@
                         </ol>
                             {% else %}
                             <h4 style="font-size: 18px;font-weight: 600;" class="dash-ques">Question-{{ question.ques_no }}</h4>
-                            {{ question.question }}
+                            {{ question.question | safe }}
                             {% endif %}
                       </p>
                     </div>
@@ -1091,7 +1091,7 @@
                   <table class="durationtable">
                     <tr>
                         <td style="text-align: right;">Hour</td>
-                      <td><input type="text" name="hour" id="" required></td>
+                      <td><input type="text" name="hour" id="" required value="0"></td>
                         <td style="text-align: right;">Min</td>
                       <td><input type="text" name="minute" id="" value="0"></td>
                     </tr>
